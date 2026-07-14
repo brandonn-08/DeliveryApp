@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consola Administrativa - FastDelivery</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+
+    <div id="contenedor-auth" class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full border border-gray-200">
+            <div class="text-center mb-6">
+                <span class="text-4xl">⚙️</span>
+                <h2 class="text-xl font-black text-blue-900 mt-2">Administración Global</h2>
+                <p class="text-xs text-gray-400 mt-1">Acceso restringido a personal autorizado.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Email Corporativo</label>
+                    <input type="email" id="login-email" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Contraseña</label>
+                    <input type="password" id="login-password" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-900">
+                </div>
+                <button onclick="ejecutarLoginAdmin()" class="w-full bg-blue-900 hover:bg-blue-950 text-white font-bold py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
+                    Autenticar Sistema
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-principal" class="hidden">
+        <nav class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">📊</span>
+                <span class="text-md font-black tracking-wider">CONSOLA ADMINISTRATIVA</span>
+            </div>
+            <button onclick="cerrarSesionAdmin()" class="text-sm bg-white/10 text-white px-4 py-1.5 rounded-lg font-bold hover:bg-white hover:text-blue-900 transition cursor-pointer">
+                Cerrar Sesión
+            </button>
+        </nav>
+
+        <main class="container mx-auto my-8 p-4">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-6 flex justify-between items-center">
+                <div>
+                    <p class="text-xs uppercase font-extrabold text-blue-900 tracking-wider">Administrador Activo</p>
+                    <h2 id="nombre-admin" class="text-2xl font-black text-gray-800">Cargando...</h2>
+                </div>
+                <div class="bg-blue-50 text-blue-900 px-4 py-2 rounded-xl border border-blue-100 text-right">
+                    <p class="text-[10px] font-bold uppercase tracking-wider">Balance Total Facturado</p>
+                    <p id="total-ingresos-global" class="text-xl font-black">$0.00</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <button onclick="cambiarSeccionAdmin('productos')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl border font-bold text-sm shadow-sm transition flex items-center gap-3 cursor-pointer">
+                    <span>📦</span> Productos
+                </button>
+                <button onclick="cambiarSeccionAdmin('sucursales')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl border font-bold text-sm shadow-sm transition flex items-center gap-3 cursor-pointer">
+                    <span>🏪</span> Sucursales
+                </button>
+                <button onclick="cambiarSeccionAdmin('repartidores')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl border font-bold text-sm shadow-sm transition flex items-center gap-3 cursor-pointer">
+                    <span>👥</span> Repartidores
+                </button>
+                <button onclick="cambiarSeccionAdmin('clientes')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl border font-bold text-sm shadow-sm transition flex items-center gap-3 cursor-pointer">
+                    <span>👤</span> Clientes Normales
+                </button>
+            </div>
+
+            <div id="seccion-productos" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-black text-gray-800">📦 Inventario de Productos</h3>
+                    <button onclick="abrirModalFormulario('producto')" class="bg-blue-900 text-white text-xs font-bold px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-950">
+                        + Agregar Producto
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50 text-gray-500 font-bold">
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Producto</th>
+                                <th class="p-3">Precio</th>
+                                <th class="p-3">Stock</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-productos-body" class="text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="seccion-sucursales" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-black text-gray-800">🏪 Sucursales de Comida</h3>
+                    <button onclick="abrirModalFormulario('sucursal')" class="bg-blue-900 text-white text-xs font-bold px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-950">
+                        + Agregar Sucursal
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50 text-gray-500 font-bold">
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Nombre</th>
+                                <th class="p-3">Dirección</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-sucursales-body" class="text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="seccion-repartidores" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hidden">
+                <h3 class="text-lg font-black text-gray-800 mb-4">👥 Estado Operativo del Personal</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50 text-gray-500 font-bold">
+                                <th class="p-3">DNI</th>
+                                <th class="p-3">Nombre</th>
+                                <th class="p-3">Contacto</th>
+                                <th class="p-3">Calificación</th>
+                                <th class="p-3">Estado</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-repartidores-body" class="text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="seccion-clientes" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hidden">
+                <h3 class="text-lg font-black text-gray-800 mb-4">👤 Administración de Usuarios / Clientes</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50 text-gray-500 font-bold">
+                                <th class="p-3">DNI</th>
+                                <th class="p-3">Cliente</th>
+                                <th class="p-3">Contacto / Correo</th>
+                                <th class="p-3">Ciudad / Dirección</th>
+                                <th class="p-3">Estado</th>
+                                <th class="p-3 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-clientes-body" class="text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-formulario" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative">
+            <button onclick="cerrarModalFormulario()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold">✕</button>
+            <h3 id="form-titulo" class="text-lg font-black text-gray-800 mb-4">Formularios Dinámicos</h3>
+
+            <div id="form-producto" class="space-y-3 hidden">
+                <input type="text" id="p-id" placeholder="ID Producto (Ej: PROD05)" class="w-full border p-2 text-sm rounded-xl">
+                <input type="text" id="p-name" placeholder="Nombre" class="w-full border p-2 text-sm rounded-xl">
+                <input type="text" id="p-desc" placeholder="Descripción" class="w-full border p-2 text-sm rounded-xl">
+                <input type="number" id="p-price" placeholder="Precio" step="0.01" class="w-full border p-2 text-sm rounded-xl">
+                <input type="number" id="p-stock" placeholder="Stock Inicial" class="w-full border p-2 text-sm rounded-xl">
+                <input type="text" id="p-cat" placeholder="ID Categoría (Ej: CAT01)" class="w-full border p-2 text-sm rounded-xl">
+                <input type="number" id="p-rest" placeholder="ID Restaurante (Ej: 1)" class="w-full border p-2 text-sm rounded-xl">
+                <button onclick="guardarProducto()" class="w-full bg-blue-900 text-white p-2.5 rounded-xl text-sm font-bold cursor-pointer">Registrar Producto</button>
+            </div>
+
+            <div id="form-sucursal" class="space-y-3 hidden">
+                <input type="number" id="s-id" placeholder="ID Restaurante (Numérico)" class="w-full border p-2 text-sm rounded-xl">
+                <input type="text" id="s-name" placeholder="Nombre Comercial" class="w-full border p-2 text-sm rounded-xl">
+                <input type="text" id="s-address" placeholder="Dirección Matriz" class="w-full border p-2 text-sm rounded-xl">
+                <button onclick="guardarSucursal()" class="w-full bg-blue-900 text-white p-2.5 rounded-xl text-sm font-bold cursor-pointer">Registrar Sucursal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:5024/api";
+        let sesionAdmin = JSON.parse(localStorage.getItem('admin_session')) || null;
+
+        function verificarEstadoAdmin() {
+            const contenedorAuth = document.getElementById('contenedor-auth');
+            const panelPrincipal = document.getElementById('panel-principal');
+
+            if (sesionAdmin && sesionAdmin.role === 'admin') {
+                contenedorAuth.classList.add('hidden');
+                panelPrincipal.classList.remove('hidden');
+                document.getElementById('nombre-admin').innerText = sesionAdmin.name;
+                cargarMontoFinancieroGlobal();
+                cambiarSeccionAdmin('productos');
+            } else {
+                localStorage.removeItem('admin_session');
+                contenedorAuth.classList.remove('hidden');
+                panelPrincipal.classList.add('hidden');
+            }
+        }
+
+        function cambiarSeccionAdmin(seccion) {
+            document.getElementById('seccion-productos').classList.add('hidden');
+            document.getElementById('seccion-sucursales').classList.add('hidden');
+            document.getElementById('seccion-repartidores').classList.add('hidden');
+            document.getElementById('seccion-clientes').classList.add('hidden');
+
+            if (seccion === 'productos') {
+                document.getElementById('seccion-productos').classList.remove('hidden');
+                cargarInventarioAdmin();
+            } else if (seccion === 'sucursales') {
+                document.getElementById('seccion-sucursales').classList.remove('hidden');
+                cargarSucursalesAdmin();
+            } else if (seccion === 'repartidores') {
+                document.getElementById('seccion-repartidores').classList.remove('hidden');
+                cargarStaffRepartidores();
+            } else if (seccion === 'clientes') {
+                document.getElementById('seccion-clientes').classList.remove('hidden');
+                cargarClientesAdmin();
+            }
+        }
+
+        async function cargarMontoFinancieroGlobal() {
+            try {
+                const res = await fetch(`${API_URL}/Orders`);
+                const ordenes = await res.json();
+                const sumaTotal = ordenes.reduce((acc, curr) => acc + (curr.total || 0), 0);
+                document.getElementById('total-ingresos-global').innerText = `$${sumaTotal.toFixed(2)}`;
+            } catch (err) { console.error(err); }
+        }
+
+        // --- MÓDULO PRODUCTOS ---
+        async function cargarInventarioAdmin() {
+            try {
+                const res = await fetch(`${API_URL}/Products`);
+                const productos = await res.json();
+                const tbody = document.getElementById('tabla-productos-body');
+                tbody.innerHTML = '';
+
+                productos.forEach(p => {
+                    const idProduct = p.idProduct || p.id_product;
+                    tbody.innerHTML += `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50/50">
+                                <td class="p-3 font-mono text-xs text-gray-400">${idProduct}</td>
+                                <td class="p-3 font-bold text-gray-800">${p.name}</td>
+                                <td class="p-3 font-medium text-gray-600">$${p.price.toFixed(2)}</td>
+                                <td class="p-3"><span class="font-bold text-blue-900 bg-blue-50 px-3 py-1 rounded-lg">${p.stock} u.</span></td>
+                                <td class="p-3 text-center space-x-2">
+                                    <button onclick="modificarStockPrompt('${idProduct}', ${p.stock})" class="text-blue-600 font-bold hover:underline cursor-pointer">Editar Stock</button>
+                                    <button onclick="eliminarProducto('${idProduct}')" class="text-red-600 font-bold hover:underline cursor-pointer">Eliminar</button>
+                                </td>
+                            </tr>`;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        async function guardarProducto() {
+            const payload = {
+                idProduct: document.getElementById('p-id').value,
+                name: document.getElementById('p-name').value,
+                description: document.getElementById('p-desc').value,
+                price: parseFloat(document.getElementById('p-price').value),
+                stock: parseInt(document.getElementById('p-stock').value),
+                idCategory: document.getElementById('p-cat').value,
+                idRestaurant: parseInt(document.getElementById('p-rest').value)
+            };
+
+            const res = await fetch(`${API_URL}/Products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) { alert("Producto creado."); cerrarModalFormulario(); cargarInventarioAdmin(); }
+        }
+
+        async function eliminarProducto(id) {
+            if (!confirm("¿Seguro que deseas eliminar este producto?")) return;
+            const res = await fetch(`${API_URL}/Products/${id}`, { method: 'DELETE' });
+            if (res.ok) { alert("Producto eliminado."); cargarInventarioAdmin(); }
+        }
+
+        async function modificarStockPrompt(idProduct, stockActual) {
+            const nuevoStock = prompt(`Ajustar inventario para [${idProduct}]:`, stockActual);
+            if (!nuevoStock) return;
+            const res = await fetch(`${API_URL}/Products/update-stock/${idProduct}?newStock=${parseInt(nuevoStock)}`, { method: 'PUT' });
+            if (res.ok) { cargarInventarioAdmin(); }
+        }
+
+        // --- MÓDULO SUCURSALES ---
+        async function cargarSucursalesAdmin() {
+            try {
+                const res = await fetch(`${API_URL}/Restaurants`);
+                const locales = await res.json();
+                const tbody = document.getElementById('tabla-sucursales-body');
+                tbody.innerHTML = '';
+
+                locales.forEach(l => {
+                    tbody.innerHTML += `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50/50">
+                                <td class="p-3 font-mono text-xs text-gray-400">${l.idRestaurant}</td>
+                                <td class="p-3 font-bold text-gray-800">${l.name}</td>
+                                <td class="p-3 text-gray-600">${l.address}</td>
+                                <td class="p-3 text-center">
+                                    <button onclick="eliminarSucursal(${l.idRestaurant})" class="text-red-600 font-bold hover:underline cursor-pointer">Eliminar</button>
+                                </td>
+                            </tr>`;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        async function guardarSucursal() {
+            const payload = {
+                idRestaurant: parseInt(document.getElementById('s-id').value),
+                name: document.getElementById('s-name').value,
+                address: document.getElementById('s-address').value
+            };
+            const res = await fetch(`${API_URL}/Restaurants`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) { alert("Sucursal creada."); cerrarModalFormulario(); cargarSucursalesAdmin(); }
+        }
+
+        async function eliminarSucursal(id) {
+            if (!confirm("¿Eliminar esta sucursal? Se podrían desvincular sus productos.")) return;
+            const res = await fetch(`${API_URL}/Restaurants/${id}`, { method: 'DELETE' });
+            if (res.ok) { alert("Sucursal eliminada."); cargarSucursalesAdmin(); }
+        }
+
+        // --- MÓDULO REPARTIDORES ---
+        async function cargarStaffRepartidores() {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen`);
+                const staff = await res.json();
+                const tbody = document.getElementById('tabla-repartidores-body');
+                tbody.innerHTML = '';
+
+                staff.forEach(d => {
+                    const statusText = d.status ? "Activo" : "Baneado";
+                    const statusColor = d.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700";
+                    const btnLabel = d.status ? "Banear" : "Desbanear";
+                    const btnColor = d.status ? "text-red-600" : "text-green-600";
+
+                    tbody.innerHTML += `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50/50">
+                                <td class="p-3 font-mono text-xs text-gray-500">${d.dni}</td>
+                                <td class="p-3 font-bold text-gray-800">${d.name}</td>
+                                <td class="p-3 text-xs text-gray-600">${d.mail}<br>${d.phone}</td>
+                                <td class="p-3 font-black text-yellow-600">⭐ ${d.rating}</td>
+                                <td class="p-3"><span class="text-xs px-2 py-0.5 font-bold rounded-full ${statusColor}">${statusText}</span></td>
+                                <td class="p-3 text-center">
+                                    <button onclick="toggleBaneoRepartidor('${d.dni}')" class="${btnColor} font-bold hover:underline cursor-pointer">${btnLabel}</button>
+                                </td>
+                            </tr>`;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        // --- REEMPLAZAR EN TU admin.html ---
+
+        async function toggleBaneoRepartidor(dni) {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/toggle-status/${dni}`, {
+                    method: 'PUT'
+                });
+
+                if (res.ok) {
+                    alert("Estado del repartidor modificado con éxito en PostgreSQL.");
+                    cargarStaffRepartidores(); // Recarga la tabla para ver el cambio de color
+                } else {
+                    const errText = await res.text();
+                    alert("El servidor rechazó la solicitud: " + errText);
+                }
+            } catch (err) {
+                console.error("Error en la petición:", err);
+                alert("No se pudo conectar con el endpoint de baneo de repartidores.");
+            }
+        }
+
+        // --- MÓDULO CLIENTES NORMALES ---
+        async function cargarClientesAdmin() {
+            try {
+                const res = await fetch(`${API_URL}/Clients`);
+                const clientes = await res.json();
+                const tbody = document.getElementById('tabla-clientes-body');
+                tbody.innerHTML = '';
+
+                clientes.forEach(c => {
+                    const esBaneado = c.reference === "BANEADO";
+                    const statusText = esBaneado ? "Suspendido" : "Activo";
+                    const statusColor = esBaneado ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700";
+                    const btnLabel = esBaneado ? "Desbanear" : "Suspender / Banear";
+                    const btnColor = esBaneado ? "text-green-600" : "text-red-600";
+
+                    tbody.innerHTML += `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50/50">
+                                <td class="p-3 font-mono text-xs text-gray-500">${c.dni}</td>
+                                <td class="p-3 font-bold text-gray-800">${c.name}</td>
+                                <td class="p-3 text-xs text-gray-600">${c.mail}<br>${c.phone || 'S/N'}</td>
+                                <td class="p-3 text-xs text-gray-500">${c.city || 'Tabacundo'}<br><span class="text-gray-400">${c.street1 || ''}</span></td>
+                                <td class="p-3"><span class="text-xs px-2 py-0.5 font-bold rounded-full ${statusColor}">${statusText}</span></td>
+                                <td class="p-3 text-center">
+                                    <button onclick="toggleBaneoCliente('${c.dni}')" class="${btnColor} font-bold hover:underline cursor-pointer text-xs">${btnLabel}</button>
+                                </td>
+                            </tr>`;
+                });
+            } catch (err) { console.error("Error al cargar clientes:", err); }
+        }
+
+        async function toggleBaneoCliente(dni) {
+            try {
+                const res = await fetch(`${API_URL}/Clients/toggle-ban/${dni}`, { method: 'PUT' });
+                if (res.ok) {
+                    alert("El estado de acceso del cliente ha sido modificado en Postgres.");
+                    cargarClientesAdmin();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        // --- CONTROLES DE MODAL ---
+        function abrirModalFormulario(tipo) {
+            document.getElementById('modal-formulario').classList.remove('hidden');
+            document.getElementById('form-producto').classList.add('hidden');
+            document.getElementById('form-sucursal').classList.add('hidden');
+
+            if (tipo === 'producto') {
+                document.getElementById('form-titulo').innerText = "Crear Nuevo Producto";
+                document.getElementById('form-producto').classList.remove('hidden');
+            } else {
+                document.getElementById('form-titulo').innerText = "Registrar Nueva Sucursal";
+                document.getElementById('form-sucursal').classList.remove('hidden');
+            }
+        }
+        function cerrarModalFormulario() { document.getElementById('modal-formulario').classList.add('hidden'); }
+
+        async function ejecutarLoginAdmin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const res = await fetch(`${API_URL}/Auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.role === 'admin') {
+                    localStorage.setItem('admin_session', JSON.stringify(data));
+                    sesionAdmin = data;
+                    verificarEstadoAdmin();
+                } else { alert("Exclusivo administradores."); }
+            } else { alert("Credenciales incorrectas."); }
+        }
+
+        function cerrarSesionAdmin() { localStorage.removeItem('admin_session'); sesionAdmin = null; verificarEstadoAdmin(); }
+        verificarEstadoAdmin();
+    </script>
+</body>
+</html>

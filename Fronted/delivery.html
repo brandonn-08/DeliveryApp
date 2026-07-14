@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Reparto - FastDelivery</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+
+    <div id="contenedor-auth" class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full border border-gray-700 max-h-[95vh] overflow-y-auto">
+            <div class="text-center mb-6">
+                <span class="text-4xl">🏍️</span>
+                <h2 class="text-2xl font-black text-yellow-400 mt-2">Acceso Repartidores</h2>
+                <p class="text-xs text-gray-400 mt-1">Gestiona tus entregas y rutas asignadas.</p>
+            </div>
+
+            <div id="delivery-login">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Correo Electrónico</label>
+                        <input type="email" id="login-email" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Contraseña</label>
+                        <input type="password" id="login-password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <button onclick="ejecutarLogin()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-black py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
+                        Ingresar al Panel
+                    </button>
+                    <p class="text-xs text-center text-gray-400 mt-4">
+                        ¿Eres un nuevo repartidor? <button onclick="conmutarVista('registro')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Regístrate aquí</button>
+                    </p>
+                </div>
+            </div>
+
+            <div id="delivery-registro" class="hidden max-h-[75vh] overflow-y-auto px-1">
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Cédula / DNI</label>
+                            <input type="text" id="reg-dni" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Fecha Nacimiento</label>
+                            <input type="date" id="reg-birth" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Nombre Completo</label>
+                        <input type="text" id="reg-name" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Teléfono Celular</label>
+                        <input type="text" id="reg-phone" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Tipo de Vehículo</label>
+                            <input type="text" id="reg-vehicle" placeholder="Moto / Auto" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Número de Placa</label>
+                            <input type="text" id="reg-plate" placeholder="Ej: ABC-1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Correo Electrónico</label>
+                        <input type="email" id="reg-mail" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Contraseña</label>
+                        <input type="password" id="reg-password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <button onclick="ejecutarRegistroRepartidor()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
+                        Finalizar Alta de Transportista
+                    </button>
+                    <p class="text-xs text-center text-gray-400 mt-4">
+                        ¿Ya tienes una cuenta? <button onclick="conmutarVista('login')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Inicia Sesión</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-principal" class="hidden">
+        <nav class="bg-gray-800 border-b border-gray-700 p-4 shadow-md flex justify-between items-center">
+            <span class="text-xl font-black text-yellow-400 tracking-tight">AMÉRICA DISPATCH 🏍️</span>
+            <button onclick="cerrarSesion()" class="text-sm bg-red-600/20 text-red-400 px-4 py-1.5 rounded-lg font-bold border border-red-500/20 hover:bg-red-600 hover:text-white transition cursor-pointer">
+                Cerrar Sesión
+            </button>
+        </nav>
+
+        <main class="container mx-auto my-8 p-4 max-w-2xl">
+            <div id="perfil-repartidor" class="mb-6 p-4 bg-gray-800 rounded-xl border border-gray-700"></div>
+            <h3 class="text-lg font-bold text-gray-300 mb-4">Módulo de Ruta y Despacho</h3>
+            <div id="lista-pedidos" class="space-y-4"></div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:5024/api";
+        let sesion = JSON.parse(localStorage.getItem('delivery_session')) || null;
+
+        function verificarEstadoPantalla() {
+            const contenedorAuth = document.getElementById('contenedor-auth');
+            const panelPrincipal = document.getElementById('panel-principal');
+
+            if (sesion && sesion.role === 'delivery') {
+                contenedorAuth.classList.add('hidden');
+                panelPrincipal.classList.remove('hidden');
+                cargarInfoPanel();
+            } else {
+                localStorage.removeItem('delivery_session');
+                contenedorAuth.classList.remove('hidden');
+                panelPrincipal.classList.add('hidden');
+            }
+        }
+
+        function conmutarVista(vista) {
+            if (vista === 'registro') {
+                document.getElementById('delivery-login').classList.add('hidden');
+                document.getElementById('delivery-registro').classList.remove('hidden');
+            } else {
+                document.getElementById('delivery-registro').classList.add('hidden');
+                document.getElementById('delivery-login').classList.remove('hidden');
+            }
+        }
+
+        async function ejecutarLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const res = await fetch(`${API_URL}/Auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.role === 'delivery') {
+                        localStorage.setItem('delivery_session', JSON.stringify(data));
+                        sesion = data;
+                        verificarEstadoPantalla();
+                    } else {
+                        alert("Acceso denegado. Este formulario es exclusivo para Repartidores.");
+                    }
+                } else { 
+                    const mensajeError = await res.text();
+                    alert(mensajeError || "Credenciales incorrectas."); 
+                }
+            } catch (err) { alert("Error al conectar con el servidor."); }
+        }
+
+        async function ejecutarRegistroRepartidor() {
+            const dni = document.getElementById('reg-dni').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
+            const dateBirth = document.getElementById('reg-birth').value;
+            const phone = document.getElementById('reg-phone').value.trim();
+            const typeVehicle = document.getElementById('reg-vehicle').value.trim();
+            const licencePlate = document.getElementById('reg-plate').value.trim();
+            const mail = document.getElementById('reg-mail').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+
+            if (!dni || !name || !dateBirth || !mail || !password || !typeVehicle || !licencePlate) {
+                alert("Todos los campos relacionales son obligatorios para validar tu cuenta de reparto.");
+                return;
+            }
+
+            const payloadDelivery = {
+                dni: dni,
+                name: name,
+                dateBirth: dateBirth,
+                mail: mail,
+                phone: phone,
+                password: password,
+                typeVehicle: typeVehicle,
+                licencePlate: licencePlate,
+                status: true,
+                rating: 5.00,
+                comission: 0.00
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payloadDelivery)
+                });
+
+                if (res.ok) {
+                    alert("¡Repartidor dado de alta con éxito!");
+                    conmutarVista('login');
+                } else {
+                    const error = await res.text();
+                    alert("Error en validación logística: " + error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Fallo crítico de comunicación con el backend.");
+            }
+        }
+
+        function cargarInfoPanel() {
+            document.getElementById('perfil-repartidor').innerHTML = `
+                <p class="text-xs font-bold uppercase text-yellow-400">Repartidor Operativo</p>
+                <p class="text-xl font-black">${sesion.name}</p>
+                <p class="text-xs text-gray-400 mt-0.5 font-mono">DNI: ${sesion.identifier}</p>`;
+            cargarPedidosRuta();
+        }
+
+        async function cargarPedidosRuta() {
+            try {
+                const resDisponibles = await fetch(`${API_URL}/DeliveryMen/available-orders`);
+                if (!resDisponibles.ok) throw new Error("Error al obtener órdenes disponibles");
+                const disponibles = await resDisponibles.json();
+                
+                const resAsignadas = await fetch(`${API_URL}/Orders`); 
+                if (!resAsignadas.ok) throw new Error("Error al obtener histórico de órdenes");
+                const todasLasOrdenes = await resAsignadas.json();
+
+                const asignadas = todasLasOrdenes.filter(o => {
+                    const dDni = o.deliveryDni || o.delivery_dni || null;
+                    const eTime = o.endTime !== undefined ? o.endTime : (o.end_time !== undefined ? o.end_time : null);
+                    return dDni === sesion.identifier && (eTime === null || eTime === 0);
+                });
+
+                const container = document.getElementById('lista-pedidos');
+                container.innerHTML = '';
+
+                // Definimos el valor fijo de la comisión de envío
+                const comissionValue = 1.50;
+
+                if (asignadas.length > 0) {
+                    container.innerHTML += `<h4 class="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">Tus Tareas en Curso</h4>`;
+                    asignadas.forEach(p => {
+                        const idOrder = p.idOrder || p.id_order;
+                        const startTime = p.startTime !== undefined ? p.startTime : p.start_time;
+                        const total = p.total;
+
+                        let botonEstado = '';
+                        let etiquetaEstado = '';
+
+                        if (startTime === 1) {
+                            etiquetaEstado = '<span class="text-xs bg-orange-600/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20">En Cocina</span>';
+                            botonEstado = `<button onclick="cambiarEstadoRuta('dispatch-order', '${idOrder}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Iniciar Ruta (En Camino)</button>`;
+                        } else if (startTime === 2) {
+                            etiquetaEstado = '<span class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20">En Camino</span>';
+                            botonEstado = `<button onclick="finalizarOrden('${idOrder}')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Marcar como Entregado</button>`;
+                        }
+
+                        container.innerHTML += `
+                            <div class="bg-gray-800 p-5 rounded-xl border-2 border-green-500 flex flex-col gap-3 mb-4">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-sm font-bold text-white">Orden #${idOrder}</p>
+                                        ${etiquetaEstado}
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs font-black text-yellow-400">Cobrar: $${total.toFixed(2)}</p>
+                                        <p class="text-[10px] font-black text-green-400 mt-0.5">💰 Tu Comisión: $${comissionValue.toFixed(2)}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700/50 text-xs space-y-1 text-gray-300">
+                                    <p><span class="text-gray-500 font-bold">Cliente:</span> ${p.clientData?.name || 'Cargando...'}</p>
+                                    <p><span class="text-gray-500 font-bold">Teléfono:</span> <span class="text-yellow-400 font-bold">${p.clientData?.phone || 'S/N'}</span></p>
+                                    <p><span class="text-gray-500 font-bold">Dirección:</span> ${p.clientData?.city || 'Tabacundo'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
+                                    <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'Sin referencias'}</span></p>
+                                </div>
+
+                                <div class="flex justify-end mt-1">${botonEstado}</div>
+                            </div>`;
+                    });
+                }
+
+                container.innerHTML += `<h4 class="text-xs font-bold text-yellow-400 uppercase tracking-wider my-2">Órdenes Disponibles en la Zona</h4>`;
+                
+                if (disponibles.length === 0) {
+                    container.innerHTML += '<p class="text-xs text-gray-500 py-4">No hay solicitudes pendientes en la zona.</p>';
+                    return;
+                }
+
+                disponibles.forEach(p => {
+                    const idOrder = p.idOrder || p.id_order;
+                    const total = p.total;
+
+                    container.innerHTML += `
+                        <div class="bg-gray-800 p-5 rounded-xl border border-gray-700 flex flex-col gap-3 mb-3">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-yellow-400 text-sm">Pedido Libre #${idOrder}</p>
+                                    <p class="text-[11px] font-black text-green-400 mt-0.5">💰 Ganancia Neta: $${comissionValue.toFixed(2)}</p>
+                                </div>
+                                <p class="text-xs font-black text-gray-200">Total: $${total.toFixed(2)}</p>
+                            </div>
+
+                            <div class="bg-gray-900/40 p-3 rounded-lg border border-gray-700/30 text-xs space-y-1 text-gray-400">
+                                <p><span class="text-gray-500 font-bold">Cliente:</span> ${p.clientData?.name || 'Cargando...'}</p>
+                                <p><span class="text-gray-500 font-bold">Contacto:</span> <span class="text-gray-300 font-medium">${p.clientData?.phone || 'S/N'}</span></p>
+                                <p><span class="text-gray-500 font-bold">Dirección:</span> ${p.clientData?.city || 'Tabacundo'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
+                                <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'Sin referencias'}</span></p>
+                            </div>
+
+                            <div class="flex justify-end mt-1">
+                                <button onclick="aceptarPedido('${idOrder}')" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-black text-xs px-4 py-2 rounded-lg transition cursor-pointer">
+                                    Tomar Pedido
+                                </button>
+                            </div>
+                        </div>`;
+                });
+
+            } catch (err) { console.error("Error al conocer el panel:", err); }
+        }
+
+        async function aceptarPedido(idOrder) {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/accept-order/${idOrder}/${sesion.identifier}`, { method: 'PUT' });
+                if (res.ok) { alert("¡Pedido asignado!"); cargarPedidosRuta(); }
+            } catch (err) { console.error(err); }
+        }
+
+        async function cambiarEstadoRuta(endpoint, idOrder) {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/${endpoint}/${idOrder}`, { method: 'PUT' });
+                if (res.ok) { cargarPedidosRuta(); }
+            } catch (err) { console.error(err); }
+        }
+
+        async function finalizarOrden(idOrder) {
+            const minutosSimulados = Math.floor(15 + Math.random() * 15);
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/complete-order/${idOrder}?minutesElapsed=${minutosSimulados}`, { method: 'PUT' });
+                if (res.ok) { 
+                    alert(`¡Entrega realizada! Tiempo: ${minutosSimulados} minutos.`);
+                    cargarPedidosRuta(); 
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('delivery_session');
+            sesion = null;
+            verificarEstadoPantalla();
+        }
+
+        verificarEstadoPantalla();
+    </script>
+</body>
+</html>

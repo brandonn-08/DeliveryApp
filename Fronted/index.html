@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastDelivery - Catálogo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <nav class="bg-white border-b border-gray-200 fixed top-0 w-full z-50 h-16 shadow-sm">
+        <div class="container mx-auto h-full px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.reload()">
+                <span class="text-3xl">🚀</span>
+                <span class="text-xl font-black text-red-600 tracking-tight">FastDelivery</span>
+            </div>
+
+            <div class="w-1/3 relative">
+                <input type="text" id="buscador" oninput="buscar()" placeholder="Buscar comida o restaurantes..."
+                       class="w-full bg-gray-100 text-gray-800 text-sm pl-10 pr-4 py-2 rounded-full border border-transparent focus:outline-none focus:border-red-500 focus:bg-white transition">
+                <span class="absolute left-3 top-2.5 text-gray-400 text-sm">🔍</span>
+            </div>
+
+            <div id="contenedor-perfil" class="flex items-center gap-3">
+                <button onclick="abrirModalLogin()" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-5 py-2 rounded-full transition cursor-pointer">
+                    Iniciar Sesión
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-24 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <div id="panel-tracking-pedido" class="bg-gradient-to-r from-red-500 to-orange-600 text-white p-6 rounded-2xl shadow-lg mb-6 hidden">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-black uppercase bg-white/20 px-2.5 py-1 rounded-full">Seguimiento en Vivo</span>
+                        <h3 id="track-id" class="text-lg font-black mt-2">Orden #----</h3>
+                        <p id="track-estado" class="text-sm font-medium opacity-90">Buscando estado del despacho...</p>
+                    </div>
+                    <div id="track-accion" class="flex items-center"></div>
+                </div>
+            </div>
+
+            <h2 id="titulo-catalogo" class="text-xl font-black text-gray-800 mb-4">Todos los Productos</h2>
+            <div id="lista-productos" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-fit sticky top-24">
+            <h3 class="text-lg font-black text-gray-800 mb-4">🛒 Carrito de Compras</h3>
+            <div id="contenido-carrito" class="space-y-3 mb-4 text-sm text-gray-400 text-center py-6">
+                Inicia sesión para añadir productos.
+            </div>
+            <hr class="my-4 border-gray-100">
+            <div class="flex justify-between font-black text-lg text-gray-800 mb-4">
+                <span>Total:</span>
+                <span id="total-carrito">$0.00</span>
+            </div>
+            <button id="btn-confirmar" class="w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed" disabled>
+                Confirmar Pedido
+            </button>
+        </div>
+    </main>
+
+    <div id="modal-login" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full relative max-h-[90vh] overflow-y-auto">
+            <button onclick="cerrarModalLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
+
+            <div id="vista-login">
+                <h3 class="text-xl font-black text-gray-800 mb-2">Ingresar al Sistema</h3>
+                <p class="text-xs text-gray-500 mb-6">Introduce tus credenciales para continuar con el pedido.</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Correo Electrónico</label>
+                        <input type="email" id="login-email" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Contraseña</label>
+                        <input type="password" id="login-password" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                    <button onclick="ejecutarLogin()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
+                        Verificar Credenciales
+                    </button>
+                    <p class="text-xs text-center text-gray-500 mt-4">
+                        ¿No tienes cuenta? <button onclick="conmutarVistaAuth('registro')" class="text-red-600 font-bold hover:underline cursor-pointer">Regístrate ahora</button>
+                    </p>
+                </div>
+            </div>
+
+            <div id="vista-registro" class="max-h-[75vh] overflow-y-auto px-1 hidden">
+                <div class="space-y-3">
+                    <h2 class="text-xl font-black text-gray-800">Crear Cuenta Nueva</h2>
+                    <p class="text-xs text-gray-400">Completa todos los datos obligatorios para tu perfil de entrega.</p>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Cédula / DNI</label>
+                            <input type="text" id="reg-dni" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Fecha de Nacimiento</label>
+                            <input type="date" id="reg-birth" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Nombre Completo</label>
+                            <input type="text" id="reg-name" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Género</label>
+                            <select id="reg-genere" class="w-full border p-2 text-sm rounded-xl bg-white">
+                                <option value="true">Masculino</option>
+                                <option value="false">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Teléfono</label>
+                            <input type="text" id="reg-phone" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Ciudad</label>
+                            <input type="text" id="reg-city" value="Tabacundo" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="col-span-2">
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Calle Principal (Street 1)</label>
+                            <input type="text" id="reg-street1" placeholder="Ej: Av. 29 de Junio" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Num. Casa</label>
+                            <input type="text" id="reg-home-number" placeholder="N3-42" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Calle Secundaria (Street 2)</label>
+                            <input type="text" id="reg-street2" placeholder="Ej: Calle Gonzales" class="w-full border p-2 text-sm rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Código Postal</label>
+                            <input type="text" id="reg-postal" value="171001" class="w-full border p-2 text-sm rounded-xl">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Referencias del Domicilio</label>
+                        <textarea id="reg-reference" rows="2" placeholder="Ej: Casa esquinera color verde frente a la tienda." class="w-full border p-2 text-sm rounded-xl"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Correo Electrónico</label>
+                            <input type="email" id="reg-mail" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Contraseña</label>
+                            <input type="password" id="reg-password" class="w-full border p-2 text-sm rounded-xl" required>
+                        </div>
+                    </div>
+
+                    <button onclick="ejecutarRegistroCliente()" class="w-full bg-blue-900 text-white p-3 rounded-xl text-sm font-bold cursor-pointer transition hover:bg-blue-950 mt-2">
+                        Registrarme e Ingresar
+                    </button>
+                    <p class="text-xs text-center text-gray-500 mt-2">
+                        ¿Ya tienes cuenta? <button onclick="conmutarVistaAuth('login')" class="text-red-600 font-bold hover:underline cursor-pointer">Inicia sesión</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-pago" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative max-h-[90vh] overflow-y-auto text-gray-800">
+            <button onclick="cerrarModalPago()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
+
+            <h3 class="text-xl font-black text-gray-800 mb-2">Finalizar Pedido</h3>
+            <p class="text-xs text-gray-500 mb-4">Selecciona tu método de pago preferido para tu despacho.</p>
+
+            <div id="pago-seleccion" class="space-y-3">
+                <button onclick="configurarCheckout('PAY01', 'efectivo')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
+                    <span>💵 Pago en Efectivo</span>
+                    <span class="text-xs text-gray-400">Paga al recibir</span>
+                </button>
+                <button onclick="configurarCheckout('PAY01', 'tarjeta')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
+                    <span>💳 Tarjeta de Crédito / Débito</span>
+                    <span class="text-xs text-gray-400">Validación digital</span>
+                </button>
+            </div>
+
+            <div id="pago-formulario-tarjeta" class="space-y-3 mt-4 hidden">
+                <hr class="border-gray-100 my-2">
+                <p class="text-xs font-bold uppercase text-gray-400">Datos Bancarios</p>
+                <input type="text" id="card-number" placeholder="Número de Tarjeta (16 dígitos)" class="w-full border p-2 text-sm rounded-xl">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="card-expiry" placeholder="MM/AA" class="border p-2 text-sm rounded-xl text-center">
+                    <input type="password" id="card-cvv" placeholder="CVV" class="border p-2 text-sm rounded-xl text-center">
+                </div>
+                <button onclick="validarTarjetaSimulada()" class="w-full bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    Validar Tarjeta
+                </button>
+            </div>
+
+            <div id="pago-resumen" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2 text-sm hidden">
+                <p class="text-xs font-bold uppercase text-gray-400 mb-2">Resumen de Cobro</p>
+                <div class="flex justify-between text-gray-600">
+                    <span>Precio Productos:</span>
+                    <span id="resumen-subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-600">
+                    <span>Comisión Delivery (Envío):</span>
+                    <span id="resumen-envio">$1.50</span>
+                </div>
+                <hr class="border-gray-200 my-1">
+                <div class="flex justify-between font-black text-base text-gray-800">
+                    <span>Valor Total:</span>
+                    <span id="resumen-total">$0.00</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mt-5">
+                    <button onclick="cerrarModalPago()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
+                        Cancelar
+                    </button>
+                    <button onclick="confirmarYProcesarOrdenFinal()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:5024/api";
+        let carrito = [];
+        let usuarioLogueado = JSON.parse(localStorage.getItem('user_session')) || null;
+
+        let metodoPagoSeleccionado = "PAY01";
+        let subtotalProductosGlobal = 0;
+        const comisionDeliveryFija = 1.50;
+
+        function verificarSesion() {
+            const container = document.getElementById('contenedor-perfil');
+            if (usuarioLogueado && usuarioLogueado.role === 'client') {
+                container.innerHTML = `
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">
+                                        ${usuarioLogueado.name.charAt(0)}
+                                    </div>
+                                    <span class="text-sm font-bold text-gray-700">${usuarioLogueado.name}</span>
+                                    <button onclick="cerrarSesion()" class="text-xs text-gray-400 hover:text-red-600 ml-2 font-medium cursor-pointer">Salir</button>
+                                </div>`;
+                actualizarCarritoUI();
+            } else if (usuarioLogueado && usuarioLogueado.role !== 'client') {
+                redireccionarPorRol(usuarioLogueado.role);
+            }
+        }
+
+        function conmutarVistaAuth(vista) {
+            const vistaLogin = document.getElementById('vista-login');
+            const vistaRegistro = document.getElementById('vista-registro');
+            if (vista === 'registro') {
+                vistaLogin.classList.add('hidden');
+                vistaRegistro.classList.remove('hidden');
+            } else {
+                vistaRegistro.classList.add('hidden');
+                vistaLogin.classList.remove('hidden');
+            }
+        }
+
+        async function ejecutarRegistroCliente() {
+            const dni = document.getElementById('reg-dni').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
+            const dateBirth = document.getElementById('reg-birth').value;
+            const street1 = document.getElementById('reg-street1').value.trim();
+            const street2 = document.getElementById('reg-street2').value.trim();
+            const city = document.getElementById('reg-city').value.trim();
+            const postalCode = document.getElementById('reg-postal').value.trim();
+            const numberHome = document.getElementById('reg-home-number').value.trim();
+            const reference = document.getElementById('reg-reference').value.trim();
+            const mail = document.getElementById('reg-mail').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const genere = document.getElementById('reg-genere').value === "true";
+            const password = document.getElementById('reg-password').value.trim();
+
+            if (!dni || !name || !dateBirth || !street1 || !numberHome || !mail || !password) {
+                alert("Por favor, complete todos los campos obligatorios marcados.");
+                return;
+            }
+
+            const payloadCliente = {
+                dni: dni,
+                name: name,
+                dateBirth: dateBirth,
+                street1: street1,
+                street2: street2 || "S/N",
+                city: city,
+                postalCode: postalCode,
+                numberHome: numberHome,
+                reference: reference || "Registro estándar vía web.",
+                mail: mail,
+                phone: phone,
+                genere: genere,
+                password: password,
+                registerData: new Date().toISOString().split('T')[0],
+                dateDelivery: null
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/Clients`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payloadCliente)
+                });
+
+                if (res.ok) {
+                    alert("¡Usuario registrado exitosamente en PostgreSQL!");
+                    location.reload();
+                } else {
+                    const error = await res.text();
+                    alert("Error de validación del servidor: " + error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Fallo de red al intentar persistir los datos de usuario.");
+            }
+        }
+
+        async function cargarCatalogoCompleto() {
+            try {
+                const res = await fetch(`${API_URL}/Products`);
+                if (res.ok) {
+                    const productos = await res.json();
+                    renderizarProductos(productos);
+                }
+            } catch (err) { console.error("Error al cargar productos:", err); }
+        }
+
+        async function buscar() {
+            const query = document.getElementById('buscador').value;
+            if (!query.trim()) {
+                document.getElementById('titulo-catalogo').innerText = "Todos los Productos";
+                cargarCatalogoCompleto();
+                return;
+            }
+            try {
+                const res = await fetch(`${API_URL}/Products/search?query=${encodeURIComponent(query)}`);
+                if (res.ok) {
+                    const resultados = await res.json();
+                    document.getElementById('titulo-catalogo').innerText = `Resultados de búsqueda (${resultados.length})`;
+                    renderizarProductos(resultados);
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function renderizarProductos(productos) {
+            const container = document.getElementById('lista-productos');
+            container.innerHTML = '';
+            productos.forEach(p => {
+                const idProduct = p.idProduct || p.id_product;
+                container.innerHTML += `
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800 text-base">${p.name}</h4>
+                                        <p class="text-xs text-gray-400 my-1">${p.description}</p>
+                                        <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded">Restaurante: ${p.restaurantName || 'Establecimiento'}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-4">
+                                        <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
+                                        <button onclick="intentarAgregarProducto('${idProduct}', '${p.name}', ${p.price})" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
+                                            Agregar al carrito
+                                        </button>
+                                    </div>
+                                </div>`;
+            });
+        }
+
+        function intentarAgregarProducto(id, name, price) {
+            if (!usuarioLogueado) {
+                abrirModalLogin();
+                alert("Para agregar productos al carrito de compras, por favor inicie sesión primero.");
+                return;
+            }
+            carrito.push({ idProduct: id, name: name, price: price });
+            actualizarCarritoUI();
+        }
+
+        // --- MANEJO DEL CHECKOUT INTERACTIVO DESGLOSADO ---
+        function enviarPedido() {
+            if (!usuarioLogueado) {
+                alert("Debe iniciar sesión para procesar la orden.");
+                return;
+            }
+            document.getElementById('pago-seleccion').classList.remove('hidden');
+            document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
+            document.getElementById('pago-resumen').classList.add('hidden');
+            metodoPagoSeleccionado = "PAY01";
+
+            subtotalProductosGlobal = parseFloat(calcularTotalCarrito());
+            document.getElementById('modal-pago').classList.remove('hidden');
+        }
+
+        function cerrarModalPago() {
+            document.getElementById('modal-pago').classList.add('hidden');
+        }
+
+        function configurarCheckout(idMethod, tipo) {
+            // Se fuerza PAY01 para asegurar compatibilidad total con la FK de la BD
+            metodoPagoSeleccionado = "PAY01";
+
+            if (tipo === 'efectivo') {
+                document.getElementById('pago-seleccion').classList.add('hidden');
+                document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
+                mostrarResumenFinal();
+            } else if (tipo === 'tarjeta') {
+                document.getElementById('pago-seleccion').classList.add('hidden');
+                document.getElementById('pago-formulario-tarjeta').classList.remove('hidden');
+                document.getElementById('pago-resumen').classList.add('hidden');
+            }
+        }
+
+        async function validarTarjetaSimulada() {
+            const num = document.getElementById('card-number').value.trim();
+            const exp = document.getElementById('card-expiry').value.trim();
+            const cvv = document.getElementById('card-cvv').value.trim();
+
+            if (num.length < 16 || !exp || cvv.length < 3) {
+                alert("❌ Los campos bancarios están incompletos o son inválidos.");
+                return;
+            }
+
+            console.log("💳 Conectando con la pasarela bancaria simulada...");
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            alert("✅ ¡Tarjeta verificada y fondos aprobados con éxito!");
+            document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
+            mostrarResumenFinal();
+        }
+
+        function mostrarResumenFinal() {
+            document.getElementById('resumen-subtotal').innerText = `$${subtotalProductosGlobal.toFixed(2)}`;
+            document.getElementById('resumen-envio').innerText = `$${comisionDeliveryFija.toFixed(2)}`;
+
+            // Nota: El backend añade los $1.50 automáticamente, por lo que visualmente mostramos el total final aquí
+            const totalFinal = subtotalProductosGlobal + comisionDeliveryFija;
+            document.getElementById('resumen-total').innerText = `$${totalFinal.toFixed(2)}`;
+
+            document.getElementById('pago-resumen').classList.remove('hidden');
+        }
+
+        function confirmarYProcesarOrdenFinal() {
+            cerrarModalPago();
+            ejecutarEnvioOrdenBackend(metodoPagoSeleccionado);
+        }
+
+        async function ejecutarEnvioOrdenBackend(idMetodoPago) {
+            const randomId = "ORD-" + Math.floor(10000 + Math.random() * 90000);
+            const payloadOrder = {
+                idOrder: randomId,
+                clientDni: usuarioLogueado.identifier,
+                idMethod: idMetodoPago, // Envía PAY01
+                items: carrito.map(item => ({
+                    idProduct: item.idProduct,
+                    quantity: 1,
+                    extraIngredientIds: []
+                }))
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/Orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payloadOrder)
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    alert(`🎉 ¡Pedido procesado con éxito!\nID Orden: ${data.orderId || randomId}\nTotal: $${data.total}`);
+                    carrito = [];
+                    actualizarCarritoUI();
+                    monitorearPedidoCliente();
+                } else {
+                    const errText = await res.text();
+                    alert("Error al procesar la orden en el servidor: " + errText);
+                }
+            } catch (err) {
+                alert("No se pudo conectar con el servidor para persistir la orden.");
+            }
+        }
+
+        function calcularTotalCarrito() {
+            return carrito.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('contenido-carrito');
+            const totalSpan = document.getElementById('total-carrito');
+            const btn = document.getElementById('btn-confirmar');
+
+            if (carrito.length === 0) {
+                container.innerHTML = 'El carrito está vacío.';
+                totalSpan.innerText = "$0.00";
+                btn.className = "w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed";
+                btn.setAttribute('disabled', 'true');
+                btn.removeAttribute('onclick');
+                return;
+            }
+            container.innerHTML = '';
+            let total = 0;
+            carrito.forEach(item => {
+                total += item.price;
+                container.innerHTML += `<div class="flex justify-between border-b pb-1 text-gray-700"><span>${item.name}</span><span class="font-bold">$${item.price.toFixed(2)}</span></div>`;
+            });
+            totalSpan.innerText = `$${total.toFixed(2)}`;
+
+            btn.className = "w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold transition cursor-pointer";
+            btn.removeAttribute('disabled');
+            btn.setAttribute('onclick', 'enviarPedido()');
+        }
+
+        async function monitorearPedidoCliente() {
+            if (!usuarioLogueado) return;
+
+            try {
+                const res = await fetch(`${API_URL}/Orders`);
+                const ordenes = await res.json();
+
+                const pedidoActivo = ordenes.find(o => o.clientDni === usuarioLogueado.identifier && o.endTime !== 1);
+                const panel = document.getElementById('panel-tracking-pedido');
+
+                if (!pedidoActivo) {
+                    panel.classList.add('hidden');
+                    return;
+                }
+
+                panel.classList.remove('hidden');
+                document.getElementById('track-id').innerText = `Orden #${pedidoActivo.idOrder}`;
+
+                const startTime = pedidoActivo.startTime;
+                const estadoTxt = document.getElementById('track-estado');
+                const accionDiv = document.getElementById('track-accion');
+                accionDiv.innerHTML = '';
+
+                if (startTime === 0) {
+                    estadoTxt.innerText = "⏳ Esperando que un repartidor en Tabacundo tome tu pedido...";
+                } else if (startTime === 1) {
+                    estadoTxt.innerText = "🍳 ¡Tu pedido está siendo preparado en la cocina del restaurante!";
+                } else if (startTime === 2) {
+                    estadoTxt.innerText = "🏍️ ¡El repartidor va en camino! Ten listo tu teléfono para la entrega.";
+                } else if (pedidoActivo.endTime === 1) {
+                    estadoTxt.innerText = "🏁 ¡Tu pedido ha sido entregado! Califícanos por favor:";
+                    const deliveryDni = pedidoActivo.deliveryDni;
+
+                    accionDiv.innerHTML = `
+                                        <div class="flex items-center gap-1 bg-white p-2 rounded-xl text-gray-800 shadow-md">
+                                            <select id="select-estrellas" class="border p-1 text-xs rounded-lg font-bold">
+                                                <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                                <option value="4">⭐⭐⭐⭐ (4)</option>
+                                                <option value="3">⭐⭐⭐ (3)</option>
+                                                <option value="2">⭐⭐ (2)</option>
+                                                <option value="1">⭐ (1)</option>
+                                            </select>
+                                            <button onclick="enviarCalificacionRepartidor('${deliveryDni}', '${pedidoActivo.idOrder}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
+                                                Evaluar
+                                            </button>
+                                        </div>`;
+                }
+            } catch (err) { console.error("Error en Tracking:", err); }
+        }
+
+        async function enviarCalificacionRepartidor(deliveryDni, idOrder) {
+            const estrellas = document.getElementById('select-estrellas').value;
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/rate/${deliveryDni}?newRating=${estrellas}`, {
+                    method: 'PUT'
+                });
+                if (res.ok) {
+                    alert("¡Muchas gracias por tu feedback! Evaluación registrada.");
+                    document.getElementById('panel-tracking-pedido').classList.add('hidden');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function abrirModalLogin() {
+            conmutarVistaAuth('login');
+            document.getElementById('modal-login').classList.remove('hidden');
+        }
+        function cerrarModalLogin() { document.getElementById('modal-login').classList.add('hidden'); }
+
+        async function ejecutarLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const res = await fetch(`${API_URL}/Auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('user_session', JSON.stringify(data));
+                    usuarioLogueado = data;
+                    cerrarModalLogin();
+                    redireccionarPorRol(data.role);
+                } else {
+                    const mensajeError = await res.text();
+                    alert(mensajeError || "Credenciales incorrectas.");
+                }
+            } catch (err) { alert("Error de conexión."); }
+        }
+
+        function redireccionarPorRol(role) {
+            if (role === 'client') {
+                verificarSesion();
+                monitorearPedidoCliente();
+            }
+            else { alert("Exclusivo para clientes."); cerrarSesion(); }
+        }
+
+        function cerrarSesion() { localStorage.removeItem('user_session'); window.location.reload(); }
+
+        verificarSesion();
+        cargarCatalogoCompleto();
+        monitorearPedidoCliente();
+        setInterval(monitorearPedidoCliente, 5000);
+    </script>
+</body>
+</html>
