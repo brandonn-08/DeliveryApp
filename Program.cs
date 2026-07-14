@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using DeliveryApi.Services;
 using DeliveryApi.Models;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. REGISTRO DE SERVICIOS
@@ -23,6 +25,8 @@ builder.Services.AddDbContext<DeliveryDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache(); // Enciende la memoria RAM para guardar el código
+builder.Services.AddScoped<IEmailService, EmailService>(); // Conecta tu motor de Gmail
 
 var app = builder.Build();
 

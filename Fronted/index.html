@@ -156,19 +156,24 @@
                         <textarea id="reg-reference" rows="2" placeholder="Ej: Casa esquinera color verde frente a la tienda." class="w-full border p-2 text-sm rounded-xl"></textarea>
                     </div>
 
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Correo Electrónico</label>
+                        <input type="email" id="reg-mail" class="w-full border p-2 text-sm rounded-xl" required>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Correo Electrónico</label>
-                            <input type="email" id="reg-mail" class="w-full border p-2 text-sm rounded-xl" required>
-                        </div>
                         <div>
                             <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Contraseña</label>
                             <input type="password" id="reg-password" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Confirmar Contraseña</label>
+                            <input type="password" id="reg-password-confirm" class="w-full border border-red-200 focus:border-red-500 p-2 text-sm rounded-xl" required>
+                        </div>
                     </div>
 
                     <button onclick="ejecutarRegistroCliente()" class="w-full bg-blue-900 text-white p-3 rounded-xl text-sm font-bold cursor-pointer transition hover:bg-blue-950 mt-2">
-                        Registrarme e Ingresar
+                        Validar e Iniciar Registro
                     </button>
                     <p class="text-xs text-center text-gray-500 mt-2">
                         ¿Ya tienes cuenta? <button onclick="conmutarVistaAuth('login')" class="text-red-600 font-bold hover:underline cursor-pointer">Inicia sesión</button>
@@ -289,47 +294,87 @@
             const phone = document.getElementById('reg-phone').value.trim();
             const genere = document.getElementById('reg-genere').value === "true";
             const password = document.getElementById('reg-password').value.trim();
+            const passwordConfirm = document.getElementById('reg-password-confirm').value.trim();
 
             if (!dni || !name || !dateBirth || !street1 || !numberHome || !mail || !password) {
                 alert("Por favor, complete todos los campos obligatorios marcados.");
                 return;
             }
 
-            const payloadCliente = {
-                dni: dni,
-                name: name,
-                dateBirth: dateBirth,
-                street1: street1,
-                street2: street2 || "S/N",
-                city: city,
-                postalCode: postalCode,
-                numberHome: numberHome,
-                reference: reference || "Registro estándar vía web.",
-                mail: mail,
-                phone: phone,
-                genere: genere,
-                password: password,
-                registerData: new Date().toISOString().split('T')[0],
-                dateDelivery: null
-            };
+            if (password !== passwordConfirm) {
+                alert("❌ Las contraseñas no coinciden. Por favor, verifícalas.");
+                return;
+            }
 
+            const fechaNacimiento = new Date(dateBirth);
+            const hoy = new Date();
+            let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+            const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) { edad--; }
+
+            if (edad < 18) {
+                alert("⛔ Registro denegado: Por políticas de seguridad, debes ser mayor de 18 años para utilizar FastDelivery.");
+                return;
+            }
+
+            // 🚨 1. SOLICITAMOS EL CÓDIGO AL BACKEND
+            alert("Validaciones superadas. Te estamos enviando un código de seguridad a tu correo...");
             try {
-                const res = await fetch(`${API_URL}/Clients`, {
+                const resCode = await fetch(`${API_URL}/Clients/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: mail })
+                });
+
+                if (!resCode.ok) {
+                    alert("Error al intentar enviar el código de verificación.");
+                    return;
+                }
+
+                // 🚨 2. LE PEDIMOS EL CÓDIGO AL USUARIO
+                const codigoIngresado = prompt(`Hemos enviado un código de 6 dígitos a ${mail}.\nPor favor, ingrésalo aquí:`);
+
+                if (!codigoIngresado) {
+                    alert("Registro cancelado: No se ingresó ningún código.");
+                    return;
+                }
+
+                const payloadCliente = {
+                    dni: dni,
+                    name: name,
+                    dateBirth: dateBirth,
+                    street1: street1,
+                    street2: street2 || "S/N",
+                    city: city,
+                    postalCode: postalCode,
+                    numberHome: numberHome,
+                    reference: reference || "Registro estándar vía web.",
+                    mail: mail,
+                    phone: phone,
+                    genere: genere,
+                    password: password,
+                    registerData: new Date().toISOString().split('T')[0],
+                    dateDelivery: null
+                };
+
+                // 🚨 3. ENVIAMOS EL REGISTRO FINAL CON EL CÓDIGO EN LA URL
+                const res = await fetch(`${API_URL}/Clients?code=${codigoIngresado.trim()}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payloadCliente)
                 });
 
                 if (res.ok) {
-                    alert("¡Usuario registrado exitosamente en PostgreSQL!");
+                    alert("🎉 ¡Verificación exitosa! Tu cuenta ha sido registrada en PostgreSQL.");
                     location.reload();
                 } else {
                     const error = await res.text();
-                    alert("Error de validación del servidor: " + error);
+                    alert("Error de validación: " + error);
                 }
             } catch (err) {
                 console.error(err);
-                alert("Fallo de red al intentar persistir los datos de usuario.");
+                alert("Fallo de red al intentar registrar la cuenta.");
             }
         }
 
@@ -374,7 +419,7 @@
                                     </div>
                                     <div class="flex justify-between items-center mt-4">
                                         <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
-                                        <button onclick="intentarAgregarProducto('${idProduct}', '${p.name}', ${p.price})" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
+                                        <button onclick="intentarAgregarProducto('${idProduct}', '${p.name}', ${p.price}, ${p.idRestaurant || p.id_restaurant})" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
                                             Agregar al carrito
                                         </button>
                                     </div>
@@ -382,14 +427,45 @@
             });
         }
 
-        function intentarAgregarProducto(id, name, price) {
+        function intentarAgregarProducto(id, name, price, idRestaurant) {
             if (!usuarioLogueado) {
                 abrirModalLogin();
                 alert("Para agregar productos al carrito de compras, por favor inicie sesión primero.");
                 return;
             }
-            carrito.push({ idProduct: id, name: name, price: price });
+
+            // 🚨 BLINDAJE: Verificar si el carrito ya tiene ítems de OTRA tienda
+            if (carrito.length > 0) {
+                if (carrito[0].idRestaurant != idRestaurant) {
+                    alert("⚠️ ¡Atención! Solo puedes realizar compras de una misma sucursal a la vez. Vacía tu carrito actual o termina tu pedido para comprar en otra tienda.");
+                    return;
+                }
+            }
+
+            // Agregamos al carrito guardando también el ID de la tienda
+            carrito.push({ idProduct: id, name: name, price: price, idRestaurant: idRestaurant });
             actualizarCarritoUI();
+
+            // 🚨 REGLA DEL DOCENTE: Filtrar el catálogo para mostrar solo esta tienda
+            filtrarCatalogoPorSucursal(idRestaurant);
+        }
+        async function filtrarCatalogoPorSucursal(idRestaurant) {
+            try {
+                // Volvemos a consultar los productos y los filtramos en memoria
+                const res = await fetch(`${API_URL}/Products`);
+                const productos = await res.json();
+
+                const productosFiltrados = productos.filter(p => (p.idRestaurant || p.id_restaurant) == idRestaurant);
+
+                // Cambiamos el título y ponemos un botón para quitar el filtro
+                const titulo = document.getElementById('titulo-catalogo');
+                titulo.innerHTML = `Menú exclusivo de esta sucursal 
+                    <button onclick="cargarCatalogoCompleto(); document.getElementById('titulo-catalogo').innerText='Todos los Productos';" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg ml-3 cursor-pointer transition">
+                        ✕ Ver todas las tiendas
+                    </button>`;
+
+                renderizarProductos(productosFiltrados);
+            } catch (err) { console.error("Error al filtrar por sucursal:", err); }
         }
 
         // --- MANEJO DEL CHECKOUT INTERACTIVO DESGLOSADO ---

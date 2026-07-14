@@ -43,10 +43,11 @@ namespace DeliveryApi.Controllers
                 {
                     name = o.ClientDniNavigation?.Name ?? "Usuario Regular",
                     phone = o.ClientDniNavigation?.Phone ?? "Sin Teléfono",
-                    city = o.ClientDniNavigation?.City ?? "Tabacundo",
-                    street1 = o.ClientDniNavigation?.Street1 ?? "Dirección Principal",
-                    numberHome = o.ClientDniNavigation?.NumberHome ?? "",
-                    reference = o.ClientDniNavigation?.Reference ?? ""
+                    // 🚨 CAMBIAR ESTAS LÍNEAS PARA USAR REPOSITORIO DE COMPOSICIÓN:
+                    city = o.ClientDniNavigation?.AddressData?.City ?? "Tabacundo",
+                    street1 = o.ClientDniNavigation?.AddressData?.Street1 ?? "Dirección Principal",
+                    numberHome = o.ClientDniNavigation?.AddressData?.NumberHome ?? "",
+                    reference = o.ClientDniNavigation?.AddressData?.Reference ?? ""
                 }
             });
 

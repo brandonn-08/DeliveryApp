@@ -1,31 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DeliveryApi.Models;
-
-public partial class DeliveryMan
+namespace DeliveryApi.Models
 {
-    public string Dni { get; set; } = null!;
+    // 🚨 HERENCIA: DeliveryMan también hereda de Person
+    public partial class DeliveryMan : Person
+    {
+        public string? TypeVehicle { get; set; }
+        public string? LicencePlate { get; set; }
+        public bool? Status { get; set; }
+        public decimal? Rating { get; set; }
+        public decimal? Comission { get; set; }
 
-    public string Name { get; set; } = null!;
-
-    public DateOnly? DateBirth { get; set; }
-
-    public string Mail { get; set; } = null!;
-
-    public string? Phone { get; set; }
-
-    public string Password { get; set; } = null!;
-
-    public string? TypeVehicle { get; set; }
-
-    public string? LicencePlate { get; set; }
-
-    public bool? Status { get; set; }
-
-    public decimal? Rating { get; set; }
-
-    public decimal? Comission { get; set; }
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    }
 }

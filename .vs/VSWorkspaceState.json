@@ -4,11 +4,13 @@
     "\\bin",
     "\\Controllers",
     "\\Fronted",
+    "\\Interfaces",
     "\\Models",
     "\\obj",
-    "\\obj\\Debug",
-    "\\Properties"
+    "\\obj\\Release",
+    "\\Properties",
+    "\\Services"
   ],
-  "SelectedNode": "\\Models\\DeliveryMan.cs",
+  "SelectedNode": "\\Fronted\\index.html",
   "PreviewInSolutionExplorer": false
 }

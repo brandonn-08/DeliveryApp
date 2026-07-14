@@ -112,3 +112,9 @@ C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\obj\Debug\net8.0\refint\
 C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\obj\Debug\net8.0\DeliveryApi.pdb
 C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\obj\Debug\net8.0\DeliveryApi.genruntimeconfig.cache
 C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\obj\Debug\net8.0\ref\DeliveryApi.dll
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\obj\Debug\net8.0\DeliveryApi.sourcelink.json
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\bin\Debug\net8.0\MailKit.dll
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\bin\Debug\net8.0\MimeKit.dll
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\ferna\OneDrive\Desktop\deliveryApp\DeliveryApi\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

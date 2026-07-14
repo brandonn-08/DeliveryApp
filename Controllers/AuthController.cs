@@ -60,7 +60,7 @@ namespace DeliveryApi.Controllers
 
             if (client != null)
             {
-                if (client.Reference == "BANEADO")
+                if (client.AddressData.Reference == "BANEADO")
                 {
                     return BadRequest("Su cuenta se encuentra suspendida temporalmente por la administración.");
                 }
