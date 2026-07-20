@@ -1,16 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\bin",
     "\\Controllers",
     "\\Fronted",
     "\\Interfaces",
     "\\Models",
-    "\\obj",
-    "\\obj\\Release",
     "\\Properties",
     "\\Services"
   ],
-  "SelectedNode": "\\Fronted\\index.html",
+  "SelectedNode": "\\Models\\Order.cs",
   "PreviewInSolutionExplorer": false
 }

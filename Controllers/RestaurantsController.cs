@@ -51,5 +51,36 @@ namespace DeliveryApi.Controllers
             }
             catch (Exception ex) { return StatusCode(500, $"Error al eliminar: {ex.Message}"); }
         }
+        // GET: api/restaurants/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRestaurantById(int id)
+        {
+            var store = await _context.Restaurants.FindAsync(id);
+            if (store == null) return NotFound("La sucursal no existe.");
+            return Ok(store);
+        }
+        // PUT: api/restaurants/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutRestaurant(int id, [FromBody] Restaurant restaurantActualizado)
+        {
+            var restaurantDb = await _context.Restaurants.FindAsync(id);
+            if (restaurantDb == null) return NotFound("La sucursal no existe.");
+
+            restaurantDb.Name = restaurantActualizado.Name;
+            restaurantDb.Address = restaurantActualizado.Address;
+            restaurantDb.BankAccountDetails = restaurantActualizado.BankAccountDetails;
+            if (restaurantActualizado.Latitude.HasValue) restaurantDb.Latitude = restaurantActualizado.Latitude;
+            if (restaurantActualizado.Longitude.HasValue) restaurantDb.Longitude = restaurantActualizado.Longitude;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Sucursal actualizada con éxito." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al actualizar: {ex.Message}");
+            }
+        }
     }
 }

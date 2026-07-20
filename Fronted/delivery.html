@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Reparto - FastDelivery</title>
+    <title>Delivery Portal - FastDelivery</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
@@ -12,25 +12,30 @@
         <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full border border-gray-700 max-h-[95vh] overflow-y-auto">
             <div class="text-center mb-6">
                 <span class="text-4xl">🏍️</span>
-                <h2 class="text-2xl font-black text-yellow-400 mt-2">Acceso Repartidores</h2>
-                <p class="text-xs text-gray-400 mt-1">Gestiona tus entregas y rutas asignadas.</p>
+                <h2 class="text-2xl font-black text-yellow-400 mt-2">Delivery Driver Access</h2>
+                <p class="text-xs text-gray-400 mt-1">Manage your deliveries and assigned routes.</p>
             </div>
 
             <div id="delivery-login">
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Correo Electrónico</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Email</label>
                         <input type="email" id="login-email" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Contraseña</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Password</label>
                         <input type="password" id="login-password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
                     <button onclick="ejecutarLogin()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-black py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
-                        Ingresar al Panel
+                        Log In to Dashboard
                     </button>
+                    <div class="flex justify-between text-[11px] mt-3 text-gray-400">
+                        <button onclick="abrirModalRecuperacion('username')" class="hover:underline cursor-pointer">Forgot your username?</button>
+                        <button onclick="abrirModalRecuperacion('password')" class="hover:underline cursor-pointer">Forgot your password?</button>
+                        <button onclick="abrirModalRecuperacion('unlock')" class="hover:underline cursor-pointer">Unlock account</button>
+                    </div>
                     <p class="text-xs text-center text-gray-400 mt-4">
-                        ¿Eres un nuevo repartidor? <button onclick="conmutarVista('registro')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Regístrate aquí</button>
+                        Are you a new delivery driver? <button onclick="conmutarVista('registro')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Sign up here</button>
                     </p>
                 </div>
             </div>
@@ -39,45 +44,49 @@
                 <div class="space-y-3">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Cédula / DNI</label>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">ID / DNI</label>
                             <input type="text" id="reg-dni" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Fecha Nacimiento</label>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Date of Birth</label>
                             <input type="date" id="reg-birth" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Nombre Completo</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Full Name</label>
                         <input type="text" id="reg-name" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Teléfono Celular</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Mobile Phone</label>
                         <input type="text" id="reg-phone" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Tipo de Vehículo</label>
-                            <input type="text" id="reg-vehicle" placeholder="Moto / Auto" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Vehicle Type</label>
+                            <input type="text" id="reg-vehicle" placeholder="Motorcycle / Car" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Número de Placa</label>
-                            <input type="text" id="reg-plate" placeholder="Ej: ABC-1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">License Plate Number</label>
+                            <input type="text" id="reg-plate" placeholder="E.g: ABC-1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Correo Electrónico</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Email</label>
                         <input type="email" id="reg-mail" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Contraseña</label>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Password</label>
                         <input type="password" id="reg-password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
                     </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Confirm Password</label>
+                        <input type="password" id="reg-password-confirm" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
                     <button onclick="ejecutarRegistroRepartidor()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
-                        Finalizar Alta de Transportista
+                        Complete Driver Registration
                     </button>
                     <p class="text-xs text-center text-gray-400 mt-4">
-                        ¿Ya tienes una cuenta? <button onclick="conmutarVista('login')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Inicia Sesión</button>
+                        Already have an account? <button onclick="conmutarVista('login')" class="text-yellow-400 font-bold hover:underline cursor-pointer">Sign In</button>
                     </p>
                 </div>
             </div>
@@ -88,17 +97,62 @@
         <nav class="bg-gray-800 border-b border-gray-700 p-4 shadow-md flex justify-between items-center">
             <span class="text-xl font-black text-yellow-400 tracking-tight">AMÉRICA DISPATCH 🏍️</span>
             <button onclick="cerrarSesion()" class="text-sm bg-red-600/20 text-red-400 px-4 py-1.5 rounded-lg font-bold border border-red-500/20 hover:bg-red-600 hover:text-white transition cursor-pointer">
-                Cerrar Sesión
+                Log Out
             </button>
         </nav>
 
         <main class="container mx-auto my-8 p-4 max-w-2xl">
             <div id="perfil-repartidor" class="mb-6 p-4 bg-gray-800 rounded-xl border border-gray-700"></div>
-            <h3 class="text-lg font-bold text-gray-300 mb-4">Módulo de Ruta y Despacho</h3>
+            <h3 class="text-lg font-bold text-gray-300 mb-4">Route and Dispatch Module</h3>
             <div id="lista-pedidos" class="space-y-4"></div>
         </main>
     </div>
 
+    <!-- 🚨 MODAL AGREGADO AQUÍ 🚨 -->
+    <div id="modal-vehiculo" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl max-w-xs w-full relative border border-gray-700">
+            <button onclick="cerrarModalVehiculo()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 font-bold cursor-pointer">✕</button>
+            <h3 class="text-lg font-black text-yellow-400 mb-4">Edit Vehicle</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Vehicle Type</label>
+                    <input type="text" id="veh-tipo" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">License Plate</label>
+                    <input type="text" id="veh-placa" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <button onclick="guardarVehiculo()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-black py-2.5 rounded-xl transition text-sm cursor-pointer">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-recuperacion" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl max-w-sm w-full relative border border-gray-700">
+            <button onclick="cerrarModalRecuperacion()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 font-bold cursor-pointer">✕</button>
+            <h3 id="recuperacion-titulo" class="text-lg font-black text-yellow-400 mb-1">Recovery</h3>
+            <p id="recuperacion-subtitulo" class="text-xs text-gray-400 mb-4">Enter your registered email.</p>
+
+            <div id="recuperacion-paso-email" class="space-y-3">
+                <input type="email" id="rec-email" placeholder="Email address" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                <button onclick="enviarSolicitudRecuperacion()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 p-2.5 rounded-xl text-sm font-black cursor-pointer">
+                    Send Code
+                </button>
+            </div>
+
+            <div id="recuperacion-paso-codigo" class="space-y-3 hidden">
+                <input type="text" id="rec-codigo" placeholder="6-digit code" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                <div id="recuperacion-campo-password" class="hidden space-y-3">
+                    <input type="password" id="rec-nueva-password" placeholder="New password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    <input type="password" id="rec-nueva-password-confirm" placeholder="Confirm password" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
+                </div>
+                <button onclick="confirmarRecuperacion()" class="w-full bg-green-600 hover:bg-green-700 text-white p-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
         const API_URL = "http://localhost:5024/api";
         let sesion = JSON.parse(localStorage.getItem('delivery_session')) || null;
@@ -146,13 +200,13 @@
                         sesion = data;
                         verificarEstadoPantalla();
                     } else {
-                        alert("Acceso denegado. Este formulario es exclusivo para Repartidores.");
+                        alert("Access denied. This form is for Delivery Drivers only.");
                     }
-                } else { 
+                } else {
                     const mensajeError = await res.text();
-                    alert(mensajeError || "Credenciales incorrectas."); 
+                    alert(mensajeError || "Incorrect credentials.");
                 }
-            } catch (err) { alert("Error al conectar con el servidor."); }
+            } catch (err) { alert("Error connecting to the server."); }
         }
 
         async function ejecutarRegistroRepartidor() {
@@ -164,52 +218,115 @@
             const licencePlate = document.getElementById('reg-plate').value.trim();
             const mail = document.getElementById('reg-mail').value.trim();
             const password = document.getElementById('reg-password').value.trim();
-
-            if (!dni || !name || !dateBirth || !mail || !password || !typeVehicle || !licencePlate) {
-                alert("Todos los campos relacionales son obligatorios para validar tu cuenta de reparto.");
+            const passwordConfirm = document.getElementById('reg-password-confirm').value.trim();
+            const especialesCount = (password.match(/[^a-zA-Z0-9]/g) || []).length;
+            if (especialesCount < 2) {
+                alert("❌ Password must have at least 2 special characters (e.g: @, ., #, -, _).");
                 return;
             }
 
-            const payloadDelivery = {
-                dni: dni,
-                name: name,
-                dateBirth: dateBirth,
-                mail: mail,
-                phone: phone,
-                password: password,
-                typeVehicle: typeVehicle,
-                licencePlate: licencePlate,
-                status: true,
-                rating: 5.00,
-                comission: 0.00
-            };
+            if (!dni || !name || !dateBirth || !mail || !password || !typeVehicle || !licencePlate) {
+                alert("All related fields are required to validate your delivery account.");
+                return;
+            }
 
+            if (password !== passwordConfirm) {
+                alert("❌ Passwords don't match. Please check them.");
+                return;
+            }
+
+            const fechaNacimiento = new Date(dateBirth);
+            const hoy = new Date();
+            let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+            const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) { edad--; }
+
+            if (edad < 18) {
+                alert("⛔ Registration denied: you must be over 18 years old to work as a delivery driver.");
+                return;
+            }
+
+            alert("Validations passed. We're sending a security code to your email...");
             try {
-                const res = await fetch(`${API_URL}/DeliveryMen`, {
+                const resCode = await fetch(`${API_URL}/DeliveryMen/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: mail })
+                });
+
+                if (!resCode.ok) {
+                    alert("Error trying to send the verification code.");
+                    return;
+                }
+
+                const codigoIngresado = prompt(`We've sent a 6-digit code to ${mail}.\nPlease enter it here:`);
+                if (!codigoIngresado) {
+                    alert("Registration cancelled: No code was entered.");
+                    return;
+                }
+
+                const payloadDelivery = {
+                    dni: dni,
+                    name: name,
+                    dateBirth: dateBirth,
+                    mail: mail,
+                    phone: phone,
+                    password: password,
+                    typeVehicle: typeVehicle,
+                    licencePlate: licencePlate
+                };
+
+                const res = await fetch(`${API_URL}/DeliveryMen?code=${codigoIngresado.trim()}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payloadDelivery)
                 });
 
                 if (res.ok) {
-                    alert("¡Repartidor dado de alta con éxito!");
+                    alert("🎉 Delivery driver successfully registered!");
                     conmutarVista('login');
                 } else {
                     const error = await res.text();
-                    alert("Error en validación logística: " + error);
+                    alert("Logistics validation error: " + error);
                 }
             } catch (err) {
                 console.error(err);
-                alert("Fallo crítico de comunicación con el backend.");
+                alert("Critical communication failure with the backend.");
             }
         }
 
         function cargarInfoPanel() {
             document.getElementById('perfil-repartidor').innerHTML = `
-                <p class="text-xs font-bold uppercase text-yellow-400">Repartidor Operativo</p>
-                <p class="text-xl font-black">${sesion.name}</p>
-                <p class="text-xs text-gray-400 mt-0.5 font-mono">DNI: ${sesion.identifier}</p>`;
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase text-yellow-400">Active Delivery Driver</p>
+                                        <p class="text-xl font-black">${sesion.name}</p>
+                                        <p class="text-xs text-gray-400 mt-0.5 font-mono">DNI: ${sesion.identifier}</p>
+                                    </div>
+                                    <button onclick="abrirModalVehiculo()" class="text-xs bg-gray-700 hover:bg-gray-600 text-yellow-400 px-3 py-1.5 rounded-lg font-bold cursor-pointer">
+                                        🏍️ Edit Vehicle
+                                    </button>
+                                </div>
+                                <div id="panel-ganancias" class="mt-4 pt-4 border-t border-gray-700 grid grid-cols-2 gap-3"></div>`;
+            cargarGanancias();
             cargarPedidosRuta();
+        }
+
+        async function cargarGanancias() {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/earnings/${sesion.identifier}`);
+                if (!res.ok) return;
+                const data = await res.json();
+                document.getElementById('panel-ganancias').innerHTML = `
+                                    <div class="bg-gray-900/50 p-3 rounded-lg text-center">
+                                        <p class="text-[10px] uppercase text-gray-400 font-bold">Completed Deliveries</p>
+                                        <p class="text-lg font-black text-white">${data.completedDeliveries}</p>
+                                    </div>
+                                    <div class="bg-gray-900/50 p-3 rounded-lg text-center">
+                                        <p class="text-[10px] uppercase text-gray-400 font-bold">Total Earnings</p>
+                                        <p class="text-lg font-black text-green-400">$${data.totalEarnings.toFixed(2)}</p>
+                                    </div>`;
+            } catch (err) { console.error(err); }
         }
 
         async function cargarPedidosRuta() {
@@ -217,8 +334,8 @@
                 const resDisponibles = await fetch(`${API_URL}/DeliveryMen/available-orders`);
                 if (!resDisponibles.ok) throw new Error("Error al obtener órdenes disponibles");
                 const disponibles = await resDisponibles.json();
-                
-                const resAsignadas = await fetch(`${API_URL}/Orders`); 
+
+                const resAsignadas = await fetch(`${API_URL}/Orders`);
                 if (!resAsignadas.ok) throw new Error("Error al obtener histórico de órdenes");
                 const todasLasOrdenes = await resAsignadas.json();
 
@@ -230,12 +347,13 @@
 
                 const container = document.getElementById('lista-pedidos');
                 container.innerHTML = '';
-
-                // Definimos el valor fijo de la comisión de envío
                 const comissionValue = 1.50;
 
+                // 🚨 ESCUDO FRONTEND: ¿Ya tiene 3 pedidos activos?
+                const limiteAlcanzado = asignadas.length >= 3;
+
                 if (asignadas.length > 0) {
-                    container.innerHTML += `<h4 class="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">Tus Tareas en Curso</h4>`;
+                    container.innerHTML += `<h4 class="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">Your Tasks in Progress (${asignadas.length}/3)</h4>`;
                     asignadas.forEach(p => {
                         const idOrder = p.idOrder || p.id_order;
                         const startTime = p.startTime !== undefined ? p.startTime : p.start_time;
@@ -245,42 +363,42 @@
                         let etiquetaEstado = '';
 
                         if (startTime === 1) {
-                            etiquetaEstado = '<span class="text-xs bg-orange-600/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20">En Cocina</span>';
-                            botonEstado = `<button onclick="cambiarEstadoRuta('dispatch-order', '${idOrder}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Iniciar Ruta (En Camino)</button>`;
+                            etiquetaEstado = '<span class="text-xs bg-orange-600/20 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20">In Kitchen</span>';
+                            botonEstado = `<button onclick="cambiarEstadoRuta('dispatch-order', '${idOrder}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Start Route (On the Way)</button>`;
                         } else if (startTime === 2) {
-                            etiquetaEstado = '<span class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20">En Camino</span>';
-                            botonEstado = `<button onclick="finalizarOrden('${idOrder}')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Marcar como Entregado</button>`;
+                            etiquetaEstado = '<span class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20">On the Way</span>';
+                            botonEstado = `<button onclick="finalizarOrden('${idOrder}')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition cursor-pointer">Mark as Delivered</button>`;
                         }
 
                         container.innerHTML += `
-                            <div class="bg-gray-800 p-5 rounded-xl border-2 border-green-500 flex flex-col gap-3 mb-4">
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center gap-2">
-                                        <p class="text-sm font-bold text-white">Orden #${idOrder}</p>
-                                        ${etiquetaEstado}
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-xs font-black text-yellow-400">Cobrar: $${total.toFixed(2)}</p>
-                                        <p class="text-[10px] font-black text-green-400 mt-0.5">💰 Tu Comisión: $${comissionValue.toFixed(2)}</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700/50 text-xs space-y-1 text-gray-300">
-                                    <p><span class="text-gray-500 font-bold">Cliente:</span> ${p.clientData?.name || 'Cargando...'}</p>
-                                    <p><span class="text-gray-500 font-bold">Teléfono:</span> <span class="text-yellow-400 font-bold">${p.clientData?.phone || 'S/N'}</span></p>
-                                    <p><span class="text-gray-500 font-bold">Dirección:</span> ${p.clientData?.city || 'Tabacundo'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
-                                    <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'Sin referencias'}</span></p>
-                                </div>
+                                            <div class="bg-gray-800 p-5 rounded-xl border-2 border-green-500 flex flex-col gap-3 mb-4">
+                                                <div class="flex justify-between items-center">
+                                                    <div class="flex items-center gap-2">
+                                                        <p class="text-sm font-bold text-white">Order #${idOrder}</p>
+                                                        ${etiquetaEstado}
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <p class="text-xs font-black text-yellow-400">Collect: $${total.toFixed(2)}</p>
+                                                        <p class="text-[10px] font-black text-green-400 mt-0.5">💰 Your Commission: $${comissionValue.toFixed(2)}</p>
+                                                    </div>
+                                                </div>
 
-                                <div class="flex justify-end mt-1">${botonEstado}</div>
-                            </div>`;
+                                                <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700/50 text-xs space-y-1 text-gray-300">
+                                                    <p><span class="text-gray-500 font-bold">Client:</span> ${p.clientData?.name || 'Loading...'}</p>
+                                                    <p><span class="text-gray-500 font-bold">Phone:</span> <span class="text-yellow-400 font-bold">${p.clientData?.phone || 'N/A'}</span></p>
+                                                    <p><span class="text-gray-500 font-bold">Address:</span> ${p.clientData?.city || 'Ibarra'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
+                                                    <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'No references'}</span></p>
+                                                </div>
+                                                <div class="flex justify-end mt-1">${botonEstado}</div>
+                                            </div>`;
                     });
                 }
 
-                container.innerHTML += `<h4 class="text-xs font-bold text-yellow-400 uppercase tracking-wider my-2">Órdenes Disponibles en la Zona</h4>`;
-                
+                container.innerHTML += `<h4 class="text-xs font-bold text-yellow-400 uppercase tracking-wider my-2">Available Orders in the Area</h4>`;
+
                 if (disponibles.length === 0) {
-                    container.innerHTML += '<p class="text-xs text-gray-500 py-4">No hay solicitudes pendientes en la zona.</p>';
+                    container.innerHTML += '<p class="text-xs text-gray-500 py-4">No pending requests in the area.</p>';
+                    container.innerHTML += '<p class="text-xs text-gray-500 py-4">No pending requests in the area.</p>';
                     return;
                 }
 
@@ -288,55 +406,75 @@
                     const idOrder = p.idOrder || p.id_order;
                     const total = p.total;
 
+                    // 🚨 BOTÓN INTELIGENTE: Si tiene 3, se bloquea. Si no, permite tomarlo.
+                    const botonAccion = limiteAlcanzado
+                        ? `<button onclick="alert('⛔ Limit reached: You already have 3 orders in progress. Deliver at least one to accept new routes.')" class="bg-gray-700 text-gray-500 font-black text-xs px-4 py-2 rounded-lg cursor-not-allowed">Limit of 3 Reached</button>`
+                        : `<button onclick="aceptarPedido('${idOrder}')" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-black text-xs px-4 py-2 rounded-lg transition cursor-pointer">Take Order</button>`;
+
                     container.innerHTML += `
-                        <div class="bg-gray-800 p-5 rounded-xl border border-gray-700 flex flex-col gap-3 mb-3">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="font-bold text-yellow-400 text-sm">Pedido Libre #${idOrder}</p>
-                                    <p class="text-[11px] font-black text-green-400 mt-0.5">💰 Ganancia Neta: $${comissionValue.toFixed(2)}</p>
-                                </div>
-                                <p class="text-xs font-black text-gray-200">Total: $${total.toFixed(2)}</p>
-                            </div>
-
-                            <div class="bg-gray-900/40 p-3 rounded-lg border border-gray-700/30 text-xs space-y-1 text-gray-400">
-                                <p><span class="text-gray-500 font-bold">Cliente:</span> ${p.clientData?.name || 'Cargando...'}</p>
-                                <p><span class="text-gray-500 font-bold">Contacto:</span> <span class="text-gray-300 font-medium">${p.clientData?.phone || 'S/N'}</span></p>
-                                <p><span class="text-gray-500 font-bold">Dirección:</span> ${p.clientData?.city || 'Tabacundo'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
-                                <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'Sin referencias'}</span></p>
-                            </div>
-
-                            <div class="flex justify-end mt-1">
-                                <button onclick="aceptarPedido('${idOrder}')" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-black text-xs px-4 py-2 rounded-lg transition cursor-pointer">
-                                    Tomar Pedido
-                                </button>
-                            </div>
-                        </div>`;
+                                    <div class="bg-gray-800 p-5 rounded-xl border border-gray-700 flex flex-col gap-3 mb-3">
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <p class="font-bold text-yellow-400 text-sm">Open Order #${idOrder}</p>
+                                                <p class="text-[11px] font-black text-green-400 mt-0.5">💰 Net Earnings: $${comissionValue.toFixed(2)}</p>
+                                            </div>
+                                            <p class="text-xs font-black text-gray-200">Total: $${total.toFixed(2)}</p>
+                                        </div>
+                                        <div class="bg-gray-900/40 p-3 rounded-lg border border-gray-700/30 text-xs space-y-1 text-gray-400">
+                                            <p><span class="text-gray-500 font-bold">Client:</span> ${p.clientData?.name || 'Loading...'}</p>
+                                            <p><span class="text-gray-500 font-bold">Contact:</span> <span class="text-gray-300 font-medium">${p.clientData?.phone || 'N/A'}</span></p>
+                                            <p><span class="text-gray-500 font-bold">Address:</span> ${p.clientData?.city || 'Ibarra'} - ${p.clientData?.street1 || ''} ${p.clientData?.numberHome || ''}</p>
+                                            <p><span class="text-gray-500 font-bold">Ref:</span> <span class="text-gray-400 italic">${p.clientData?.reference || 'No references'}</span></p>
+                                        </div>
+                                        <div class="flex justify-end mt-1">
+                                            ${botonAccion}
+                                        </div>
+                                    </div>`;
                 });
+            } catch (err) { console.error("Error al cargar el panel:", err); }
+        }
 
-            } catch (err) { console.error("Error al conocer el panel:", err); }
+        // 🚨 FUNCIÓN RESTAURADA PARA CAMBIAR EL ESTADO A "EN CAMINO"
+        async function cambiarEstadoRuta(endpoint, idOrder) {
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/${endpoint}/${idOrder}`, { method: 'PUT' });
+                if (res.ok) {
+                    cargarPedidosRuta(); // Refresca la pantalla y cambia el botón
+                } else {
+                    const error = await res.text();
+                    alert("Could not change the status: " + error);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Network error while trying to update the route.");
+            }
         }
 
         async function aceptarPedido(idOrder) {
             try {
                 const res = await fetch(`${API_URL}/DeliveryMen/accept-order/${idOrder}/${sesion.identifier}`, { method: 'PUT' });
-                if (res.ok) { alert("¡Pedido asignado!"); cargarPedidosRuta(); }
-            } catch (err) { console.error(err); }
-        }
 
-        async function cambiarEstadoRuta(endpoint, idOrder) {
-            try {
-                const res = await fetch(`${API_URL}/DeliveryMen/${endpoint}/${idOrder}`, { method: 'PUT' });
-                if (res.ok) { cargarPedidosRuta(); }
-            } catch (err) { console.error(err); }
+                if (res.ok) {
+                    alert("Order successfully assigned!");
+                    cargarPedidosRuta();
+                } else {
+                    // 🚨 AQUÍ ATRAPAMOS EL MENSAJE DE LÍMITE DE 3 PEDIDOS DEL BACKEND
+                    const mensajeBloqueo = await res.text();
+                    alert(mensajeBloqueo || "Could not take the order.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error while trying to take the order.");
+            }
         }
 
         async function finalizarOrden(idOrder) {
             const minutosSimulados = Math.floor(15 + Math.random() * 15);
             try {
                 const res = await fetch(`${API_URL}/DeliveryMen/complete-order/${idOrder}?minutesElapsed=${minutosSimulados}`, { method: 'PUT' });
-                if (res.ok) { 
-                    alert(`¡Entrega realizada! Tiempo: ${minutosSimulados} minutos.`);
-                    cargarPedidosRuta(); 
+                if (res.ok) {
+                    alert(`Delivery completed! Time: ${minutosSimulados} minutes.`);
+                    cargarPedidosRuta();
                 }
             } catch (err) { console.error(err); }
         }
@@ -348,6 +486,149 @@
         }
 
         verificarEstadoPantalla();
+
+        // 🚨 FUNCIONES DEL MODAL AGREGADAS AQUÍ 🚨
+        function abrirModalVehiculo() {
+            document.getElementById('veh-tipo').value = '';
+            document.getElementById('veh-placa').value = '';
+            document.getElementById('modal-vehiculo').classList.remove('hidden');
+        }
+
+        function cerrarModalVehiculo() {
+            document.getElementById('modal-vehiculo').classList.add('hidden');
+        }
+
+        async function guardarVehiculo() {
+            const typeVehicle = document.getElementById('veh-tipo').value.trim();
+            const licencePlate = document.getElementById('veh-placa').value.trim();
+
+            if (!typeVehicle || !licencePlate) {
+                alert("Complete both fields.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/DeliveryMen/update-vehicle/${sesion.identifier}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ typeVehicle, licencePlate })
+                });
+
+                if (res.ok) {
+                    alert("✅ Vehicle updated successfully.");
+                    cerrarModalVehiculo();
+                } else {
+                    alert("Error updating the vehicle details.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error.");
+            }
+        }
+        let recuperacionModo = null;
+        const ROLE_ACTUAL = 'delivery';
+
+        function abrirModalRecuperacion(modo) {
+            recuperacionModo = modo;
+            document.getElementById('rec-email').value = '';
+            document.getElementById('rec-codigo').value = '';
+            document.getElementById('rec-nueva-password').value = '';
+            document.getElementById('rec-nueva-password-confirm').value = '';
+            document.getElementById('recuperacion-paso-email').classList.remove('hidden');
+            document.getElementById('recuperacion-paso-codigo').classList.add('hidden');
+            document.getElementById('recuperacion-campo-password').classList.add('hidden');
+
+            const titulos = {
+                username: ['Recover Username', 'We will send your DNI to your registered email.'],
+                password: ['Recover Password', 'We will send you a code to reset your password.'],
+                unlock: ['Unlock Account', 'We will send you a code to reactivate your account.']
+            };
+            document.getElementById('recuperacion-titulo').innerText = titulos[modo][0];
+            document.getElementById('recuperacion-subtitulo').innerText = titulos[modo][1];
+
+            document.getElementById('modal-recuperacion').classList.remove('hidden');
+        }
+
+        function cerrarModalRecuperacion() {
+            document.getElementById('modal-recuperacion').classList.add('hidden');
+        }
+
+        async function enviarSolicitudRecuperacion() {
+            const email = document.getElementById('rec-email').value.trim();
+            if (!email) { alert("Enter your email."); return; }
+
+            try {
+                if (recuperacionModo === 'username') {
+                    const res = await fetch(`${API_URL}/AccountRecovery/recover-username`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+                    return;
+                }
+
+                const endpoint = recuperacionModo === 'password' ? 'send-reset-code' : 'send-unlock-code';
+                const res = await fetch(`${API_URL}/AccountRecovery/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, role: ROLE_ACTUAL })
+                });
+
+                if (!res.ok) {
+                    alert(await res.text());
+                    return;
+                }
+
+                document.getElementById('recuperacion-paso-email').classList.add('hidden');
+                document.getElementById('recuperacion-paso-codigo').classList.remove('hidden');
+                if (recuperacionModo === 'password') {
+                    document.getElementById('recuperacion-campo-password').classList.remove('hidden');
+                }
+                alert("Code sent to your email.");
+            } catch (err) {
+                console.error(err);
+                alert("Connection error.");
+            }
+        }
+
+        async function confirmarRecuperacion() {
+            const email = document.getElementById('rec-email').value.trim();
+            const code = document.getElementById('rec-codigo').value.trim();
+            if (!code) { alert("Enter the code you received."); return; }
+
+            try {
+                if (recuperacionModo === 'password') {
+                    const newPassword = document.getElementById('rec-nueva-password').value.trim();
+                    const confirmPassword = document.getElementById('rec-nueva-password-confirm').value.trim();
+                    if (newPassword !== confirmPassword) { alert("Passwords don't match."); return; }
+
+                    const res = await fetch(`${API_URL}/AccountRecovery/reset-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL, code, newPassword })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+
+                } else if (recuperacionModo === 'unlock') {
+                    const res = await fetch(`${API_URL}/AccountRecovery/unlock-account`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL, code })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error.");
+            }
+        }
     </script>
 </body>
 </html>

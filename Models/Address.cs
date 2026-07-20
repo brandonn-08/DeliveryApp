@@ -13,5 +13,7 @@ namespace DeliveryApi.Models
         public string? PostalCode { get; set; }
         public string? NumberHome { get; set; }
         public string? Reference { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
     }
 }

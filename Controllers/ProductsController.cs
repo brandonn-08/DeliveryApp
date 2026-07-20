@@ -19,7 +19,21 @@ namespace DeliveryApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products
+                .Include(p => p.IdRestaurantNavigation)
+                .Where(p => p.IdProduct != "PROD_DELIVERY")
+                .Select(p => new {
+                    p.IdProduct,
+                    p.Name,
+                    p.Description,
+                    p.Price,
+                    p.Stock,
+                    p.IdCategory,
+                    RestaurantName = p.IdRestaurantNavigation != null ? p.IdRestaurantNavigation.Name : "No Asignado",
+                    p.IdRestaurant
+                })
+                .ToListAsync();
+
             return Ok(products);
         }
 
@@ -37,9 +51,10 @@ namespace DeliveryApi.Controllers
             // Se incluye explícitamente la navegación para evitar excepciones de referencia nula
             var results = await _context.Products
                 .Include(p => p.IdRestaurantNavigation)
-                .Where(p => p.Name.ToLower().Contains(lowercaseQuery) ||
-                            p.Description.ToLower().Contains(lowercaseQuery) ||
-                            (p.IdRestaurantNavigation != null && p.IdRestaurantNavigation.Name.ToLower().Contains(lowercaseQuery)))
+                .Where(p => p.IdProduct != "PROD_DELIVERY" &&
+                    (p.Name.ToLower().Contains(lowercaseQuery) ||
+                    (p.Description != null && p.Description.ToLower().Contains(lowercaseQuery)) ||
+                    (p.IdRestaurantNavigation != null && p.IdRestaurantNavigation.Name.ToLower().Contains(lowercaseQuery))))
                 .Select(p => new {
                     p.IdProduct,
                     p.Name,

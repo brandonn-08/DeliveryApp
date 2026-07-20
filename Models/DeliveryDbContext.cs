@@ -37,7 +37,8 @@ public partial class DeliveryDbContext : DbContext
             entity.HasKey(e => e.Dni).HasName("admins_pkey");
             entity.ToTable("admins");
             entity.HasIndex(e => e.Mail, "admins_mail_key").IsUnique();
-
+            entity.Ignore(e => e.Phone);
+            entity.Ignore(e => e.DateBirth);
             entity.Property(e => e.Dni).HasMaxLength(20).HasColumnName("dni");
             entity.Property(e => e.Mail).HasMaxLength(100).HasColumnName("mail");
             entity.Property(e => e.Name).HasMaxLength(100).HasColumnName("name");
@@ -87,6 +88,8 @@ public partial class DeliveryDbContext : DbContext
                 a.Property(p => p.PostalCode).HasMaxLength(20).HasColumnName("postal_code");
                 a.Property(p => p.NumberHome).HasMaxLength(20).HasColumnName("number_home");
                 a.Property(p => p.Reference).HasColumnName("reference");
+                a.Property(p => p.Latitude).HasPrecision(10, 7).HasColumnName("latitude");
+                a.Property(p => p.Longitude).HasPrecision(10, 7).HasColumnName("longitude");
             });
         });
 
@@ -168,6 +171,13 @@ public partial class DeliveryDbContext : DbContext
                 .HasForeignKey(d => d.IdMethod)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("orders_id_method_fkey");
+            entity.Property(e => e.IdRestaurant).HasColumnName("id_restaurant");
+            entity.Property(e => e.DispatchTime).HasColumnType("timestamp without time zone").HasColumnName("dispatch_time");
+
+            entity.HasOne(d => d.IdRestaurantNavigation).WithMany()
+                .HasForeignKey(d => d.IdRestaurant)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("orders_id_restaurant_fkey");
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
@@ -234,6 +244,10 @@ public partial class DeliveryDbContext : DbContext
             entity.Property(e => e.IdRestaurant).HasColumnName("id_restaurant");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.Name).HasMaxLength(100).HasColumnName("name");
+
+            entity.Property(e => e.BankAccountDetails).HasColumnName("bank_account_details");
+            entity.Property(e => e.Latitude).HasPrecision(10, 7).HasColumnName("latitude");
+            entity.Property(e => e.Longitude).HasPrecision(10, 7).HasColumnName("longitude");
         });
 
         OnModelCreatingPartial(modelBuilder);

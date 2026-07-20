@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastDelivery - Catálogo</title>
+    <title>FastDelivery - Catalog</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body class="bg-gray-50 font-sans">
 
@@ -16,14 +18,14 @@
             </div>
 
             <div class="w-1/3 relative">
-                <input type="text" id="buscador" oninput="buscar()" placeholder="Buscar comida o restaurantes..."
+                <input type="text" id="buscador" oninput="buscar()" placeholder="Search food or restaurants..."
                        class="w-full bg-gray-100 text-gray-800 text-sm pl-10 pr-4 py-2 rounded-full border border-transparent focus:outline-none focus:border-red-500 focus:bg-white transition">
                 <span class="absolute left-3 top-2.5 text-gray-400 text-sm">🔍</span>
             </div>
 
             <div id="contenedor-perfil" class="flex items-center gap-3">
                 <button onclick="abrirModalLogin()" class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-5 py-2 rounded-full transition cursor-pointer">
-                    Iniciar Sesión
+                    Login
                 </button>
             </div>
         </div>
@@ -32,32 +34,46 @@
     <main class="container mx-auto mt-24 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
             <div id="panel-tracking-pedido" class="bg-gradient-to-r from-red-500 to-orange-600 text-white p-6 rounded-2xl shadow-lg mb-6 hidden">
+                <div id="mapa-tracking" class="w-full h-56 rounded-xl mt-4 border-2 border-white/30 hidden"></div>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <span class="text-xs font-black uppercase bg-white/20 px-2.5 py-1 rounded-full">Seguimiento en Vivo</span>
-                        <h3 id="track-id" class="text-lg font-black mt-2">Orden #----</h3>
-                        <p id="track-estado" class="text-sm font-medium opacity-90">Buscando estado del despacho...</p>
+                        <span class="text-xs font-black uppercase bg-white/20 px-2.5 py-1 rounded-full">Live Tracking</span>
+                        <h3 id="track-id" class="text-lg font-black mt-2">Order #----</h3>
+                        <p id="track-estado" class="text-sm font-medium opacity-90">Looking up dispatch status...</p>
                     </div>
                     <div id="track-accion" class="flex items-center"></div>
                 </div>
+                <!-- 🚨 AQUÍ ESTÁ EL NUEVO CONTENEDOR DEL REPARTIDOR -->
+                <div id="track-repartidor" class="hidden"></div>
             </div>
 
-            <h2 id="titulo-catalogo" class="text-xl font-black text-gray-800 mb-4">Todos los Productos</h2>
+            <h2 id="titulo-catalogo" class="text-xl font-black text-gray-800 mb-4">All Products</h2>
             <div id="lista-productos" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-fit sticky top-24">
-            <h3 class="text-lg font-black text-gray-800 mb-4">🛒 Carrito de Compras</h3>
+            <h3 class="text-lg font-black text-gray-800 mb-4">🛒 Shopping Cart</h3>
             <div id="contenido-carrito" class="space-y-3 mb-4 text-sm text-gray-400 text-center py-6">
-                Inicia sesión para añadir productos.
+                Log in to add products.
             </div>
             <hr class="my-4 border-gray-100">
-            <div class="flex justify-between font-black text-lg text-gray-800 mb-4">
-                <span>Total:</span>
+
+            <!-- 🚨 NUEVO DESGLOSE DE TOTALES EN EL CARRITO -->
+            <div class="flex justify-between text-gray-500 text-sm mb-2">
+                <span>Subtotal:</span>
+                <span id="subtotal-carrito">$0.00</span>
+            </div>
+            <div class="flex justify-between text-gray-500 text-sm mb-2">
+                <span>Delivery Fee:</span>
+                <span>$1.50</span>
+            </div>
+            <div class="flex justify-between font-black text-lg text-gray-800 mb-4 mt-2 border-t pt-2 border-gray-100">
+                <span>Total to Pay:</span>
                 <span id="total-carrito">$0.00</span>
             </div>
+
             <button id="btn-confirmar" class="w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed" disabled>
-                Confirmar Pedido
+                Place Order
             </button>
         </div>
     </main>
@@ -67,116 +83,126 @@
             <button onclick="cerrarModalLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
 
             <div id="vista-login">
-                <h3 class="text-xl font-black text-gray-800 mb-2">Ingresar al Sistema</h3>
-                <p class="text-xs text-gray-500 mb-6">Introduce tus credenciales para continuar con el pedido.</p>
+                <h3 class="text-xl font-black text-gray-800 mb-2">Sign In</h3>
+                <p class="text-xs text-gray-500 mb-6">Enter your credentials to continue with your order.</p>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Correo Electrónico</label>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Email</label>
                         <input type="email" id="login-email" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Contraseña</label>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Password</label>
                         <input type="password" id="login-password" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-500">
                     </div>
                     <button onclick="ejecutarLogin()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition text-sm mt-2 cursor-pointer">
-                        Verificar Credenciales
+                        Verify Credentials
                     </button>
+                    <div class="flex justify-between text-[11px] mt-3 text-gray-500">
+                        <button onclick="abrirModalRecuperacion('username')" class="hover:underline cursor-pointer">Forgot your username?</button>
+                        <button onclick="abrirModalRecuperacion('password')" class="hover:underline cursor-pointer">Forgot your password?</button>
+                        <button onclick="abrirModalRecuperacion('unlock')" class="hover:underline cursor-pointer">Unlock account</button>
+                    </div>
                     <p class="text-xs text-center text-gray-500 mt-4">
-                        ¿No tienes cuenta? <button onclick="conmutarVistaAuth('registro')" class="text-red-600 font-bold hover:underline cursor-pointer">Regístrate ahora</button>
+                        Don't have an account? <button onclick="conmutarVistaAuth('registro')" class="text-red-600 font-bold hover:underline cursor-pointer">Sign up now</button>
                     </p>
                 </div>
             </div>
 
             <div id="vista-registro" class="max-h-[75vh] overflow-y-auto px-1 hidden">
                 <div class="space-y-3">
-                    <h2 class="text-xl font-black text-gray-800">Crear Cuenta Nueva</h2>
-                    <p class="text-xs text-gray-400">Completa todos los datos obligatorios para tu perfil de entrega.</p>
+                    <h2 class="text-xl font-black text-gray-800">Create New Account</h2>
+                    <p class="text-xs text-gray-400">Fill in all required fields for your delivery profile.</p>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Cédula / DNI</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">ID / DNI</label>
                             <input type="text" id="reg-dni" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Fecha de Nacimiento</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Date of Birth</label>
                             <input type="date" id="reg-birth" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Nombre Completo</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Full Name</label>
                             <input type="text" id="reg-name" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Género</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Gender</label>
                             <select id="reg-genere" class="w-full border p-2 text-sm rounded-xl bg-white">
-                                <option value="true">Masculino</option>
-                                <option value="false">Femenino</option>
+                                <option value="true">Male</option>
+                                <option value="false">Female</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Teléfono</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Phone</label>
                             <input type="text" id="reg-phone" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Ciudad</label>
-                            <input type="text" id="reg-city" value="Tabacundo" class="w-full border p-2 text-sm rounded-xl" required>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">City</label>
+                            <input type="text" id="reg-city" value="Ibarra" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-3 gap-2">
                         <div class="col-span-2">
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Calle Principal (Street 1)</label>
-                            <input type="text" id="reg-street1" placeholder="Ej: Av. 29 de Junio" class="w-full border p-2 text-sm rounded-xl" required>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Street 1</label>
+                            <input type="text" id="reg-street1" placeholder="E.g: Av. 29 de Junio" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Num. Casa</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">House No.</label>
                             <input type="text" id="reg-home-number" placeholder="N3-42" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Calle Secundaria (Street 2)</label>
-                            <input type="text" id="reg-street2" placeholder="Ej: Calle Gonzales" class="w-full border p-2 text-sm rounded-xl">
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Street 2</label>
+                            <input type="text" id="reg-street2" placeholder="E.g: Calle Gonzales" class="w-full border p-2 text-sm rounded-xl">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Código Postal</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Postal Code</label>
                             <input type="text" id="reg-postal" value="171001" class="w-full border p-2 text-sm rounded-xl">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Referencias del Domicilio</label>
-                        <textarea id="reg-reference" rows="2" placeholder="Ej: Casa esquinera color verde frente a la tienda." class="w-full border p-2 text-sm rounded-xl"></textarea>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Address References</label>
+                        <textarea id="reg-reference" rows="2" placeholder="E.g: Green corner house across from the store." class="w-full border p-2 text-sm rounded-xl"></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Correo Electrónico</label>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Email</label>
                         <input type="email" id="reg-mail" class="w-full border p-2 text-sm rounded-xl" required>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Contraseña</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Password</label>
                             <input type="password" id="reg-password" class="w-full border p-2 text-sm rounded-xl" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Confirmar Contraseña</label>
+                            <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Confirm Password</label>
                             <input type="password" id="reg-password-confirm" class="w-full border border-red-200 focus:border-red-500 p-2 text-sm rounded-xl" required>
                         </div>
                     </div>
-
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Delivery Location (click on the map)</label>
+                        <div id="mapa-registro" class="w-full h-48 rounded-xl border z-0"></div>
+                        <input type="hidden" id="reg-lat">
+                        <input type="hidden" id="reg-lng">
+                    </div>
                     <button onclick="ejecutarRegistroCliente()" class="w-full bg-blue-900 text-white p-3 rounded-xl text-sm font-bold cursor-pointer transition hover:bg-blue-950 mt-2">
-                        Validar e Iniciar Registro
+                        Validate and Start Registration
                     </button>
                     <p class="text-xs text-center text-gray-500 mt-2">
-                        ¿Ya tienes cuenta? <button onclick="conmutarVistaAuth('login')" class="text-red-600 font-bold hover:underline cursor-pointer">Inicia sesión</button>
+                        Already have an account? <button onclick="conmutarVistaAuth('login')" class="text-red-600 font-bold hover:underline cursor-pointer">Sign in</button>
                     </p>
                 </div>
             </div>
@@ -187,61 +213,156 @@
         <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative max-h-[90vh] overflow-y-auto text-gray-800">
             <button onclick="cerrarModalPago()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
 
-            <h3 class="text-xl font-black text-gray-800 mb-2">Finalizar Pedido</h3>
-            <p class="text-xs text-gray-500 mb-4">Selecciona tu método de pago preferido para tu despacho.</p>
+            <h3 class="text-xl font-black text-gray-800 mb-2">Complete Order</h3>
+            <p class="text-xs text-gray-500 mb-4">Select your preferred payment method for your delivery.</p>
 
             <div id="pago-seleccion" class="space-y-3">
                 <button onclick="configurarCheckout('PAY01', 'efectivo')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
-                    <span>💵 Pago en Efectivo</span>
-                    <span class="text-xs text-gray-400">Paga al recibir</span>
+                    <span>💵 Cash Payment</span>
+                    <span class="text-xs text-gray-400">Pay on delivery</span>
                 </button>
-                <button onclick="configurarCheckout('PAY01', 'tarjeta')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
-                    <span>💳 Tarjeta de Crédito / Débito</span>
-                    <span class="text-xs text-gray-400">Validación digital</span>
+                <button onclick="configurarCheckout('PAY02', 'tarjeta')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
+                    <span>💳 Credit / Debit Card</span>
+                    <span class="text-xs text-gray-400">Digital validation</span>
+                </button>
+                <button onclick="configurarCheckout('PAY03', 'transferencia')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-blue-50 text-blue-900 border-blue-200">
+                    <span>🏦 Bank Transfer</span>
+                    <span class="text-xs text-blue-500">Direct deposit</span>
+                </button>
+            </div>
+
+            <div id="pago-formulario-transferencia" class="space-y-3 mt-4 hidden">
+                <hr class="border-gray-100 my-2">
+                <p class="text-xs font-bold uppercase text-gray-400">Restaurant Bank Details</p>
+
+                <!-- 🚨 AQUÍ MOSTRAREMOS EL MONTO A TRANSFERIR INMEDIATAMENTE -->
+                <p class="text-center text-lg font-black text-blue-900 bg-blue-50 p-2 rounded-lg" id="monto-transferencia">$0.00</p>
+
+                <div class="bg-blue-100 text-blue-800 p-4 rounded-xl text-sm font-medium text-center" id="info-bancaria-restaurante">
+                    Loading bank details...
+                </div>
+
+                <!-- 🚨 ESTE BOTÓN AHORA CONFIRMA LA ORDEN DIRECTAMENTE -->
+                <button onclick="confirmarYProcesarOrdenFinal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    Confirm Order via Transfer
                 </button>
             </div>
 
             <div id="pago-formulario-tarjeta" class="space-y-3 mt-4 hidden">
                 <hr class="border-gray-100 my-2">
-                <p class="text-xs font-bold uppercase text-gray-400">Datos Bancarios</p>
-                <input type="text" id="card-number" placeholder="Número de Tarjeta (16 dígitos)" class="w-full border p-2 text-sm rounded-xl">
+                <p class="text-xs font-bold uppercase text-gray-400">Card Details</p>
+                <input type="text" id="card-number" placeholder="Card Number (16 digits)" class="w-full border p-2 text-sm rounded-xl">
                 <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="card-expiry" placeholder="MM/AA" class="border p-2 text-sm rounded-xl text-center">
+                    <input type="text" id="card-expiry" placeholder="MM/YY" class="border p-2 text-sm rounded-xl text-center">
                     <input type="password" id="card-cvv" placeholder="CVV" class="border p-2 text-sm rounded-xl text-center">
                 </div>
                 <button onclick="validarTarjetaSimulada()" class="w-full bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                    Validar Tarjeta
+                    Validate Card
                 </button>
             </div>
 
             <div id="pago-resumen" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2 text-sm hidden">
-                <p class="text-xs font-bold uppercase text-gray-400 mb-2">Resumen de Cobro</p>
+                <p class="text-xs font-bold uppercase text-gray-400 mb-2">Charge Summary</p>
                 <div class="flex justify-between text-gray-600">
-                    <span>Precio Productos:</span>
+                    <span>Products Price:</span>
                     <span id="resumen-subtotal">$0.00</span>
                 </div>
                 <div class="flex justify-between text-gray-600">
-                    <span>Comisión Delivery (Envío):</span>
+                    <span>Delivery Fee:</span>
                     <span id="resumen-envio">$1.50</span>
                 </div>
                 <hr class="border-gray-200 my-1">
                 <div class="flex justify-between font-black text-base text-gray-800">
-                    <span>Valor Total:</span>
+                    <span>Total Amount:</span>
                     <span id="resumen-total">$0.00</span>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 mt-5">
                     <button onclick="cerrarModalPago()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
-                        Cancelar
+                        Cancel
                     </button>
                     <button onclick="confirmarYProcesarOrdenFinal()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl text-xs transition cursor-pointer">
-                        Confirmar
+                        Confirm
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- 🚨 MODAL DE PERFIL ACTUALIZADO -->
+    <div id="modal-perfil" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative">
+            <button onclick="document.getElementById('modal-perfil').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
+            <h3 class="text-xl font-black text-gray-800 mb-4">Edit My Profile</h3>
+
+            <div class="space-y-3">
+                <!-- NUEVO CAMPO: NOMBRE -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Full Name</label>
+                    <input type="text" id="edit-name" class="w-full border p-2 text-sm rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Phone</label>
+                    <input type="text" id="edit-phone" class="w-full border p-2 text-sm rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Street 1</label>
+                    <input type="text" id="edit-street1" class="w-full border p-2 text-sm rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">References</label>
+                    <input type="text" id="edit-reference" class="w-full border p-2 text-sm rounded-xl">
+                </div>
+                <button onclick="guardarPerfilCliente()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition text-sm mt-4 cursor-pointer">
+                    Save Changes (PUT)
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-cantidad" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-xs w-full relative text-center">
+            <button onclick="cerrarSelectorCantidad()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
+            <h3 id="cantidad-nombre-producto" class="text-lg font-black text-gray-800 mb-1">Product</h3>
+            <p id="cantidad-precio-unitario" class="text-sm text-gray-400 mb-4">$0.00 each</p>
+
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <button onclick="cambiarCantidadSelector(-1)" class="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full font-black text-lg cursor-pointer">−</button>
+                <span id="cantidad-valor" class="text-2xl font-black w-10 text-center">1</span>
+                <button onclick="cambiarCantidadSelector(1)" class="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full font-black text-lg cursor-pointer">+</button>
+            </div>
+
+            <p class="text-sm font-bold text-gray-600 mb-4">Subtotal: <span id="cantidad-subtotal" class="text-red-600">$0.00</span></p>
+
+            <button onclick="confirmarAgregarConCantidad()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl transition cursor-pointer">
+                Add to cart
+            </button>
+        </div>
+    </div>
+    <div id="modal-recuperacion" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full relative text-gray-800">
+            <button onclick="cerrarModalRecuperacion()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
+            <h3 id="recuperacion-titulo" class="text-lg font-black text-gray-800 mb-1">Recovery</h3>
+            <p id="recuperacion-subtitulo" class="text-xs text-gray-500 mb-4">Enter your registered email.</p>
+
+            <div id="recuperacion-paso-email" class="space-y-3">
+                <input type="email" id="rec-email" placeholder="Email address" class="w-full border p-2 text-sm rounded-xl">
+                <button onclick="enviarSolicitudRecuperacion()" class="w-full bg-blue-900 text-white p-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                    Send Code
+                </button>
+            </div>
+
+            <div id="recuperacion-paso-codigo" class="space-y-3 hidden">
+                <input type="text" id="rec-codigo" placeholder="6-digit code" class="w-full border p-2 text-sm rounded-xl">
+                <div id="recuperacion-campo-password" class="hidden space-y-3">
+                    <input type="password" id="rec-nueva-password" placeholder="New password" class="w-full border p-2 text-sm rounded-xl">
+                    <input type="password" id="rec-nueva-password-confirm" placeholder="Confirm password" class="w-full border p-2 text-sm rounded-xl">
+                </div>
+                <button onclick="confirmarRecuperacion()" class="w-full bg-green-600 text-white p-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
         const API_URL = "http://localhost:5024/api";
         let carrito = [];
@@ -255,13 +376,14 @@
             const container = document.getElementById('contenedor-perfil');
             if (usuarioLogueado && usuarioLogueado.role === 'client') {
                 container.innerHTML = `
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">
-                                        ${usuarioLogueado.name.charAt(0)}
-                                    </div>
-                                    <span class="text-sm font-bold text-gray-700">${usuarioLogueado.name}</span>
-                                    <button onclick="cerrarSesion()" class="text-xs text-gray-400 hover:text-red-600 ml-2 font-medium cursor-pointer">Salir</button>
-                                </div>`;
+                                                            <div class="flex items-center gap-2">
+                                                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">
+                                                                    ${usuarioLogueado.name.charAt(0)}
+                                                                </div>
+                                                                <span class="text-sm font-bold text-gray-700">${usuarioLogueado.name}</span>
+                                                                <button onclick="abrirModalPerfil()" class="text-xs text-blue-500 hover:text-blue-700 ml-3 font-bold cursor-pointer">Editar Perfil</button>
+<button onclick="cerrarSesion()" class="text-xs text-gray-400 hover:text-red-600 ml-3 font-medium cursor-pointer">Salir</button>
+                                                            </div>`;
                 actualizarCarritoUI();
             } else if (usuarioLogueado && usuarioLogueado.role !== 'client') {
                 redireccionarPorRol(usuarioLogueado.role);
@@ -274,6 +396,7 @@
             if (vista === 'registro') {
                 vistaLogin.classList.add('hidden');
                 vistaRegistro.classList.remove('hidden');
+                crearSelectorMapa('mapa-registro', 'reg-lat', 'reg-lng');
             } else {
                 vistaRegistro.classList.add('hidden');
                 vistaLogin.classList.remove('hidden');
@@ -295,14 +418,21 @@
             const genere = document.getElementById('reg-genere').value === "true";
             const password = document.getElementById('reg-password').value.trim();
             const passwordConfirm = document.getElementById('reg-password-confirm').value.trim();
+            const especialesCount = (password.match(/[^a-zA-Z0-9]/g) || []).length;
+            if (especialesCount < 2) {
+                alert("❌ Password must have at least 2 special characters (e.g: @, ., #, -, _).");
+                return;
+            }
+            const latitude = parseFloat(document.getElementById('reg-lat').value) || null;
+            const longitude = parseFloat(document.getElementById('reg-lng').value) || null;
 
             if (!dni || !name || !dateBirth || !street1 || !numberHome || !mail || !password) {
-                alert("Por favor, complete todos los campos obligatorios marcados.");
+                alert("Please complete all required fields marked.");
                 return;
             }
 
             if (password !== passwordConfirm) {
-                alert("❌ Las contraseñas no coinciden. Por favor, verifícalas.");
+                alert("❌ Passwords don't match. Please check them.");
                 return;
             }
 
@@ -314,12 +444,11 @@
             if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) { edad--; }
 
             if (edad < 18) {
-                alert("⛔ Registro denegado: Por políticas de seguridad, debes ser mayor de 18 años para utilizar FastDelivery.");
+                alert("⛔ Registration denied: For security policies, you must be over 18 years old to use FastDelivery.");
                 return;
             }
 
-            // 🚨 1. SOLICITAMOS EL CÓDIGO AL BACKEND
-            alert("Validaciones superadas. Te estamos enviando un código de seguridad a tu correo...");
+            alert("Validations passed. We're sending a security code to your email...");
             try {
                 const resCode = await fetch(`${API_URL}/Clients/send-code`, {
                     method: 'POST',
@@ -328,37 +457,39 @@
                 });
 
                 if (!resCode.ok) {
-                    alert("Error al intentar enviar el código de verificación.");
+                    alert("Error trying to send the verification code.");
                     return;
                 }
 
-                // 🚨 2. LE PEDIMOS EL CÓDIGO AL USUARIO
-                const codigoIngresado = prompt(`Hemos enviado un código de 6 dígitos a ${mail}.\nPor favor, ingrésalo aquí:`);
+                const codigoIngresado = prompt(`We've sent a 6-digit code to ${mail}.\nPlease enter it here:`);
 
                 if (!codigoIngresado) {
-                    alert("Registro cancelado: No se ingresó ningún código.");
+                    alert("Registration cancelled: No code was entered.");
                     return;
                 }
 
                 const payloadCliente = {
                     dni: dni,
                     name: name,
-                    dateBirth: dateBirth,
-                    street1: street1,
-                    street2: street2 || "S/N",
-                    city: city,
-                    postalCode: postalCode,
-                    numberHome: numberHome,
-                    reference: reference || "Registro estándar vía web.",
                     mail: mail,
-                    phone: phone,
-                    genere: genere,
                     password: password,
+                    phone: phone,
+                    dateBirth: dateBirth,
+                    genere: genere,
                     registerData: new Date().toISOString().split('T')[0],
-                    dateDelivery: null
+                    dateDelivery: null,
+                    addressData: {
+                        street1: street1,
+                        street2: street2 || "N/A",
+                        city: city,
+                        postalCode: postalCode,
+                        numberHome: numberHome,
+                        reference: reference || "Standard web registration.",
+                        latitude: latitude,
+                        longitude: longitude
+                    }
                 };
 
-                // 🚨 3. ENVIAMOS EL REGISTRO FINAL CON EL CÓDIGO EN LA URL
                 const res = await fetch(`${API_URL}/Clients?code=${codigoIngresado.trim()}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -366,15 +497,15 @@
                 });
 
                 if (res.ok) {
-                    alert("🎉 ¡Verificación exitosa! Tu cuenta ha sido registrada en PostgreSQL.");
+                    alert("🎉 Verification successful! Your account has been registered in PostgreSQL.");
                     location.reload();
                 } else {
                     const error = await res.text();
-                    alert("Error de validación: " + error);
+                    alert("Validation error: " + error);
                 }
             } catch (err) {
                 console.error(err);
-                alert("Fallo de red al intentar registrar la cuenta.");
+                alert("Network failure while trying to register the account.");
             }
         }
 
@@ -391,7 +522,7 @@
         async function buscar() {
             const query = document.getElementById('buscador').value;
             if (!query.trim()) {
-                document.getElementById('titulo-catalogo').innerText = "Todos los Productos";
+                document.getElementById('titulo-catalogo').innerText = "All Products";
                 cargarCatalogoCompleto();
                 return;
             }
@@ -399,79 +530,126 @@
                 const res = await fetch(`${API_URL}/Products/search?query=${encodeURIComponent(query)}`);
                 if (res.ok) {
                     const resultados = await res.json();
-                    document.getElementById('titulo-catalogo').innerText = `Resultados de búsqueda (${resultados.length})`;
+                    document.getElementById('titulo-catalogo').innerText = `Search results (${resultados.length})`;
                     renderizarProductos(resultados);
                 }
             } catch (err) { console.error(err); }
         }
 
-        function renderizarProductos(productos) {
+        function renderizarProductos(productos, modoTienda = false) {
             const container = document.getElementById('lista-productos');
             container.innerHTML = '';
             productos.forEach(p => {
                 const idProduct = p.idProduct || p.id_product;
+                const idRest = p.idRestaurant || p.id_restaurant;
+
+                const textoBoton = modoTienda ? "Add to cart" : "View product";
+                const accionBoton = modoTienda
+                    ? `abrirSelectorCantidad('${idProduct}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, ${idRest})`
+                    : `filtrarCatalogoPorSucursal(${idRest})`;
+
                 container.innerHTML += `
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
-                                    <div>
-                                        <h4 class="font-bold text-gray-800 text-base">${p.name}</h4>
-                                        <p class="text-xs text-gray-400 my-1">${p.description}</p>
-                                        <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded">Restaurante: ${p.restaurantName || 'Establecimiento'}</span>
-                                    </div>
-                                    <div class="flex justify-between items-center mt-4">
-                                        <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
-                                        <button onclick="intentarAgregarProducto('${idProduct}', '${p.name}', ${p.price}, ${p.idRestaurant || p.id_restaurant})" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
-                                            Agregar al carrito
-                                        </button>
-                                    </div>
-                                </div>`;
+                                                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                                                        <div>
+                                                            <h4 class="font-bold text-gray-800 text-base">${p.name}</h4>
+                                                            <p class="text-xs text-gray-400 my-1">${p.description}</p>
+                                                            <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded">Restaurant: ${p.restaurantName || 'Not Assigned'}</span>
+                                                        </div>
+                                                        <div class="flex justify-between items-center mt-4">
+                                                            <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
+                                                            <button onclick="${accionBoton}" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
+                                                                ${textoBoton}
+                                                            </button>
+                                                        </div>
+                                                    </div>`;
             });
         }
 
-        function intentarAgregarProducto(id, name, price, idRestaurant) {
+        let productoSeleccionadoTemp = null;
+        let cantidadSeleccionadaTemp = 1;
+
+        function abrirSelectorCantidad(id, name, price, idRestaurant) {
             if (!usuarioLogueado) {
                 abrirModalLogin();
-                alert("Para agregar productos al carrito de compras, por favor inicie sesión primero.");
+                alert("To add products to the shopping cart, please log in first.");
                 return;
             }
 
-            // 🚨 BLINDAJE: Verificar si el carrito ya tiene ítems de OTRA tienda
             if (carrito.length > 0) {
                 if (carrito[0].idRestaurant != idRestaurant) {
-                    alert("⚠️ ¡Atención! Solo puedes realizar compras de una misma sucursal a la vez. Vacía tu carrito actual o termina tu pedido para comprar en otra tienda.");
+                    alert("⚠️ Attention! You can only order from one restaurant at a time. Empty your current cart or finish your order to buy from another store.");
                     return;
                 }
             }
 
-            // Agregamos al carrito guardando también el ID de la tienda
-            carrito.push({ idProduct: id, name: name, price: price, idRestaurant: idRestaurant });
-            actualizarCarritoUI();
+            productoSeleccionadoTemp = { idProduct: id, name: name, price: price, idRestaurant: idRestaurant };
+            cantidadSeleccionadaTemp = 1;
 
-            // 🚨 REGLA DEL DOCENTE: Filtrar el catálogo para mostrar solo esta tienda
-            filtrarCatalogoPorSucursal(idRestaurant);
+            document.getElementById('cantidad-nombre-producto').innerText = name;
+            document.getElementById('cantidad-precio-unitario').innerText = `$${price.toFixed(2)} each`;
+            actualizarUISelectorCantidad();
+            document.getElementById('modal-cantidad').classList.remove('hidden');
         }
+
+        function cambiarCantidadSelector(delta) {
+            const nueva = cantidadSeleccionadaTemp + delta;
+            if (nueva < 1 || nueva > 20) return;
+            cantidadSeleccionadaTemp = nueva;
+            actualizarUISelectorCantidad();
+        }
+
+        function actualizarUISelectorCantidad() {
+            document.getElementById('cantidad-valor').innerText = cantidadSeleccionadaTemp;
+            const subtotal = productoSeleccionadoTemp.price * cantidadSeleccionadaTemp;
+            document.getElementById('cantidad-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+        }
+
+        function cerrarSelectorCantidad() {
+            document.getElementById('modal-cantidad').classList.add('hidden');
+            productoSeleccionadoTemp = null;
+        }
+
+        function confirmarAgregarConCantidad() {
+            if (!productoSeleccionadoTemp) return;
+
+            const existente = carrito.find(item => item.idProduct === productoSeleccionadoTemp.idProduct);
+            if (existente) {
+                existente.quantity += cantidadSeleccionadaTemp;
+            } else {
+                carrito.push({
+                    idProduct: productoSeleccionadoTemp.idProduct,
+                    name: productoSeleccionadoTemp.name,
+                    price: productoSeleccionadoTemp.price,
+                    idRestaurant: productoSeleccionadoTemp.idRestaurant,
+                    quantity: cantidadSeleccionadaTemp
+                });
+            }
+
+            actualizarCarritoUI();
+            filtrarCatalogoPorSucursal(productoSeleccionadoTemp.idRestaurant);
+            cerrarSelectorCantidad();
+        }
+
         async function filtrarCatalogoPorSucursal(idRestaurant) {
             try {
-                // Volvemos a consultar los productos y los filtramos en memoria
                 const res = await fetch(`${API_URL}/Products`);
                 const productos = await res.json();
 
                 const productosFiltrados = productos.filter(p => (p.idRestaurant || p.id_restaurant) == idRestaurant);
 
-                // Cambiamos el título y ponemos un botón para quitar el filtro
                 const titulo = document.getElementById('titulo-catalogo');
-                titulo.innerHTML = `Menú exclusivo de esta sucursal 
-                    <button onclick="cargarCatalogoCompleto(); document.getElementById('titulo-catalogo').innerText='Todos los Productos';" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg ml-3 cursor-pointer transition">
-                        ✕ Ver todas las tiendas
-                    </button>`;
+                titulo.innerHTML = `Exclusive menu for this restaurant
+                                                <button onclick="cargarCatalogoCompleto(); document.getElementById('titulo-catalogo').innerText='All Products';" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg ml-3 cursor-pointer transition">
+                                                    ✕ View all stores
+                                                </button>`;
 
-                renderizarProductos(productosFiltrados);
+                renderizarProductos(productosFiltrados, true);
             } catch (err) { console.error("Error al filtrar por sucursal:", err); }
         }
 
-        // --- MANEJO DEL CHECKOUT INTERACTIVO DESGLOSADO ---
         function enviarPedido() {
             if (!usuarioLogueado) {
-                alert("Debe iniciar sesión para procesar la orden.");
+                alert("You must log in to process the order.");
                 return;
             }
             document.getElementById('pago-seleccion').classList.remove('hidden');
@@ -487,35 +665,20 @@
             document.getElementById('modal-pago').classList.add('hidden');
         }
 
-        function configurarCheckout(idMethod, tipo) {
-            // Se fuerza PAY01 para asegurar compatibilidad total con la FK de la BD
-            metodoPagoSeleccionado = "PAY01";
-
-            if (tipo === 'efectivo') {
-                document.getElementById('pago-seleccion').classList.add('hidden');
-                document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
-                mostrarResumenFinal();
-            } else if (tipo === 'tarjeta') {
-                document.getElementById('pago-seleccion').classList.add('hidden');
-                document.getElementById('pago-formulario-tarjeta').classList.remove('hidden');
-                document.getElementById('pago-resumen').classList.add('hidden');
-            }
-        }
-
         async function validarTarjetaSimulada() {
             const num = document.getElementById('card-number').value.trim();
             const exp = document.getElementById('card-expiry').value.trim();
             const cvv = document.getElementById('card-cvv').value.trim();
 
             if (num.length < 16 || !exp || cvv.length < 3) {
-                alert("❌ Los campos bancarios están incompletos o son inválidos.");
+                alert("❌ Card fields are incomplete or invalid.");
                 return;
             }
 
-            console.log("💳 Conectando con la pasarela bancaria simulada...");
+            console.log("💳 Connecting to the simulated payment gateway...");
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            alert("✅ ¡Tarjeta verificada y fondos aprobados con éxito!");
+            alert("✅ Card verified and funds approved successfully!");
             document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
             mostrarResumenFinal();
         }
@@ -524,7 +687,6 @@
             document.getElementById('resumen-subtotal').innerText = `$${subtotalProductosGlobal.toFixed(2)}`;
             document.getElementById('resumen-envio').innerText = `$${comisionDeliveryFija.toFixed(2)}`;
 
-            // Nota: El backend añade los $1.50 automáticamente, por lo que visualmente mostramos el total final aquí
             const totalFinal = subtotalProductosGlobal + comisionDeliveryFija;
             document.getElementById('resumen-total').innerText = `$${totalFinal.toFixed(2)}`;
 
@@ -535,16 +697,15 @@
             cerrarModalPago();
             ejecutarEnvioOrdenBackend(metodoPagoSeleccionado);
         }
-
         async function ejecutarEnvioOrdenBackend(idMetodoPago) {
             const randomId = "ORD-" + Math.floor(10000 + Math.random() * 90000);
             const payloadOrder = {
                 idOrder: randomId,
                 clientDni: usuarioLogueado.identifier,
-                idMethod: idMetodoPago, // Envía PAY01
+                idMethod: idMetodoPago,
                 items: carrito.map(item => ({
                     idProduct: item.idProduct,
-                    quantity: 1,
+                    quantity: item.quantity,
                     extraIngredientIds: []
                 }))
             };
@@ -558,30 +719,32 @@
 
                 if (res.ok) {
                     const data = await res.json();
-                    alert(`🎉 ¡Pedido procesado con éxito!\nID Orden: ${data.orderId || randomId}\nTotal: $${data.total}`);
+                    alert(`🎉 Order processed successfully!\nOrder ID: ${data.orderId || randomId}\nTotal: $${data.total}`);
                     carrito = [];
                     actualizarCarritoUI();
                     monitorearPedidoCliente();
                 } else {
                     const errText = await res.text();
-                    alert("Error al procesar la orden en el servidor: " + errText);
+                    alert("Error processing the order on the server: " + errText);
                 }
             } catch (err) {
-                alert("No se pudo conectar con el servidor para persistir la orden.");
+                alert("Could not connect to the server to save the order.");
             }
         }
 
         function calcularTotalCarrito() {
-            return carrito.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+            return carrito.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
         }
 
         function actualizarCarritoUI() {
             const container = document.getElementById('contenido-carrito');
+            const subtotalSpan = document.getElementById('subtotal-carrito');
             const totalSpan = document.getElementById('total-carrito');
             const btn = document.getElementById('btn-confirmar');
 
             if (carrito.length === 0) {
-                container.innerHTML = 'El carrito está vacío.';
+                container.innerHTML = 'Your cart is empty.';
+                subtotalSpan.innerText = "$0.00";
                 totalSpan.innerText = "$0.00";
                 btn.className = "w-full bg-gray-300 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed";
                 btn.setAttribute('disabled', 'true');
@@ -589,16 +752,41 @@
                 return;
             }
             container.innerHTML = '';
-            let total = 0;
+            let subtotal = 0;
             carrito.forEach(item => {
-                total += item.price;
-                container.innerHTML += `<div class="flex justify-between border-b pb-1 text-gray-700"><span>${item.name}</span><span class="font-bold">$${item.price.toFixed(2)}</span></div>`;
+                const lineTotal = item.price * item.quantity;
+                subtotal += lineTotal;
+                container.innerHTML += `<div class="flex justify-between border-b pb-1 text-gray-700"><span>${item.name} <span class="text-gray-400">x${item.quantity}</span></span><span class="font-bold">$${lineTotal.toFixed(2)}</span></div>`;
             });
-            totalSpan.innerText = `$${total.toFixed(2)}`;
+
+            subtotalSpan.innerText = `$${subtotal.toFixed(2)}`;
+
+            const totalFinal = subtotal + comisionDeliveryFija;
+            totalSpan.innerText = `$${totalFinal.toFixed(2)}`;
 
             btn.className = "w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold transition cursor-pointer";
             btn.removeAttribute('disabled');
             btn.setAttribute('onclick', 'enviarPedido()');
+        }
+
+        // 🚨 AQUÍ ESTÁ LA NUEVA FUNCIÓN PARA RENDERIZAR LA INFO DEL REPARTIDOR
+        function renderizarInfoRepartidor(deliveryData) {
+            const cont = document.getElementById('track-repartidor');
+            if (!deliveryData) {
+                cont.classList.add('hidden');
+                cont.innerHTML = '';
+                return;
+            }
+            cont.classList.remove('hidden');
+            cont.innerHTML = `
+                                <div class="flex items-center gap-3 bg-white/15 rounded-xl p-3 mt-3">
+                                    <span class="text-2xl">🏍️</span>
+                                    <div class="text-xs">
+                                        <p class="font-black">${deliveryData.name}</p>
+                                        <p class="opacity-90">${deliveryData.typeVehicle || 'Vehículo'} · Placa: ${deliveryData.licencePlate || 'N/A'}</p>
+                                        <p class="opacity-90">📞 ${deliveryData.phone || 'Sin teléfono'} · ⭐ ${Number(deliveryData.rating || 5).toFixed(1)}</p>
+                                    </div>
+                                </div>`;
         }
 
         async function monitorearPedidoCliente() {
@@ -608,33 +796,71 @@
                 const res = await fetch(`${API_URL}/Orders`);
                 const ordenes = await res.json();
 
-                const pedidoActivo = ordenes.find(o => o.clientDni === usuarioLogueado.identifier && o.endTime !== 1);
+                const ordenesCliente = ordenes
+                    .filter(o => o.clientDni === usuarioLogueado.identifier)
+                    .sort((a, b) => new Date(b.dateOrder) - new Date(a.dateOrder));
+
+                // Prioridad 1: una orden todavía no entregada (en curso)
+                let pedidoActivo = ordenesCliente.find(o => o.endTime === 0);
+
+                // Prioridad 2: si no hay ninguna en curso, buscamos la última entregada que falte calificar
+                if (!pedidoActivo) {
+                    const entregadasSinCalificar = ordenesCliente
+                        .filter(o => o.endTime === 1 && !localStorage.getItem(`calificado_${o.idOrder}`))
+                        .sort((a, b) => new Date(b.dateOrder) - new Date(a.dateOrder));
+                    pedidoActivo = entregadasSinCalificar[0];
+                }
                 const panel = document.getElementById('panel-tracking-pedido');
 
                 if (!pedidoActivo) {
                     panel.classList.add('hidden');
+                    document.getElementById('mapa-tracking').classList.add('hidden');
+                    detenerAnimacionTracking();
+                    renderizarInfoRepartidor(null); // 🚨 OCULTA LA INFO DEL REPARTIDOR SI NO HAY PEDIDO
                     return;
                 }
 
                 panel.classList.remove('hidden');
-                document.getElementById('track-id').innerText = `Orden #${pedidoActivo.idOrder}`;
+                document.getElementById('track-id').innerText = `Order #${pedidoActivo.idOrder}`;
 
                 const startTime = pedidoActivo.startTime;
                 const estadoTxt = document.getElementById('track-estado');
                 const accionDiv = document.getElementById('track-accion');
-                accionDiv.innerHTML = '';
+                if (accionDiv.dataset.orderId !== String(pedidoActivo.idOrder)) {
+                    accionDiv.innerHTML = '';
+                    accionDiv.dataset.orderId = pedidoActivo.idOrder;
+                }
 
                 if (startTime === 0) {
-                    estadoTxt.innerText = "⏳ Esperando que un repartidor en Tabacundo tome tu pedido...";
-                } else if (startTime === 1) {
-                    estadoTxt.innerText = "🍳 ¡Tu pedido está siendo preparado en la cocina del restaurante!";
-                } else if (startTime === 2) {
-                    estadoTxt.innerText = "🏍️ ¡El repartidor va en camino! Ten listo tu teléfono para la entrega.";
-                } else if (pedidoActivo.endTime === 1) {
-                    estadoTxt.innerText = "🏁 ¡Tu pedido ha sido entregado! Califícanos por favor:";
-                    const deliveryDni = pedidoActivo.deliveryDni;
+                    estadoTxt.innerText = "⏳ Waiting for a delivery driver to take your order...";
+                    document.getElementById('mapa-tracking').classList.add('hidden');
+                    detenerAnimacionTracking();
+                    renderizarInfoRepartidor(null); // Aún no hay repartidor asignado
 
-                    accionDiv.innerHTML = `
+                } else if (startTime === 1) {
+                    estadoTxt.innerText = "🍳 Your order is being prepared in the restaurant's kitchen!";
+                    document.getElementById('mapa-tracking').classList.add('hidden');
+                    detenerAnimacionTracking();
+                    renderizarInfoRepartidor(pedidoActivo.deliveryData); // 🚨 MUESTRA LA INFO DEL REPARTIDOR
+
+                } else if (startTime === 2 && pedidoActivo.endTime !== 1) {
+                    estadoTxt.innerText = "🏍️ Your delivery driver is on the way! Have your phone ready for the delivery.";
+                    iniciarTrackingEnVivo(pedidoActivo);
+                    renderizarInfoRepartidor(pedidoActivo.deliveryData); // 🚨 MUESTRA LA INFO DEL REPARTIDOR
+
+                } else if (pedidoActivo.endTime === 1) {
+                    document.getElementById('mapa-tracking').classList.add('hidden');
+                    detenerAnimacionTracking();
+
+                    if (localStorage.getItem(`calificado_${pedidoActivo.idOrder}`)) {
+                        panel.classList.add('hidden');
+                        renderizarInfoRepartidor(null);
+                        return;
+                    }
+
+                    estadoTxt.innerText = "🏁 Your order has been delivered! Please rate us:";
+                    const deliveryDni = pedidoActivo.deliveryDni;
+                    if (accionDiv.innerHTML === '') accionDiv.innerHTML = `
                                         <div class="flex items-center gap-1 bg-white p-2 rounded-xl text-gray-800 shadow-md">
                                             <select id="select-estrellas" class="border p-1 text-xs rounded-lg font-bold">
                                                 <option value="5">⭐⭐⭐⭐⭐ (5)</option>
@@ -644,7 +870,7 @@
                                                 <option value="1">⭐ (1)</option>
                                             </select>
                                             <button onclick="enviarCalificacionRepartidor('${deliveryDni}', '${pedidoActivo.idOrder}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
-                                                Evaluar
+                                                Rate
                                             </button>
                                         </div>`;
                 }
@@ -658,16 +884,13 @@
                     method: 'PUT'
                 });
                 if (res.ok) {
-                    alert("¡Muchas gracias por tu feedback! Evaluación registrada.");
+                    alert("Thank you so much for your feedback! Rating recorded.");
+                    localStorage.setItem(`calificado_${idOrder}`, 'true');
                     document.getElementById('panel-tracking-pedido').classList.add('hidden');
                 }
             } catch (err) { console.error(err); }
         }
 
-        function abrirModalLogin() {
-            conmutarVistaAuth('login');
-            document.getElementById('modal-login').classList.remove('hidden');
-        }
         function cerrarModalLogin() { document.getElementById('modal-login').classList.add('hidden'); }
 
         async function ejecutarLogin() {
@@ -688,9 +911,9 @@
                     redireccionarPorRol(data.role);
                 } else {
                     const mensajeError = await res.text();
-                    alert(mensajeError || "Credenciales incorrectas.");
+                    alert(mensajeError || "Incorrect credentials.");
                 }
-            } catch (err) { alert("Error de conexión."); }
+            } catch (err) { alert("Connection error."); }
         }
 
         function redireccionarPorRol(role) {
@@ -698,7 +921,7 @@
                 verificarSesion();
                 monitorearPedidoCliente();
             }
-            else { alert("Exclusivo para clientes."); cerrarSesion(); }
+            else { alert("This portal is for clients only."); cerrarSesion(); }
         }
 
         function cerrarSesion() { localStorage.removeItem('user_session'); window.location.reload(); }
@@ -706,7 +929,397 @@
         verificarSesion();
         cargarCatalogoCompleto();
         monitorearPedidoCliente();
-        setInterval(monitorearPedidoCliente, 5000);
+        setInterval(monitorearPedidoCliente, 1000);
+
+        function abrirModalPerfil() {
+            if (!usuarioLogueado) return;
+            document.getElementById('edit-phone').value = usuarioLogueado.phone || "";
+            document.getElementById('edit-street1').value = usuarioLogueado.street1 || "";
+            document.getElementById('edit-reference').value = usuarioLogueado.reference || "";
+            document.getElementById('modal-perfil').classList.remove('hidden');
+        }
+
+        async function configurarCheckout(idMethod, tipo) {
+            metodoPagoSeleccionado = idMethod;
+
+            document.getElementById('pago-seleccion').classList.add('hidden');
+            document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
+            document.getElementById('pago-formulario-transferencia').classList.add('hidden');
+            document.getElementById('pago-resumen').classList.add('hidden');
+
+            if (tipo === 'efectivo') {
+                mostrarResumenFinal();
+            } else if (tipo === 'tarjeta') {
+                document.getElementById('pago-formulario-tarjeta').classList.remove('hidden');
+            } else if (tipo === 'transferencia') {
+                document.getElementById('pago-formulario-transferencia').classList.remove('hidden');
+
+                const totalAPagar = subtotalProductosGlobal + comisionDeliveryFija;
+                document.getElementById('monto-transferencia').innerText = `You must transfer: $${totalAPagar.toFixed(2)}`;
+
+                try {
+                    const idRestaurante = carrito[0].idRestaurant || carrito[0].id_restaurant || 1;
+                    const res = await fetch(`${API_URL}/Restaurants/${idRestaurante}`);
+                    if (res.ok) {
+                        const restaurante = await res.json();
+                        const cuentaInfo = restaurante.bankAccountDetails || restaurante.bank_account_details;
+                        document.getElementById('info-bancaria-restaurante').innerText = cuentaInfo ? cuentaInfo : "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
+                    } else {
+                        document.getElementById('info-bancaria-restaurante').innerText = "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
+                    }
+                } catch (err) {
+                    document.getElementById('info-bancaria-restaurante').innerText = "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
+                }
+            }
+        }
+
+        function abrirModalPerfil() {
+            if (!usuarioLogueado) return;
+            document.getElementById('edit-name').value = usuarioLogueado.name || "";
+            document.getElementById('edit-phone').value = usuarioLogueado.phone || "";
+            document.getElementById('edit-street1').value = usuarioLogueado.street1 || "";
+            document.getElementById('edit-reference').value = usuarioLogueado.reference || "";
+            document.getElementById('modal-perfil').classList.remove('hidden');
+        }
+
+        async function guardarPerfilCliente() {
+            const nuevoNombre = document.getElementById('edit-name').value.trim();
+            const nuevoTelefono = document.getElementById('edit-phone').value.trim();
+            const nuevaCalle = document.getElementById('edit-street1').value.trim();
+            const nuevaRef = document.getElementById('edit-reference').value.trim();
+
+            try {
+                const idCliente = usuarioLogueado.identifier || usuarioLogueado.dni;
+                let clienteData = null;
+
+                const getRes = await fetch(`${API_URL}/Clients/${idCliente}`);
+                if (getRes.ok) {
+                    clienteData = await getRes.json();
+                } else {
+                    const resTodos = await fetch(`${API_URL}/Clients`);
+                    if (resTodos.ok) {
+                        const listaCompleta = await resTodos.json();
+                        clienteData = listaCompleta.find(c => c.dni === idCliente);
+                    }
+                }
+
+                if (!clienteData) {
+                    alert("Could not retrieve the profile. Check your connection.");
+                    return;
+                }
+
+                clienteData.name = nuevoNombre;
+                clienteData.phone = nuevoTelefono;
+
+                if (!clienteData.addressData) {
+                    clienteData.addressData = {};
+                }
+                clienteData.addressData.street1 = nuevaCalle;
+                clienteData.addressData.reference = nuevaRef;
+
+                const putRes = await fetch(`${API_URL}/Clients/${idCliente}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clienteData)
+                });
+
+                if (putRes.ok) {
+                    alert("Profile updated successfully using the PUT method!");
+                    usuarioLogueado.name = nuevoNombre;
+                    usuarioLogueado.phone = nuevoTelefono;
+                    usuarioLogueado.street1 = nuevaCalle;
+                    usuarioLogueado.reference = nuevaRef;
+                    localStorage.setItem('user_session', JSON.stringify(usuarioLogueado));
+
+                    document.getElementById('modal-perfil').classList.add('hidden');
+                    verificarSesion();
+                } else {
+                    const errTxt = await putRes.text();
+                    alert("The server rejected the changes: " + errTxt);
+                }
+            } catch (error) {
+                console.error("Fallo de red en PUT:", error);
+                alert("Connection error with the API while trying to save.");
+            }
+        }
+
+        function abrirModalLogin() {
+            conmutarVistaAuth('login');
+            document.getElementById('modal-login').classList.remove('hidden');
+        }
+
+        function cerrarModalLogin() {
+            document.getElementById('modal-login').classList.add('hidden');
+        }
+
+        async function ejecutarLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            if (!email || !password) {
+                alert("Please enter your email and password.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/Auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('user_session', JSON.stringify(data));
+                    usuarioLogueado = data;
+                    cerrarModalLogin();
+
+                    if (data.role === 'client') {
+                        verificarSesion();
+                        monitorearPedidoCliente();
+                    } else {
+                        alert("This portal is for clients only.");
+                        cerrarSesion();
+                    }
+                } else {
+                    const mensajeError = await res.text();
+                    alert(mensajeError || "Incorrect credentials.");
+                }
+            } catch (err) {
+                alert("Connection error with the server.");
+            }
+        }
+
+        let mapasActivos = {};
+
+        function crearSelectorMapa(containerId, latInputId, lngInputId, latInicial = 0.0333, lngInicial = -78.2500) {
+            if (mapasActivos[containerId]) {
+                mapasActivos[containerId].remove();
+                delete mapasActivos[containerId];
+            }
+
+            const mapa = L.map(containerId).setView([latInicial, lngInicial], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 19
+            }).addTo(mapa);
+
+            const marcador = L.marker([latInicial, lngInicial], { draggable: true }).addTo(mapa);
+
+            function actualizarInputs(lat, lng) {
+                document.getElementById(latInputId).value = lat.toFixed(7);
+                document.getElementById(lngInputId).value = lng.toFixed(7);
+            }
+            actualizarInputs(latInicial, lngInicial);
+
+            mapa.on('click', (e) => {
+                marcador.setLatLng(e.latlng);
+                actualizarInputs(e.latlng.lat, e.latlng.lng);
+            });
+            marcador.on('dragend', () => {
+                const pos = marcador.getLatLng();
+                actualizarInputs(pos.lat, pos.lng);
+            });
+
+            mapasActivos[containerId] = mapa;
+            setTimeout(() => mapa.invalidateSize(), 200);
+        }
+
+        let mapaTracking = null;
+        let marcadorRepartidor = null;
+        let intervaloAnimacion = null;
+        let pedidoIdEnTracking = null;
+        let rutaCoordenadas = [];
+        let distanciasAcumuladas = [];
+        let inicioAnimacionMs = 0;
+        let duracionAnimacionMs = 20000;
+
+        async function iniciarTrackingEnVivo(pedido) {
+            const rest = pedido.restaurantData;
+            const cli = pedido.clientData;
+            if (!rest || !rest.latitude || !cli.latitude) {
+                document.getElementById('mapa-tracking').classList.add('hidden');
+                return;
+            }
+            if (pedidoIdEnTracking === pedido.idOrder) return;
+            pedidoIdEnTracking = pedido.idOrder;
+
+            document.getElementById('mapa-tracking').classList.remove('hidden');
+            if (!mapaTracking) {
+                mapaTracking = L.map('mapa-tracking');
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(mapaTracking);
+            }
+            mapaTracking.eachLayer(layer => {
+                if (!(layer instanceof L.TileLayer)) mapaTracking.removeLayer(layer);
+            });
+            const iconoRestaurante = L.divIcon({ html: '<span style="font-size:22px">🍔</span>', className: '' });
+            const iconoCliente = L.divIcon({ html: '<span style="font-size:22px">🏠</span>', className: '' });
+            const iconoRepartidor = L.divIcon({ html: '<span style="font-size:22px">🏍️</span>', className: '' });
+            L.marker([rest.latitude, rest.longitude], { icon: iconoRestaurante }).addTo(mapaTracking);
+            L.marker([cli.latitude, cli.longitude], { icon: iconoCliente }).addTo(mapaTracking);
+            marcadorRepartidor = L.marker([rest.latitude, rest.longitude], { icon: iconoRepartidor }).addTo(mapaTracking);
+            mapaTracking.fitBounds([[rest.latitude, rest.longitude], [cli.latitude, cli.longitude]], { padding: [30, 30] });
+            setTimeout(() => mapaTracking.invalidateSize(), 200);
+
+            rutaCoordenadas = await obtenerRutaPorCalles(rest.latitude, rest.longitude, cli.latitude, cli.longitude);
+            L.polyline(rutaCoordenadas, { color: '#dc2626', weight: 3, opacity: 0.7 }).addTo(mapaTracking);
+            distanciasAcumuladas = calcularDistanciasAcumuladas(rutaCoordenadas);
+
+            duracionAnimacionMs = (18 + Math.random() * 8) * 1000;
+            inicioAnimacionMs = Date.now();
+            if (intervaloAnimacion) clearInterval(intervaloAnimacion);
+            intervaloAnimacion = setInterval(moverRepartidorEnRuta, 200);
+        }
+
+        async function obtenerRutaPorCalles(lat1, lng1, lat2, lng2) {
+            try {
+                const url = `https://router.project-osrm.org/route/v1/driving/${lng1},${lat1};${lng2},${lat2}?overview=full&geometries=geojson`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.routes && data.routes.length > 0) {
+                    return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                }
+            } catch (err) {
+                console.error("No se pudo obtener la ruta por calles, se usará línea recta:", err);
+            }
+            return [[lat1, lng1], [lat2, lng2]];
+        }
+
+        function calcularDistanciasAcumuladas(puntos) {
+            const acumuladas = [0];
+            for (let i = 1; i < puntos.length; i++) {
+                acumuladas.push(acumuladas[i - 1] + mapaTracking.distance(puntos[i - 1], puntos[i]));
+            }
+            return acumuladas;
+        }
+
+        function moverRepartidorEnRuta() {
+            if (!marcadorRepartidor || rutaCoordenadas.length === 0) return;
+            const progreso = Math.min((Date.now() - inicioAnimacionMs) / duracionAnimacionMs, 1);
+            const distanciaObjetivo = progreso * distanciasAcumuladas[distanciasAcumuladas.length - 1];
+            let i = 1;
+            while (i < distanciasAcumuladas.length && distanciasAcumuladas[i] < distanciaObjetivo) i++;
+            if (i >= rutaCoordenadas.length) {
+                marcadorRepartidor.setLatLng(rutaCoordenadas[rutaCoordenadas.length - 1]);
+                return;
+            }
+            const [latA, lngA] = rutaCoordenadas[i - 1];
+            const [latB, lngB] = rutaCoordenadas[i];
+            const tramoTotal = distanciasAcumuladas[i] - distanciasAcumuladas[i - 1];
+            const tramoAvanzado = tramoTotal > 0 ? (distanciaObjetivo - distanciasAcumuladas[i - 1]) / tramoTotal : 0;
+            marcadorRepartidor.setLatLng([latA + (latB - latA) * tramoAvanzado, lngA + (lngB - lngA) * tramoAvanzado]);
+        }
+
+        function detenerAnimacionTracking() {
+            if (intervaloAnimacion) { clearInterval(intervaloAnimacion); intervaloAnimacion = null; }
+            pedidoIdEnTracking = null;
+        }
+        let recuperacionModo = null; // 'username' | 'password' | 'unlock'
+        const ROLE_ACTUAL = 'client';
+
+        function abrirModalRecuperacion(modo) {
+            recuperacionModo = modo;
+            document.getElementById('rec-email').value = '';
+            document.getElementById('rec-codigo').value = '';
+            document.getElementById('rec-nueva-password').value = '';
+            document.getElementById('rec-nueva-password-confirm').value = '';
+            document.getElementById('recuperacion-paso-email').classList.remove('hidden');
+            document.getElementById('recuperacion-paso-codigo').classList.add('hidden');
+            document.getElementById('recuperacion-campo-password').classList.add('hidden');
+
+            const titulos = {
+                username: ['Recover Username', 'We will send your DNI to your registered email.'],
+                password: ['Recover Password', 'We will send you a code to reset your password.'],
+                unlock: ['Unlock Account', 'We will send you a code to reactivate your account.']
+            };
+            document.getElementById('recuperacion-titulo').innerText = titulos[modo][0];
+            document.getElementById('recuperacion-subtitulo').innerText = titulos[modo][1];
+
+            document.getElementById('modal-recuperacion').classList.remove('hidden');
+        }
+
+        function cerrarModalRecuperacion() {
+            document.getElementById('modal-recuperacion').classList.add('hidden');
+        }
+
+        async function enviarSolicitudRecuperacion() {
+            const email = document.getElementById('rec-email').value.trim();
+            if (!email) { alert("Enter your email."); return; }
+
+            try {
+                if (recuperacionModo === 'username') {
+                    const res = await fetch(`${API_URL}/AccountRecovery/recover-username`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+                    return;
+                }
+
+                const endpoint = recuperacionModo === 'password' ? 'send-reset-code' : 'send-unlock-code';
+                const res = await fetch(`${API_URL}/AccountRecovery/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, role: ROLE_ACTUAL })
+                });
+
+                if (!res.ok) {
+                    alert(await res.text());
+                    return;
+                }
+
+                document.getElementById('recuperacion-paso-email').classList.add('hidden');
+                document.getElementById('recuperacion-paso-codigo').classList.remove('hidden');
+                if (recuperacionModo === 'password') {
+                    document.getElementById('recuperacion-campo-password').classList.remove('hidden');
+                }
+                alert("Code sent to your email.");
+            } catch (err) {
+                console.error(err);
+                alert("Connection error.");
+            }
+        }
+
+        async function confirmarRecuperacion() {
+            const email = document.getElementById('rec-email').value.trim();
+            const code = document.getElementById('rec-codigo').value.trim();
+            if (!code) { alert("Enter the code you received."); return; }
+
+            try {
+                if (recuperacionModo === 'password') {
+                    const newPassword = document.getElementById('rec-nueva-password').value.trim();
+                    const confirmPassword = document.getElementById('rec-nueva-password-confirm').value.trim();
+                    if (newPassword !== confirmPassword) { alert("Passwords don't match."); return; }
+
+                    const res = await fetch(`${API_URL}/AccountRecovery/reset-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL, code, newPassword })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+
+                } else if (recuperacionModo === 'unlock') {
+                    const res = await fetch(`${API_URL}/AccountRecovery/unlock-account`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, role: ROLE_ACTUAL, code })
+                    });
+                    const data = res.ok ? await res.json() : { message: await res.text() };
+                    alert(data.message);
+                    if (res.ok) cerrarModalRecuperacion();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection error.");
+            }
+        }
     </script>
 </body>
 </html>
