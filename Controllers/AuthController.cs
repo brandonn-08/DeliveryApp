@@ -71,7 +71,12 @@ namespace DeliveryApi.Controllers
                     Token = "Simulated-JWT-Token-Client",
                     Role = "client",
                     Name = client.Name,
-                    Identifier = client.Dni
+                    Identifier = client.Dni,
+                    Street1 = client.AddressData.Street1,
+                    Street2 = client.AddressData.Street2,
+                    Reference = client.AddressData.Reference,
+                    Latitude = client.AddressData.Latitude,
+                    Longitude = client.AddressData.Longitude
                 });
             }
 

@@ -43,7 +43,6 @@
                     </div>
                     <div id="track-accion" class="flex items-center"></div>
                 </div>
-                <!-- 🚨 AQUÍ ESTÁ EL NUEVO CONTENEDOR DEL REPARTIDOR -->
                 <div id="track-repartidor" class="hidden"></div>
             </div>
 
@@ -58,7 +57,6 @@
             </div>
             <hr class="my-4 border-gray-100">
 
-            <!-- 🚨 NUEVO DESGLOSE DE TOTALES EN EL CARRITO -->
             <div class="flex justify-between text-gray-500 text-sm mb-2">
                 <span>Subtotal:</span>
                 <span id="subtotal-carrito">$0.00</span>
@@ -209,14 +207,53 @@
         </div>
     </div>
 
+    <!-- 🚨 MODAL DE PAGO MODIFICADO -->
     <div id="modal-pago" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative max-h-[90vh] overflow-y-auto text-gray-800">
             <button onclick="cerrarModalPago()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
 
             <h3 class="text-xl font-black text-gray-800 mb-2">Complete Order</h3>
-            <p class="text-xs text-gray-500 mb-4">Select your preferred payment method for your delivery.</p>
 
-            <div id="pago-seleccion" class="space-y-3">
+            <p class="text-xs text-gray-500 mb-4">Confirm your delivery address before choosing a payment method.</p>
+
+            <div id="direccion-seleccion" class="bg-gray-50 border border-gray-200 rounded-xl p-3 mb-4 space-y-2">
+                <p class="text-xs font-bold uppercase text-gray-400">Delivery Address</p>
+                <button onclick="usarUltimaDireccion()" id="btn-usar-ultima" class="w-full border-2 border-gray-200 hover:border-red-600 p-3 rounded-xl text-left text-sm transition cursor-pointer bg-white">
+                    <span class="font-bold block">📍 Use my saved address</span>
+                    <span id="direccion-guardada-texto" class="text-xs text-gray-500">—</span>
+                </button>
+                <button onclick="abrirNuevaDireccion()" class="w-full border-2 border-gray-200 hover:border-red-600 p-3 rounded-xl text-left text-sm font-bold transition cursor-pointer bg-white">
+                    🗺️ Use a new address
+                </button>
+            </div>
+
+            <div id="direccion-nueva-form" class="space-y-2 mb-4 hidden">
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="col-span-2">
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Street 1</label>
+                        <input type="text" id="pedido-street1" class="w-full border p-2 text-sm rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Street 2</label>
+                        <input type="text" id="pedido-street2" class="w-full border p-2 text-sm rounded-xl">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Reference</label>
+                    <textarea id="pedido-reference" rows="2" class="w-full border p-2 text-sm rounded-xl"></textarea>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-gray-400 mb-0.5">Click on the map to set the location</label>
+                    <div id="mapa-pedido" class="w-full h-40 rounded-xl border z-0"></div>
+                    <input type="hidden" id="pedido-lat">
+                    <input type="hidden" id="pedido-lng">
+                </div>
+                <button onclick="confirmarNuevaDireccion()" class="w-full bg-gray-800 hover:bg-black text-white p-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    Save and use this address
+                </button>
+            </div>
+
+            <div id="pago-seleccion" class="space-y-3 hidden">
                 <button onclick="configurarCheckout('PAY01', 'efectivo')" class="w-full border-2 border-gray-200 hover:border-red-600 p-4 rounded-xl font-bold text-left flex justify-between items-center transition cursor-pointer bg-gray-50">
                     <span>💵 Cash Payment</span>
                     <span class="text-xs text-gray-400">Pay on delivery</span>
@@ -235,14 +272,12 @@
                 <hr class="border-gray-100 my-2">
                 <p class="text-xs font-bold uppercase text-gray-400">Restaurant Bank Details</p>
 
-                <!-- 🚨 AQUÍ MOSTRAREMOS EL MONTO A TRANSFERIR INMEDIATAMENTE -->
                 <p class="text-center text-lg font-black text-blue-900 bg-blue-50 p-2 rounded-lg" id="monto-transferencia">$0.00</p>
 
                 <div class="bg-blue-100 text-blue-800 p-4 rounded-xl text-sm font-medium text-center" id="info-bancaria-restaurante">
                     Loading bank details...
                 </div>
 
-                <!-- 🚨 ESTE BOTÓN AHORA CONFIRMA LA ORDEN DIRECTAMENTE -->
                 <button onclick="confirmarYProcesarOrdenFinal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
                     Confirm Order via Transfer
                 </button>
@@ -289,14 +324,12 @@
         </div>
     </div>
 
-    <!-- 🚨 MODAL DE PERFIL ACTUALIZADO -->
     <div id="modal-perfil" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full relative">
             <button onclick="document.getElementById('modal-perfil').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
             <h3 class="text-xl font-black text-gray-800 mb-4">Edit My Profile</h3>
 
             <div class="space-y-3">
-                <!-- NUEVO CAMPO: NOMBRE -->
                 <div>
                     <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Full Name</label>
                     <input type="text" id="edit-name" class="w-full border p-2 text-sm rounded-xl">
@@ -319,6 +352,7 @@
             </div>
         </div>
     </div>
+
     <div id="modal-cantidad" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-xs w-full relative text-center">
             <button onclick="cerrarSelectorCantidad()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
@@ -338,6 +372,7 @@
             </button>
         </div>
     </div>
+
     <div id="modal-recuperacion" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full relative text-gray-800">
             <button onclick="cerrarModalRecuperacion()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold cursor-pointer">✕</button>
@@ -376,14 +411,14 @@
             const container = document.getElementById('contenedor-perfil');
             if (usuarioLogueado && usuarioLogueado.role === 'client') {
                 container.innerHTML = `
-                                                            <div class="flex items-center gap-2">
-                                                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">
-                                                                    ${usuarioLogueado.name.charAt(0)}
-                                                                </div>
-                                                                <span class="text-sm font-bold text-gray-700">${usuarioLogueado.name}</span>
-                                                                <button onclick="abrirModalPerfil()" class="text-xs text-blue-500 hover:text-blue-700 ml-3 font-bold cursor-pointer">Editar Perfil</button>
-<button onclick="cerrarSesion()" class="text-xs text-gray-400 hover:text-red-600 ml-3 font-medium cursor-pointer">Salir</button>
-                                                            </div>`;
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-sm">
+                                    ${usuarioLogueado.name.charAt(0)}
+                                </div>
+                                <span class="text-sm font-bold text-gray-700">${usuarioLogueado.name}</span>
+                                <button onclick="abrirModalPerfil()" class="text-xs text-blue-500 hover:text-blue-700 ml-3 font-bold cursor-pointer">Editar Perfil</button>
+                                <button onclick="cerrarSesion()" class="text-xs text-gray-400 hover:text-red-600 ml-3 font-medium cursor-pointer">Salir</button>
+                            </div>`;
                 actualizarCarritoUI();
             } else if (usuarioLogueado && usuarioLogueado.role !== 'client') {
                 redireccionarPorRol(usuarioLogueado.role);
@@ -549,19 +584,19 @@
                     : `filtrarCatalogoPorSucursal(${idRest})`;
 
                 container.innerHTML += `
-                                                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
-                                                        <div>
-                                                            <h4 class="font-bold text-gray-800 text-base">${p.name}</h4>
-                                                            <p class="text-xs text-gray-400 my-1">${p.description}</p>
-                                                            <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded">Restaurant: ${p.restaurantName || 'Not Assigned'}</span>
-                                                        </div>
-                                                        <div class="flex justify-between items-center mt-4">
-                                                            <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
-                                                            <button onclick="${accionBoton}" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
-                                                                ${textoBoton}
-                                                            </button>
-                                                        </div>
-                                                    </div>`;
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-base">${p.name}</h4>
+                                    <p class="text-xs text-gray-400 my-1">${p.description}</p>
+                                    <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2 py-0.5 rounded">Restaurant: ${p.restaurantName || 'Not Assigned'}</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-4">
+                                    <span class="text-red-600 font-black">$${p.price.toFixed(2)}</span>
+                                    <button onclick="${accionBoton}" class="bg-red-600 text-white text-xs px-3 py-2 rounded-lg font-bold hover:bg-red-700 transition cursor-pointer">
+                                        ${textoBoton}
+                                    </button>
+                                </div>
+                            </div>`;
             });
         }
 
@@ -639,26 +674,126 @@
 
                 const titulo = document.getElementById('titulo-catalogo');
                 titulo.innerHTML = `Exclusive menu for this restaurant
-                                                <button onclick="cargarCatalogoCompleto(); document.getElementById('titulo-catalogo').innerText='All Products';" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg ml-3 cursor-pointer transition">
-                                                    ✕ View all stores
-                                                </button>`;
+                            <button onclick="cargarCatalogoCompleto(); document.getElementById('titulo-catalogo').innerText='All Products';" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded-lg ml-3 cursor-pointer transition">
+                                ✕ View all stores
+                            </button>`;
 
                 renderizarProductos(productosFiltrados, true);
             } catch (err) { console.error("Error al filtrar por sucursal:", err); }
         }
+
+        let direccionEntregaSeleccionada = null;
 
         function enviarPedido() {
             if (!usuarioLogueado) {
                 alert("You must log in to process the order.");
                 return;
             }
-            document.getElementById('pago-seleccion').classList.remove('hidden');
+
+            direccionEntregaSeleccionada = null;
+            document.getElementById('direccion-nueva-form').classList.add('hidden');
+            document.getElementById('direccion-seleccion').classList.remove('hidden');
+            document.getElementById('pago-seleccion').classList.add('hidden');
             document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
             document.getElementById('pago-resumen').classList.add('hidden');
             metodoPagoSeleccionado = "PAY01";
 
+            const btnUltima = document.getElementById('btn-usar-ultima');
+            const textoGuardada = document.getElementById('direccion-guardada-texto');
+            if (usuarioLogueado.street1) {
+                textoGuardada.innerText = usuarioLogueado.reference
+                    ? `${usuarioLogueado.street1} — ${usuarioLogueado.reference}`
+                    : usuarioLogueado.street1;
+                btnUltima.classList.remove('hidden');
+            } else {
+                textoGuardada.innerText = "No saved address yet.";
+                btnUltima.classList.add('hidden');
+            }
+
             subtotalProductosGlobal = parseFloat(calcularTotalCarrito());
             document.getElementById('modal-pago').classList.remove('hidden');
+        }
+
+        async function configurarCheckout(idMetodoPago, tipo) {
+            metodoPagoSeleccionado = idMetodoPago;
+
+            document.getElementById('pago-formulario-transferencia').classList.add('hidden');
+            document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
+            document.getElementById('pago-resumen').classList.add('hidden');
+
+            if (tipo === 'efectivo') {
+                mostrarResumenFinal();
+            } else if (tipo === 'tarjeta') {
+                document.getElementById('pago-formulario-tarjeta').classList.remove('hidden');
+            } else if (tipo === 'transferencia') {
+                document.getElementById('monto-transferencia').innerText =
+                    `$${(subtotalProductosGlobal + comisionDeliveryFija).toFixed(2)}`;
+
+                const infoDiv = document.getElementById('info-bancaria-restaurante');
+                infoDiv.innerText = "Loading bank details...";
+                document.getElementById('pago-formulario-transferencia').classList.remove('hidden');
+
+                try {
+                    const idRestaurant = carrito[0].idRestaurant;
+                    const res = await fetch(`${API_URL}/Restaurants/${idRestaurant}`);
+                    if (res.ok) {
+                        const restaurante = await res.json();
+                        infoDiv.innerText = restaurante.bankAccountDetails || "This restaurant has not registered bank details yet.";
+                    } else {
+                        infoDiv.innerText = "Could not load bank details.";
+                    }
+                } catch (err) {
+                    infoDiv.innerText = "Connection error loading bank details.";
+                }
+            }
+        }
+
+        function usarUltimaDireccion() {
+            direccionEntregaSeleccionada = {
+                street1: usuarioLogueado.street1,
+                street2: usuarioLogueado.street2 || "",
+                reference: usuarioLogueado.reference || "",
+                latitude: usuarioLogueado.latitude || null,
+                longitude: usuarioLogueado.longitude || null
+            };
+            mostrarMetodosPago();
+        }
+
+        function abrirNuevaDireccion() {
+            document.getElementById('pedido-street1').value = "";
+            document.getElementById('pedido-street2').value = "";
+            document.getElementById('pedido-reference').value = "";
+            document.getElementById('direccion-nueva-form').classList.remove('hidden');
+
+            const latInicial = usuarioLogueado.latitude || 0.3517;
+            const lngInicial = usuarioLogueado.longitude || -78.1223;
+            setTimeout(() => crearSelectorMapa('mapa-pedido', 'pedido-lat', 'pedido-lng', latInicial, lngInicial), 100);
+        }
+
+        function confirmarNuevaDireccion() {
+            const street1 = document.getElementById('pedido-street1').value.trim();
+            const lat = document.getElementById('pedido-lat').value;
+            const lng = document.getElementById('pedido-lng').value;
+
+            if (!street1) {
+                alert("Please enter at least Street 1.");
+                return;
+            }
+
+            direccionEntregaSeleccionada = {
+                street1: street1,
+                street2: document.getElementById('pedido-street2').value.trim(),
+                reference: document.getElementById('pedido-reference').value.trim(),
+                latitude: lat ? parseFloat(lat) : null,
+                longitude: lng ? parseFloat(lng) : null
+            };
+            mostrarMetodosPago();
+        }
+
+        function mostrarMetodosPago() {
+            document.getElementById('direccion-seleccion').classList.add('hidden');
+            document.getElementById('direccion-nueva-form').classList.add('hidden');
+            document.getElementById('pago-seleccion').classList.remove('hidden');
         }
 
         function cerrarModalPago() {
@@ -697,7 +832,48 @@
             cerrarModalPago();
             ejecutarEnvioOrdenBackend(metodoPagoSeleccionado);
         }
+        async function guardarDireccionSiEsNueva() {
+            if (!direccionEntregaSeleccionada) return;
+
+            const yaEsLaGuardada = direccionEntregaSeleccionada.street1 === usuarioLogueado.street1
+                && direccionEntregaSeleccionada.reference === (usuarioLogueado.reference || "");
+            if (yaEsLaGuardada) return;
+
+            try {
+                const idCliente = usuarioLogueado.identifier || usuarioLogueado.dni;
+                const getRes = await fetch(`${API_URL}/Clients/${idCliente}`);
+                if (!getRes.ok) return;
+                const clienteData = await getRes.json();
+
+                if (!clienteData.addressData) clienteData.addressData = {};
+                clienteData.addressData.street1 = direccionEntregaSeleccionada.street1;
+                clienteData.addressData.street2 = direccionEntregaSeleccionada.street2;
+                clienteData.addressData.reference = direccionEntregaSeleccionada.reference;
+                clienteData.addressData.latitude = direccionEntregaSeleccionada.latitude;
+                clienteData.addressData.longitude = direccionEntregaSeleccionada.longitude;
+
+                const putRes = await fetch(`${API_URL}/Clients/${idCliente}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clienteData)
+                });
+
+                if (putRes.ok) {
+                    usuarioLogueado.street1 = direccionEntregaSeleccionada.street1;
+                    usuarioLogueado.street2 = direccionEntregaSeleccionada.street2;
+                    usuarioLogueado.reference = direccionEntregaSeleccionada.reference;
+                    usuarioLogueado.latitude = direccionEntregaSeleccionada.latitude;
+                    usuarioLogueado.longitude = direccionEntregaSeleccionada.longitude;
+                    localStorage.setItem('user_session', JSON.stringify(usuarioLogueado));
+                }
+            } catch (err) {
+                console.error("Could not save the new address:", err);
+            }
+        }
+
         async function ejecutarEnvioOrdenBackend(idMetodoPago) {
+            await guardarDireccionSiEsNueva();
+
             const randomId = "ORD-" + Math.floor(10000 + Math.random() * 90000);
             const payloadOrder = {
                 idOrder: randomId,
@@ -753,10 +929,20 @@
             }
             container.innerHTML = '';
             let subtotal = 0;
-            carrito.forEach(item => {
+            carrito.forEach((item, index) => {
                 const lineTotal = item.price * item.quantity;
                 subtotal += lineTotal;
-                container.innerHTML += `<div class="flex justify-between border-b pb-1 text-gray-700"><span>${item.name} <span class="text-gray-400">x${item.quantity}</span></span><span class="font-bold">$${lineTotal.toFixed(2)}</span></div>`;
+                container.innerHTML += `
+                <div class="flex justify-between items-center border-b pb-2 text-gray-700">
+                    <span class="flex-1 truncate pr-1">${item.name}</span>
+                    <div class="flex items-center gap-1 mx-2">
+                        <button onclick="cambiarCantidadCarrito(${index}, -1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold cursor-pointer">-</button>
+                        <span class="w-6 text-center">${item.quantity}</span>
+                        <button onclick="cambiarCantidadCarrito(${index}, 1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded font-bold cursor-pointer">+</button>
+                    </div>
+                    <span class="font-bold w-16 text-right">$${lineTotal.toFixed(2)}</span>
+                    <button onclick="eliminarDelCarrito(${index})" class="ml-2 text-red-500 hover:text-red-700 font-bold cursor-pointer" title="Remove">✕</button>
+                </div>`;
             });
 
             subtotalSpan.innerText = `$${subtotal.toFixed(2)}`;
@@ -769,7 +955,21 @@
             btn.setAttribute('onclick', 'enviarPedido()');
         }
 
-        // 🚨 AQUÍ ESTÁ LA NUEVA FUNCIÓN PARA RENDERIZAR LA INFO DEL REPARTIDOR
+        function cambiarCantidadCarrito(index, delta) {
+            const item = carrito[index];
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity < 1) {
+                carrito.splice(index, 1);
+            }
+            actualizarCarritoUI();
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarritoUI();
+        }
+
         function renderizarInfoRepartidor(deliveryData) {
             const cont = document.getElementById('track-repartidor');
             if (!deliveryData) {
@@ -779,14 +979,14 @@
             }
             cont.classList.remove('hidden');
             cont.innerHTML = `
-                                <div class="flex items-center gap-3 bg-white/15 rounded-xl p-3 mt-3">
-                                    <span class="text-2xl">🏍️</span>
-                                    <div class="text-xs">
-                                        <p class="font-black">${deliveryData.name}</p>
-                                        <p class="opacity-90">${deliveryData.typeVehicle || 'Vehículo'} · Placa: ${deliveryData.licencePlate || 'N/A'}</p>
-                                        <p class="opacity-90">📞 ${deliveryData.phone || 'Sin teléfono'} · ⭐ ${Number(deliveryData.rating || 5).toFixed(1)}</p>
-                                    </div>
-                                </div>`;
+                        <div class="flex items-center gap-3 bg-white/15 rounded-xl p-3 mt-3">
+                            <span class="text-2xl">🏍️</span>
+                            <div class="text-xs">
+                                <p class="font-black">${deliveryData.name}</p>
+                                <p class="opacity-90">${deliveryData.typeVehicle || 'Vehículo'} · Placa: ${deliveryData.licencePlate || 'N/A'}</p>
+                                <p class="opacity-90">📞 ${deliveryData.phone || 'Sin teléfono'} · ⭐ ${Number(deliveryData.rating || 5).toFixed(1)}</p>
+                            </div>
+                        </div>`;
         }
 
         async function monitorearPedidoCliente() {
@@ -800,10 +1000,8 @@
                     .filter(o => o.clientDni === usuarioLogueado.identifier)
                     .sort((a, b) => new Date(b.dateOrder) - new Date(a.dateOrder));
 
-                // Prioridad 1: una orden todavía no entregada (en curso)
                 let pedidoActivo = ordenesCliente.find(o => o.endTime === 0);
 
-                // Prioridad 2: si no hay ninguna en curso, buscamos la última entregada que falte calificar
                 if (!pedidoActivo) {
                     const entregadasSinCalificar = ordenesCliente
                         .filter(o => o.endTime === 1 && !localStorage.getItem(`calificado_${o.idOrder}`))
@@ -816,7 +1014,7 @@
                     panel.classList.add('hidden');
                     document.getElementById('mapa-tracking').classList.add('hidden');
                     detenerAnimacionTracking();
-                    renderizarInfoRepartidor(null); // 🚨 OCULTA LA INFO DEL REPARTIDOR SI NO HAY PEDIDO
+                    renderizarInfoRepartidor(null);
                     return;
                 }
 
@@ -835,18 +1033,18 @@
                     estadoTxt.innerText = "⏳ Waiting for a delivery driver to take your order...";
                     document.getElementById('mapa-tracking').classList.add('hidden');
                     detenerAnimacionTracking();
-                    renderizarInfoRepartidor(null); // Aún no hay repartidor asignado
+                    renderizarInfoRepartidor(null);
 
                 } else if (startTime === 1) {
                     estadoTxt.innerText = "🍳 Your order is being prepared in the restaurant's kitchen!";
                     document.getElementById('mapa-tracking').classList.add('hidden');
                     detenerAnimacionTracking();
-                    renderizarInfoRepartidor(pedidoActivo.deliveryData); // 🚨 MUESTRA LA INFO DEL REPARTIDOR
+                    renderizarInfoRepartidor(pedidoActivo.deliveryData);
 
                 } else if (startTime === 2 && pedidoActivo.endTime !== 1) {
                     estadoTxt.innerText = "🏍️ Your delivery driver is on the way! Have your phone ready for the delivery.";
                     iniciarTrackingEnVivo(pedidoActivo);
-                    renderizarInfoRepartidor(pedidoActivo.deliveryData); // 🚨 MUESTRA LA INFO DEL REPARTIDOR
+                    renderizarInfoRepartidor(pedidoActivo.deliveryData);
 
                 } else if (pedidoActivo.endTime === 1) {
                     document.getElementById('mapa-tracking').classList.add('hidden');
@@ -861,18 +1059,18 @@
                     estadoTxt.innerText = "🏁 Your order has been delivered! Please rate us:";
                     const deliveryDni = pedidoActivo.deliveryDni;
                     if (accionDiv.innerHTML === '') accionDiv.innerHTML = `
-                                        <div class="flex items-center gap-1 bg-white p-2 rounded-xl text-gray-800 shadow-md">
-                                            <select id="select-estrellas" class="border p-1 text-xs rounded-lg font-bold">
-                                                <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-                                                <option value="4">⭐⭐⭐⭐ (4)</option>
-                                                <option value="3">⭐⭐⭐ (3)</option>
-                                                <option value="2">⭐⭐ (2)</option>
-                                                <option value="1">⭐ (1)</option>
-                                            </select>
-                                            <button onclick="enviarCalificacionRepartidor('${deliveryDni}', '${pedidoActivo.idOrder}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
-                                                Rate
-                                            </button>
-                                        </div>`;
+                                <div class="flex items-center gap-1 bg-white p-2 rounded-xl text-gray-800 shadow-md">
+                                    <select id="select-estrellas" class="border p-1 text-xs rounded-lg font-bold">
+                                        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                        <option value="4">⭐⭐⭐⭐ (4)</option>
+                                        <option value="3">⭐⭐⭐ (3)</option>
+                                        <option value="2">⭐⭐ (2)</option>
+                                        <option value="1">⭐ (1)</option>
+                                    </select>
+                                    <button onclick="enviarCalificacionRepartidor('${deliveryDni}', '${pedidoActivo.idOrder}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition cursor-pointer">
+                                        Rate
+                                    </button>
+                                </div>`;
                 }
             } catch (err) { console.error("Error en Tracking:", err); }
         }
@@ -892,165 +1090,6 @@
         }
 
         function cerrarModalLogin() { document.getElementById('modal-login').classList.add('hidden'); }
-
-        async function ejecutarLogin() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            try {
-                const res = await fetch(`${API_URL}/Auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
-                if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem('user_session', JSON.stringify(data));
-                    usuarioLogueado = data;
-                    cerrarModalLogin();
-                    redireccionarPorRol(data.role);
-                } else {
-                    const mensajeError = await res.text();
-                    alert(mensajeError || "Incorrect credentials.");
-                }
-            } catch (err) { alert("Connection error."); }
-        }
-
-        function redireccionarPorRol(role) {
-            if (role === 'client') {
-                verificarSesion();
-                monitorearPedidoCliente();
-            }
-            else { alert("This portal is for clients only."); cerrarSesion(); }
-        }
-
-        function cerrarSesion() { localStorage.removeItem('user_session'); window.location.reload(); }
-
-        verificarSesion();
-        cargarCatalogoCompleto();
-        monitorearPedidoCliente();
-        setInterval(monitorearPedidoCliente, 1000);
-
-        function abrirModalPerfil() {
-            if (!usuarioLogueado) return;
-            document.getElementById('edit-phone').value = usuarioLogueado.phone || "";
-            document.getElementById('edit-street1').value = usuarioLogueado.street1 || "";
-            document.getElementById('edit-reference').value = usuarioLogueado.reference || "";
-            document.getElementById('modal-perfil').classList.remove('hidden');
-        }
-
-        async function configurarCheckout(idMethod, tipo) {
-            metodoPagoSeleccionado = idMethod;
-
-            document.getElementById('pago-seleccion').classList.add('hidden');
-            document.getElementById('pago-formulario-tarjeta').classList.add('hidden');
-            document.getElementById('pago-formulario-transferencia').classList.add('hidden');
-            document.getElementById('pago-resumen').classList.add('hidden');
-
-            if (tipo === 'efectivo') {
-                mostrarResumenFinal();
-            } else if (tipo === 'tarjeta') {
-                document.getElementById('pago-formulario-tarjeta').classList.remove('hidden');
-            } else if (tipo === 'transferencia') {
-                document.getElementById('pago-formulario-transferencia').classList.remove('hidden');
-
-                const totalAPagar = subtotalProductosGlobal + comisionDeliveryFija;
-                document.getElementById('monto-transferencia').innerText = `You must transfer: $${totalAPagar.toFixed(2)}`;
-
-                try {
-                    const idRestaurante = carrito[0].idRestaurant || carrito[0].id_restaurant || 1;
-                    const res = await fetch(`${API_URL}/Restaurants/${idRestaurante}`);
-                    if (res.ok) {
-                        const restaurante = await res.json();
-                        const cuentaInfo = restaurante.bankAccountDetails || restaurante.bank_account_details;
-                        document.getElementById('info-bancaria-restaurante').innerText = cuentaInfo ? cuentaInfo : "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
-                    } else {
-                        document.getElementById('info-bancaria-restaurante').innerText = "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
-                    }
-                } catch (err) {
-                    document.getElementById('info-bancaria-restaurante').innerText = "Banco Pichincha - Checking Account: 2100554433 - Under the name of: FastDelivery Cia.";
-                }
-            }
-        }
-
-        function abrirModalPerfil() {
-            if (!usuarioLogueado) return;
-            document.getElementById('edit-name').value = usuarioLogueado.name || "";
-            document.getElementById('edit-phone').value = usuarioLogueado.phone || "";
-            document.getElementById('edit-street1').value = usuarioLogueado.street1 || "";
-            document.getElementById('edit-reference').value = usuarioLogueado.reference || "";
-            document.getElementById('modal-perfil').classList.remove('hidden');
-        }
-
-        async function guardarPerfilCliente() {
-            const nuevoNombre = document.getElementById('edit-name').value.trim();
-            const nuevoTelefono = document.getElementById('edit-phone').value.trim();
-            const nuevaCalle = document.getElementById('edit-street1').value.trim();
-            const nuevaRef = document.getElementById('edit-reference').value.trim();
-
-            try {
-                const idCliente = usuarioLogueado.identifier || usuarioLogueado.dni;
-                let clienteData = null;
-
-                const getRes = await fetch(`${API_URL}/Clients/${idCliente}`);
-                if (getRes.ok) {
-                    clienteData = await getRes.json();
-                } else {
-                    const resTodos = await fetch(`${API_URL}/Clients`);
-                    if (resTodos.ok) {
-                        const listaCompleta = await resTodos.json();
-                        clienteData = listaCompleta.find(c => c.dni === idCliente);
-                    }
-                }
-
-                if (!clienteData) {
-                    alert("Could not retrieve the profile. Check your connection.");
-                    return;
-                }
-
-                clienteData.name = nuevoNombre;
-                clienteData.phone = nuevoTelefono;
-
-                if (!clienteData.addressData) {
-                    clienteData.addressData = {};
-                }
-                clienteData.addressData.street1 = nuevaCalle;
-                clienteData.addressData.reference = nuevaRef;
-
-                const putRes = await fetch(`${API_URL}/Clients/${idCliente}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clienteData)
-                });
-
-                if (putRes.ok) {
-                    alert("Profile updated successfully using the PUT method!");
-                    usuarioLogueado.name = nuevoNombre;
-                    usuarioLogueado.phone = nuevoTelefono;
-                    usuarioLogueado.street1 = nuevaCalle;
-                    usuarioLogueado.reference = nuevaRef;
-                    localStorage.setItem('user_session', JSON.stringify(usuarioLogueado));
-
-                    document.getElementById('modal-perfil').classList.add('hidden');
-                    verificarSesion();
-                } else {
-                    const errTxt = await putRes.text();
-                    alert("The server rejected the changes: " + errTxt);
-                }
-            } catch (error) {
-                console.error("Fallo de red en PUT:", error);
-                alert("Connection error with the API while trying to save.");
-            }
-        }
-
-        function abrirModalLogin() {
-            conmutarVistaAuth('login');
-            document.getElementById('modal-login').classList.remove('hidden');
-        }
-
-        function cerrarModalLogin() {
-            document.getElementById('modal-login').classList.add('hidden');
-        }
 
         async function ejecutarLogin() {
             const email = document.getElementById('login-email').value.trim();
@@ -1216,7 +1255,8 @@
             if (intervaloAnimacion) { clearInterval(intervaloAnimacion); intervaloAnimacion = null; }
             pedidoIdEnTracking = null;
         }
-        let recuperacionModo = null; // 'username' | 'password' | 'unlock'
+
+        let recuperacionModo = null;
         const ROLE_ACTUAL = 'client';
 
         function abrirModalRecuperacion(modo) {
@@ -1320,6 +1360,81 @@
                 alert("Connection error.");
             }
         }
+
+        // FUNCIONES DE DIRECCIÓN NUEVAS
+        function usarUltimaDireccion() {
+            document.getElementById('direccion-nueva-form').classList.add('hidden');
+            document.getElementById('pago-seleccion').classList.remove('hidden');
+        }
+
+        function abrirNuevaDireccion() {
+            document.getElementById('direccion-nueva-form').classList.remove('hidden');
+            document.getElementById('pago-seleccion').classList.add('hidden');
+            crearSelectorMapa('mapa-pedido', 'pedido-lat', 'pedido-lng');
+        }
+
+        async function confirmarNuevaDireccion() {
+            const nuevaCalle = document.getElementById('pedido-street1').value.trim();
+            const nuevaRef = document.getElementById('pedido-reference').value.trim();
+
+            if (!nuevaCalle) {
+                alert("Please enter at least Street 1 to save the new address.");
+                return;
+            }
+
+            try {
+                const idCliente = usuarioLogueado.identifier || usuarioLogueado.dni;
+                let clienteData = null;
+
+                const getRes = await fetch(`${API_URL}/Clients/${idCliente}`);
+                if (getRes.ok) {
+                    clienteData = await getRes.json();
+                } else {
+                    const resTodos = await fetch(`${API_URL}/Clients`);
+                    if (resTodos.ok) {
+                        const listaCompleta = await resTodos.json();
+                        clienteData = listaCompleta.find(c => c.dni === idCliente);
+                    }
+                }
+
+                if (!clienteData) {
+                    alert("Could not update address. Check your connection.");
+                    return;
+                }
+
+                if (!clienteData.addressData) clienteData.addressData = {};
+                clienteData.addressData.street1 = nuevaCalle;
+                clienteData.addressData.street2 = document.getElementById('pedido-street2').value.trim();
+                clienteData.addressData.reference = nuevaRef;
+                clienteData.addressData.latitude = parseFloat(document.getElementById('pedido-lat').value) || null;
+                clienteData.addressData.longitude = parseFloat(document.getElementById('pedido-lng').value) || null;
+
+                const putRes = await fetch(`${API_URL}/Clients/${idCliente}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clienteData)
+                });
+
+                if (putRes.ok) {
+                    usuarioLogueado.street1 = nuevaCalle;
+                    usuarioLogueado.reference = nuevaRef;
+                    localStorage.setItem('user_session', JSON.stringify(usuarioLogueado));
+
+                    document.getElementById('direccion-guardada-texto').innerText = nuevaRef ? `${nuevaCalle} — ${nuevaRef}` : nuevaCalle;
+
+                    document.getElementById('direccion-nueva-form').classList.add('hidden');
+                    document.getElementById('pago-seleccion').classList.remove('hidden');
+                } else {
+                    alert("The server rejected the new address.");
+                }
+            } catch (error) {
+                alert("Connection error with the API while trying to save the address.");
+            }
+        }
+
+        cargarCatalogoCompleto();
+        verificarSesion();
+        setInterval(monitorearPedidoCliente, 5000);
     </script>
 </body>
 </html>

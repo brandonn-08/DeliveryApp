@@ -12,5 +12,10 @@ namespace DeliveryApi.Models
         public string Role { get; set; } = null!; // "client", "delivery", "admin"
         public string Name { get; set; } = null!;
         public string Identifier { get; set; } = null!; // DNI o ID según corresponda
+        public string? Street1 { get; set; }
+        public string? Street2 { get; set; }
+        public string? Reference { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
     }
 }
