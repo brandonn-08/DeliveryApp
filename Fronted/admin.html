@@ -473,23 +473,23 @@
                 tbody.innerHTML = '';
 
                 clientes.forEach(c => {
-                    const esBaneado = c.reference === "BANEADO";
+                    const esBaneado = c.addressData?.reference === "BANEADO";  // antes: c.reference
                     const statusText = esBaneado ? "Suspended" : "Active";
                     const statusColor = esBaneado ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700";
                     const btnLabel = esBaneado ? "Unban" : "Suspend / Ban";
                     const btnColor = esBaneado ? "text-green-600" : "text-red-600";
 
                     tbody.innerHTML += `
-                                                <tr class="border-b border-gray-100 hover:bg-gray-50/50">
-                                                    <td class="p-3 font-mono text-xs text-gray-500">${c.dni}</td>
-                                                    <td class="p-3 font-bold text-gray-800">${c.name}</td>
-                                                    <td class="p-3 text-xs text-gray-600">${c.mail}<br>${c.phone || 'N/A'}</td>
-                                                    <td class="p-3 text-xs text-gray-500">${c.city || 'Ibarra'}<br><span class="text-gray-400">${c.street1 || ''}</span></td>
-                                                    <td class="p-3"><span class="text-xs px-2 py-0.5 font-bold rounded-full ${statusColor}">${statusText}</span></td>
-                                                    <td class="p-3 text-center">
-                                                        <button onclick="toggleBaneoCliente('${c.dni}')" class="${btnColor} font-bold hover:underline cursor-pointer text-xs">${btnLabel}</button>
-                                                    </td>
-                                                </tr>`;
+        <tr class="border-b border-gray-100 hover:bg-gray-50/50">
+            <td class="p-3 font-mono text-xs text-gray-500">${c.dni}</td>
+            <td class="p-3 font-bold text-gray-800">${c.name}</td>
+            <td class="p-3 text-xs text-gray-600">${c.mail}<br>${c.phone || 'N/A'}</td>
+            <td class="p-3 text-xs text-gray-500">${c.addressData?.city || 'Ibarra'}<br><span class="text-gray-400">${c.addressData?.street1 || ''}</span></td>
+            <td class="p-3"><span class="text-xs px-2 py-0.5 font-bold rounded-full ${statusColor}">${statusText}</span></td>
+            <td class="p-3 text-center">
+                <button onclick="toggleBaneoCliente('${c.dni}')" class="${btnColor} font-bold hover:underline cursor-pointer text-xs">${btnLabel}</button>
+            </td>
+        </tr>`;
                 });
             } catch (err) { console.error("Error al cargar clientes:", err); }
         }

@@ -42,7 +42,8 @@ namespace DeliveryApi.Controllers
                 // 🚨 CORRECCIÓN CS0266: Comprobación segura para booleanos mapeados como Nullables (bool?)
                 if (delivery.Status == false)
                 {
-                    return BadRequest("Su cuenta de repartidor se encuentra suspendida por la administración.");
+                    return BadRequest("Your delivery driver account has been suspended by the administration.");
+
                 }
 
                 return Ok(new LoginResponseDto
@@ -62,7 +63,7 @@ namespace DeliveryApi.Controllers
             {
                 if (client.AddressData.Reference == "BANEADO")
                 {
-                    return BadRequest("Su cuenta se encuentra suspendida temporalmente por la administración.");
+                    return BadRequest("Your account has been temporarily suspended by the administration.");
                 }
 
                 return Ok(new LoginResponseDto

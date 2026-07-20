@@ -3,12 +3,72 @@
   "WorkspaceRootPath": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\delivery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Services\\EmailService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\EmailService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AccountRecoveryController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\AccountRecoveryController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\DeliveryMenController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\DeliveryMenController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PasswordValidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\PasswordValidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderItem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\OrderItem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\OrderRequestDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\ClientsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\PaymentsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\PaymentsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RestaurantsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\DeliveryDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\OrdersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\OrdersController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductWithExtras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,14 +87,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\ShoppingCart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\DeliveryMenController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\DeliveryMenController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\ClientsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Time.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Time.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -43,28 +95,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Fecha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\DeliveryDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\ProductsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RestaurantsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -79,16 +111,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Restaurant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Fronted\\delivery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Services\\EmailService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Services\\EmailService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -97,10 +121,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\AuthDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\AuthDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PayMethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -126,7 +146,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -158,351 +178,92 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductWithExtras.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductWithExtras.cs",
-              "RelativeDocumentMoniker": "Models\\ProductWithExtras.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductWithExtras.cs",
-              "RelativeToolTip": "Models\\ProductWithExtras.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAiwBkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:19:26.436Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ExtraIngredientComponent.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ExtraIngredientComponent.cs",
-              "RelativeDocumentMoniker": "Models\\ExtraIngredientComponent.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ExtraIngredientComponent.cs",
-              "RelativeToolTip": "Models\\ExtraIngredientComponent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:19:09.539Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ProductComponent.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductComponent.cs",
-              "RelativeDocumentMoniker": "Models\\ProductComponent.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductComponent.cs",
-              "RelativeToolTip": "Models\\ProductComponent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Title": "AccountRecoveryController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AccountRecoveryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountRecoveryController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AccountRecoveryController.cs",
+              "RelativeToolTip": "Controllers\\AccountRecoveryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:18:52.918Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ShoppingCart.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ShoppingCart.cs",
-              "RelativeDocumentMoniker": "Models\\ShoppingCart.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ShoppingCart.cs",
-              "RelativeToolTip": "Models\\ShoppingCart.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAiwBsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:18:18.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Time.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Time.cs",
-              "RelativeDocumentMoniker": "Models\\Time.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Time.cs",
-              "RelativeToolTip": "Models\\Time.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:12:50.489Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T02:22:01.134Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Order.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs",
-              "RelativeDocumentMoniker": "Models\\Order.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs",
-              "RelativeToolTip": "Models\\Order.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-18T22:04:10.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "OrdersController.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\OrdersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\OrdersController.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\OrdersController.cs",
-              "RelativeToolTip": "Controllers\\OrdersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:49:44.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Fecha.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Fecha.cs",
-              "RelativeDocumentMoniker": "Models\\Fecha.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Fecha.cs",
-              "RelativeToolTip": "Models\\Fecha.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:12:35.082Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Admin.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Admin.cs",
-              "RelativeDocumentMoniker": "Models\\Admin.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Admin.cs",
-              "RelativeToolTip": "Models\\Admin.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAiwAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T03:11:22.831Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "admin.html",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html",
-              "RelativeDocumentMoniker": "Fronted\\admin.html",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html",
-              "RelativeToolTip": "Fronted\\admin.html",
-              "ViewState": "AgIAADsBAAAAAAAAAAAAAEcBAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-07-18T23:48:38.08Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "index.html",
               "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\index.html",
               "RelativeDocumentMoniker": "Fronted\\index.html",
               "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\index.html",
               "RelativeToolTip": "Fronted\\index.html",
-              "ViewState": "AgIAAD4EAAAAAAAAAAAAAEsEAAANAAAAAAAAAA==",
+              "ViewState": "AgIAANwDAAAAAAAAAAAxwOkDAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2026-07-14T02:59:01.819Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ClientsController.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ClientsController.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs",
-              "RelativeToolTip": "Controllers\\ClientsController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAiwDYAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:48:49.477Z",
-              "EditorCaption": ""
+              "DocumentIndex": 1,
+              "Title": "admin.html",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html",
+              "RelativeDocumentMoniker": "Fronted\\admin.html",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\admin.html",
+              "RelativeToolTip": "Fronted\\admin.html",
+              "ViewState": "AgIAAMMCAAAAAAAAAAAAAOcCAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-07-18T23:48:38.08Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "DeliveryMenController.cs",
               "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\DeliveryMenController.cs",
               "RelativeDocumentMoniker": "Controllers\\DeliveryMenController.cs",
               "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\DeliveryMenController.cs",
               "RelativeToolTip": "Controllers\\DeliveryMenController.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAiwIoAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:50:37.438Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-14T02:50:37.438Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ProductsController.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProductsController.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs",
-              "RelativeToolTip": "Controllers\\ProductsController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAiwDUAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-19T00:31:41.832Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DeliveryDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs",
-              "RelativeDocumentMoniker": "Models\\DeliveryDbContext.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs",
-              "RelativeToolTip": "Models\\DeliveryDbContext.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAACgAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:20:58.185Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "RestaurantsController.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\RestaurantsController.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs",
-              "RelativeToolTip": "Controllers\\RestaurantsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-18T22:32:26.909Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Restaurant.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Restaurant.cs",
-              "RelativeDocumentMoniker": "Models\\Restaurant.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Restaurant.cs",
-              "RelativeToolTip": "Models\\Restaurant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-18T14:52:01.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "delivery.html",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html",
-              "RelativeDocumentMoniker": "Fronted\\delivery.html",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html",
-              "RelativeToolTip": "Fronted\\delivery.html",
-              "ViewState": "AgIAADkBAAAAAAAAAAAUwEYBAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-07-18T19:41:15.747Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Client.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Client.cs",
-              "RelativeDocumentMoniker": "Models\\Client.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Client.cs",
-              "RelativeToolTip": "Models\\Client.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:22:10.931Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Address.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Address.cs",
-              "RelativeDocumentMoniker": "Models\\Address.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Address.cs",
-              "RelativeToolTip": "Models\\Address.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:19:19.593Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 3,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Services\\EmailService.cs",
               "RelativeDocumentMoniker": "Services\\EmailService.cs",
               "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Services\\EmailService.cs",
               "RelativeToolTip": "Services\\EmailService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-14T03:18:06.778Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T03:37:08.228Z"
+              "DocumentIndex": 2,
+              "Title": "delivery.html",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html",
+              "RelativeDocumentMoniker": "Fronted\\delivery.html",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Fronted\\delivery.html",
+              "RelativeToolTip": "Fronted\\delivery.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgCAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-07-18T19:41:15.747Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAD8AAAARAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "PasswordValidator.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PasswordValidator.cs",
+              "RelativeDocumentMoniker": "Models\\PasswordValidator.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PasswordValidator.cs",
+              "RelativeToolTip": "Models\\PasswordValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:48:25.035Z"
+              "WhenOpened": "2026-07-20T01:31:53.7Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "AuthDto.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\AuthDto.cs",
-              "RelativeDocumentMoniker": "Models\\AuthDto.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\AuthDto.cs",
-              "RelativeToolTip": "Models\\AuthDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:48:16.456Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "PayMethod.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PayMethod.cs",
-              "RelativeDocumentMoniker": "Models\\PayMethod.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PayMethod.cs",
-              "RelativeToolTip": "Models\\PayMethod.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:46:43.722Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "DeliveryMan.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryMan.cs",
-              "RelativeDocumentMoniker": "Models\\DeliveryMan.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryMan.cs",
-              "RelativeToolTip": "Models\\DeliveryMan.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:22:35.86Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "ComponentProduct.cs",
-              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ComponentProduct.cs",
-              "RelativeDocumentMoniker": "Models\\ComponentProduct.cs",
-              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ComponentProduct.cs",
-              "RelativeToolTip": "Models\\ComponentProduct.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-14T02:20:25.006Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 7,
               "Title": "Person.cs",
               "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Person.cs",
               "RelativeDocumentMoniker": "Models\\Person.cs",
@@ -514,7 +275,307 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OrderItem.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderItem.cs",
+              "RelativeDocumentMoniker": "Models\\OrderItem.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderItem.cs",
+              "RelativeToolTip": "Models\\OrderItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-20T01:36:05.739Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OrderRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderRequestDto.cs",
+              "RelativeDocumentMoniker": "Models\\OrderRequestDto.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\OrderRequestDto.cs",
+              "RelativeToolTip": "Models\\OrderRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-20T01:36:02.05Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ClientsController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ClientsController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ClientsController.cs",
+              "RelativeToolTip": "Controllers\\ClientsController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAiwC4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:48:49.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\PaymentsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\PaymentsController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\PaymentsController.cs",
+              "RelativeToolTip": "Controllers\\PaymentsController.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAC0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T20:03:37.236Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RestaurantsController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RestaurantsController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\RestaurantsController.cs",
+              "RelativeToolTip": "Controllers\\RestaurantsController.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAQwFMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T22:32:26.909Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DeliveryDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs",
+              "RelativeDocumentMoniker": "Models\\DeliveryDbContext.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryDbContext.cs",
+              "RelativeToolTip": "Models\\DeliveryDbContext.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:20:58.185Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrdersController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAAAM8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:49:44.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "Controllers\\ProductsController.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAAADcAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T00:31:41.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Models\\Order.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Order.cs",
+              "RelativeToolTip": "Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T22:04:10.162Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Time.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Time.cs",
+              "RelativeDocumentMoniker": "Models\\Time.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Time.cs",
+              "RelativeToolTip": "Models\\Time.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:12:50.489Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ShoppingCart.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ShoppingCart.cs",
+              "RelativeDocumentMoniker": "Models\\ShoppingCart.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ShoppingCart.cs",
+              "RelativeToolTip": "Models\\ShoppingCart.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAiwBsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:18:18.3Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ProductComponent.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductComponent.cs",
+              "RelativeDocumentMoniker": "Models\\ProductComponent.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductComponent.cs",
+              "RelativeToolTip": "Models\\ProductComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:18:52.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ExtraIngredientComponent.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ExtraIngredientComponent.cs",
+              "RelativeDocumentMoniker": "Models\\ExtraIngredientComponent.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ExtraIngredientComponent.cs",
+              "RelativeToolTip": "Models\\ExtraIngredientComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:19:09.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ProductWithExtras.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductWithExtras.cs",
+              "RelativeDocumentMoniker": "Models\\ProductWithExtras.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ProductWithExtras.cs",
+              "RelativeToolTip": "Models\\ProductWithExtras.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAiwBkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:19:26.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Fecha.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Fecha.cs",
+              "RelativeDocumentMoniker": "Models\\Fecha.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Fecha.cs",
+              "RelativeToolTip": "Models\\Fecha.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:12:35.082Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Admin.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Admin.cs",
+              "RelativeDocumentMoniker": "Models\\Admin.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Admin.cs",
+              "RelativeToolTip": "Models\\Admin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAiwAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-19T03:11:22.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Restaurant.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Restaurant.cs",
+              "RelativeDocumentMoniker": "Models\\Restaurant.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Restaurant.cs",
+              "RelativeToolTip": "Models\\Restaurant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T14:52:01.861Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Client.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Client.cs",
+              "RelativeDocumentMoniker": "Models\\Client.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Client.cs",
+              "RelativeToolTip": "Models\\Client.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:22:10.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Address.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Address.cs",
+              "RelativeDocumentMoniker": "Models\\Address.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\Address.cs",
+              "RelativeToolTip": "Models\\Address.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:19:19.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:37:08.228Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 28,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAD8AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:48:25.035Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AuthDto.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\AuthDto.cs",
+              "RelativeDocumentMoniker": "Models\\AuthDto.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\AuthDto.cs",
+              "RelativeToolTip": "Models\\AuthDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:48:16.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "PayMethod.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PayMethod.cs",
+              "RelativeDocumentMoniker": "Models\\PayMethod.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\PayMethod.cs",
+              "RelativeToolTip": "Models\\PayMethod.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:46:43.722Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "DeliveryMan.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryMan.cs",
+              "RelativeDocumentMoniker": "Models\\DeliveryMan.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\DeliveryMan.cs",
+              "RelativeToolTip": "Models\\DeliveryMan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:22:35.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ComponentProduct.cs",
+              "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ComponentProduct.cs",
+              "RelativeDocumentMoniker": "Models\\ComponentProduct.cs",
+              "ToolTip": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Models\\ComponentProduct.cs",
+              "RelativeToolTip": "Models\\ComponentProduct.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T02:20:25.006Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
               "Title": "ICalculate.cs",
               "DocumentMoniker": "C:\\Users\\ferna\\OneDrive\\Desktop\\deliveryApp\\DeliveryApi\\Interfaces\\ICalculate.cs",
               "RelativeDocumentMoniker": "Interfaces\\ICalculate.cs",
